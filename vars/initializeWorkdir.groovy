@@ -2,7 +2,7 @@ import com.duvalhub.git.GitCloneRequest
 import com.duvalhub.initializeworkdir.InitializeWorkdirIn
 import com.duvalhub.appconfig.AppConfig
 
-def downloadConfigFile(String branch){
+def downloadConfigFile(String branch, String org, String repo){
     def configUrl = String.format("https://raw.githubusercontent.com/duvalhub/continous-deployment-configs/%s/%s/%s/config.yml", branch, org, repo)
     echo "Downloading the config file from url: '${configUrl}'"
     return httpRequest(url: configUrl, outputFile: "config.yml", validResponseCodes: "200,404")
@@ -33,11 +33,11 @@ def call(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
         }
     }
 
-    def response = downloadConfigFile(pipelineBranch);
+    def response = downloadConfigFile(pipelineBranch, org, repo);
     if ( response.status == 404 ) {
         if( pipelineBranch != 'master' ) {
             echo "Config file not found on branch '${pipelineBranch}'. Trying branch 'master'"
-            response = downloadConfigFile('master')
+            response = downloadConfigFile('master', org, repo)
         }
 
         if( response.status == 404 ) {
