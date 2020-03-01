@@ -39,10 +39,20 @@ class Platform {
     Boolean defaultHostname = true
     Volume[] volumes
     DockerHost host
+
 }
 class Volume {
     String name
     String destination
+    Boolean external = false
+
+    String toString() {
+        if(this.external) {
+            return String.format("%s:%s:%s", this.name, this.destination, "external")
+        } else {
+            return String.format("%s:%s", this.name, this.destination)
+        }
+    }
 }
 class Docker {
     String registry_api = "https://index.docker.io/v1"

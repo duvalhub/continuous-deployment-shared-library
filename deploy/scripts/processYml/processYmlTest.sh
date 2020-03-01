@@ -4,6 +4,8 @@ export STACK_NAME="caramba"
 export APP_NAME="toto"
 export IMAGE="africa"
 
+export VOLUMES="isExternal:/src/etc:external avol2:/src/oekp"
+
 echo "####################"
 echo "############ Without Hosts"
 echo "####################"

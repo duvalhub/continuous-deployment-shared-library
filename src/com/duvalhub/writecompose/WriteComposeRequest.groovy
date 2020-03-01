@@ -5,6 +5,7 @@ import com.duvalhub.appconfig.AppConfig
 import groovy.json.JsonBuilder
 import com.duvalhub.deploy.DeployRequest
 import com.duvalhub.appconfig.Platform
+import com.duvalhub.appconfig.Volume
 
 class WriteComposeRequest extends BaseObject {
     DeployRequest request
@@ -58,5 +59,14 @@ class WriteComposeRequest extends BaseObject {
 
         return urls        
     }
-    
+
+    String getVolumes() {
+        Platform platform = this.request.getPlatform()
+
+        String volumes_string = ""
+        for (Volume volume: platform.volumes) {
+            volumes_string += "${volume.toString()} ";
+        }
+        return volumes_string
+    }    
 }
