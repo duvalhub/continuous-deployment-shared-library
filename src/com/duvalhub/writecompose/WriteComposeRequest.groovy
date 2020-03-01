@@ -10,7 +10,7 @@ class WriteComposeRequest extends BaseObject {
     DeployRequest request
     AppConfig config
     String base = "philippeduval.ca"
-    String scriptPath = "scripts/bash/processYml/processYml.sh"
+    String scriptPath = "deploy/scripts/processYml/processYml.sh"
     String compose = "docker-compose.yml"
     String appName
     String image
