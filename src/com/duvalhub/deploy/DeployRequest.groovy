@@ -33,7 +33,7 @@ class DeployRequest extends BaseObject {
         return host
     }
 
-    Platform getDockerHost() {
+    DockerHost getDockerHost() {
         return this.getPlatform().host
     }
 
