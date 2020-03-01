@@ -11,7 +11,7 @@ class InitializeWorkdirIn extends BaseObject {
     GitRepo pipelineGitRepo
 
     InitializeWorkdirIn() {
-        this.pipelineGitRepo = new GitRepo("duvalhub", "continous-deployment")
+        this.pipelineGitRepo = new GitRepo("duvalhub", "continous-deployment-shared-library")
         this.pipelineWorkdir = "jenkins-workdir"
         this.appWorkdir = "app-workdir"
     }
