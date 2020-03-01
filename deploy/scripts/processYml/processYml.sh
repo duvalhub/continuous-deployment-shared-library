@@ -57,10 +57,7 @@ add_volume() {
     else
         base_path="volumes"
     fi
-    yq w -i "$TMP_YML" "$base_path.$name.name" $name
-    if [ ! -z "$external" ]; then
-        yq w -i "$TMP_YML" "volumes.$name.external" "true"
-    fi
+    yq w -i "$TMP_YML" "$base_path.$name.name" "$STACK_NAME"_"$name"
 }
 add_volume_to_service() {
     local IFS=':'

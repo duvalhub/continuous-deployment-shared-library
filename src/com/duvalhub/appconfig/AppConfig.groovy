@@ -44,14 +44,9 @@ class Platform {
 class Volume {
     String name
     String destination
-    Boolean external = false
 
     String toString() {
-        if(this.external) {
-            return String.format("%s:%s:%s", this.name, this.destination, "external")
-        } else {
-            return String.format("%s:%s", this.name, this.destination)
-        }
+        return String.format("%s:%s", this.name, this.destination)
     }
 }
 class Docker {

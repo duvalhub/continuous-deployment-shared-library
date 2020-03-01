@@ -62,7 +62,6 @@ class WriteComposeRequest extends BaseObject {
 
     String getVolumes() {
         Platform platform = this.request.getPlatform()
-
         String volumes_string = ""
         for (Volume volume: platform.volumes) {
             volumes_string += "${volume.toString()} ";
