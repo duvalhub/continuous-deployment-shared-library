@@ -6,6 +6,8 @@ def call(WriteComposeRequest request) {
   env.APP_NAME = request.appName
   env.IMAGE = request.getImage()
   env.HOSTS = request.getDomainNames()
+  env.VOLUMES = request.getVolumes()
+
   if (request.port) {
     env.PORT = request.port
   }
