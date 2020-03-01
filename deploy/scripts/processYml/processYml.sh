@@ -1,23 +1,34 @@
 #!/bin/bash
 set -e
+###################
+# Logs
+###################
+log() {
+    echo 
+}
 
+###################
+# Validation params
+###################
 missing_params=false
 test_param() {
-    if [ -z "$1" ]; then
-        echo "Missing '$2' environment variable. Fatal error"
+    if [ -z "${!1}" ]; then
+        echo "Missing '$1' environment variable. Fatal error"
         missing_params=true
     fi
 }
-test_param "$STACK_NAME" "STACK_NAME"
-test_param "$APP_NAME" "APP_NAME"
-test_param "$IMAGE" "IMAGE"
+test_param "STACK_NAME"
+test_param "APP_NAME"
+test_param "IMAGE"
 if [ "$missing_params" = true ]; then
     echo "Missing parameters detected. Aborting..."
     exit 1
 fi
 
 
-
+###################
+# Begin
+###################
 echo "### Creating docker-compose.yml file named '$1'"
 
 TMP_YML=$(mktemp)

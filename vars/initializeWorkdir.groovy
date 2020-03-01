@@ -2,6 +2,12 @@ import com.duvalhub.git.GitCloneRequest
 import com.duvalhub.initializeworkdir.InitializeWorkdirIn
 import com.duvalhub.appconfig.AppConfig
 
+def downloadConfigFile(String branch){
+    def configUrl = String.format("https://raw.githubusercontent.com/duvalhub/continous-deployment-configs/%s/%s/%s/config.yml", branch, org, repo)
+    echo "Downloading the config file from url: '${configUrl}'"
+    return httpRequest(url: configUrl, outputFile: "config.yml", validResponseCodes: "200,404")
+}
+
 def call(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
     echo "### Initializing Work Directory. InitializeWorkdirIn: '${params.toString()}'"
     def pipelineBranch = env.PIPELINE_BRANCH ?: "master"
@@ -27,15 +33,19 @@ def call(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
         }
     }
 
-//    dir(params.appWorkdir) {
-        def configUrl = String.format("https://raw.githubusercontent.com/duvalhub/continous-deployment-configs/%s/%s/%s/config.yml", pipelineBranch, org, repo)
-        def response = httpRequest(url: configUrl, outputFile: "config.yml")
-        if ( response.status == 404 ) {
-            echo "Config file not found: '${configUrl}'"
+    def response = downloadConfigFile(pipelineBranch);
+    if ( response.status == 404 ) {
+        if( pipelineBranch != 'master' ) {
+            echo "Config file not found on branch '${pipelineBranch}'. Trying branch 'master'"
+            response = downloadConfigFile('master')
+        }
+
+        if( response.status == 404 ) {
+            echo "Config file not found. Fatal error."
             sh "exit 1"
         }
-        env.APP_WORKDIR = "$WORKSPACE/${params.appWorkdir}"
-//    }
+    }
+    env.APP_WORKDIR = "$WORKSPACE/${params.appWorkdir}"
 
 }
 
