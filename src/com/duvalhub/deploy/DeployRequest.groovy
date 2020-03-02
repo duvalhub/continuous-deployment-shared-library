@@ -33,8 +33,8 @@ class DeployRequest extends BaseObject {
         return host
     }
 
-    Platform getDockerHost() {
-        return this.getPlatform()
+    DockerHost getDockerHost() {
+        return this.getPlatform().host
     }
 
     String getInternalNetwork() {
@@ -50,7 +50,7 @@ class DeployRequest extends BaseObject {
     }
 
     String getCredentialId() {
-        return this.getDockerHost().credentialId
+        return this.appConfig.docker.credentialId
     }
 
     String getDockerImage() {

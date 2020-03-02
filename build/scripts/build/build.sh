@@ -49,7 +49,5 @@ echo "### Version"
 docker version
 echo "### Building"
 docker build --build-arg build_directory=$(mktemp) --build-arg build_destination --build-arg builder_version -t "$IMAGE" -f $DOCKERFILE .
-echo "### Login in"
-echo "$DOCKER_CREDENTIALS_PSW" | docker login --username "$DOCKER_CREDENTIALS_USR" --password-stdin
 echo "### Pushing"
 docker push "$IMAGE"
