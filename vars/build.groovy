@@ -21,7 +21,7 @@ def call(BuildRequest buildRequest) {
       "DOCKERFILE_PATH=${dockerfile_path}"
     ]) {
       dir(appBasePath) {
-        setDockerEnvironment.withCredentials(buildRequest.getDockerHost(), buildRequest.getCredentialId()) {
+        setDockerEnvironment.withCredentials(buildRequest.getDockerHost('build'), buildRequest.getCredentialId()) {
           sh "chmod +x ${script} && bash -c \"${script} --templates $TEMPLATE_PATH --builder ${buildRequest.getBuilder()} --build-destination ${conf.build.destination} --container ${conf.build.container}\""
         }
       }

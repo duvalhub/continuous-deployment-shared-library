@@ -4,6 +4,7 @@ import com.duvalhub.BaseObject
 import com.duvalhub.appconfig.AppConfig
 import com.duvalhub.appconfig.Platform
 import com.duvalhub.appconfig.DockerHost
+import com.duvalhub.appconfig.Build
 import com.duvalhub.appconfig.Docker
 
 class AppConfigAccessor extends BaseObject {
@@ -22,6 +23,8 @@ class AppConfigAccessor extends BaseObject {
             case "prod":
                 host = this.appConfig.deploy.platforms[environment]
                 break
+            case "build":
+                host = this.getBuild().host
             default:
                 throw new Exception("Environment can't be mapped: '${environment}'")
         }
@@ -42,7 +45,7 @@ class AppConfigAccessor extends BaseObject {
     }
 
     String getCredentialId() {
-        return this.appConfig.docker.credentialId
+        return this.getDocker().credentialId
     }
 
     String getDockerImage(){
@@ -65,8 +68,12 @@ class AppConfigAccessor extends BaseObject {
         return String.format("%s_internal", this.getStackName())
     }
 
-    String getBuild(){
+    String getBuilder(){
         return this.appConfig.build.builder
+    }
+
+    Build getBuild() {
+        return this.appConfig.build
     }
 
 }
