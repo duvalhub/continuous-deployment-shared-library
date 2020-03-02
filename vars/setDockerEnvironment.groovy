@@ -6,19 +6,22 @@ def call(DockerHost dockerHost, Closure body) {
       dockerCert(credentialsId: dockerHost.bundleId, variable: 'DOCKER_CERT_PATH')
   ]) {
     String docker_url = dockerHost.getDockerUrl()
-    def envs = ["DOCKER_TLS_VERIFY=1"]
-    envs.add("DOCKER_HOST=${docker_url}")
-    withEnv(envs) {
+    withEnv([
+      "DOCKER_TLS_VERIFY=1",
+      "DOCKER_HOST=${docker_url}"
+    ]) {
       body()
     }
   }
 }
 
 def withCredentials(DockerHost dockerHost, String credentialId, Closure body) {
-  withCredentials([
-    usernamePassword(credentialsId: credentialId, usernameVariable: 'DOCKER_CREDENTIALS_USR', passwordVariable: 'DOCKER_CREDENTIALS_PSW')
-  ]) {
-    sh 'echo "$DOCKER_CREDENTIALS_PSW" | docker login --username "$DOCKER_CREDENTIALS_USR" --password-stdin'
-    setDockerEnvironment(dockerHost, body)
+  setDockerEnvironment(dockerHost) {
+    withCredentials([
+      usernamePassword(credentialsId: credentialId, usernameVariable: 'DOCKER_CREDENTIALS_USR', passwordVariable: 'DOCKER_CREDENTIALS_PSW')
+    ]) {
+      sh 'echo "$DOCKER_CREDENTIALS_PSW" | docker login --username "$DOCKER_CREDENTIALS_USR" --password-stdin'
+      body()
+    }
   }
 }
