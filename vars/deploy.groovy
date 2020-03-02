@@ -5,7 +5,7 @@ def call(DeployRequest request) {
   stage('Deploy') {
     WriteComposeRequest writeComposeRequest = new WriteComposeRequest(request)
     String composeFilePath = writeCompose(writeComposeRequest)
-    setDockerEnvironment.withCredentials(request.getDockerHost(), request.getCredentialId()) {
+    setDockerEnvironment.withCredentials(request.getDockerHost(request.environment), request.getCredentialId()) {
       String prepare_script = "${env.PIPELINE_WORKDIR}/deploy/scripts/network/createIfNotExist.sh"
       String params = "--network ${request.getInternalNetwork()}"
       executeScript(prepare_script, false, params)
