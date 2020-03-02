@@ -3,7 +3,7 @@ import com.duvalhub.appconfig.AppConfig
 
 def call(BuildRequest buildRequest) {
   stage('Build') {
-    echo "### Build an app. BuildRequest: '${buildRequest.toString()}'"
+    echo "### Building an app. BuildRequest: '${buildRequest.toString()}'"
 
     AppConfig conf = buildRequest.appConfig
     String version = buildRequest.version
