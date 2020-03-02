@@ -1,9 +1,9 @@
 package com.duvalhub.build
 
-import com.duvalhub.BaseObject
 import com.duvalhub.appconfig.AppConfig
+import com.duvalhub.appconfig.AppConfigAccessor
 
-class BuildRequest extends BaseObject {
+class BuildRequest extends AppConfigAccessor {
     AppConfig appConfig
     String version
 }

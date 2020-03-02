@@ -1,18 +1,21 @@
 package com.duvalhub.appconfig
 
 import com.duvalhub.BaseObject
+import com.duvalhub.appconfig.AppConfig
+import com.duvalhub.appconfig.Platform
+import com.duvalhub.appconfig.DockerHost
 
 class AppConfigAccessor extends BaseObject {
 
-    String getCredentialId() {
-        return this.appConfig.docker.credentialId
+    AppConfig conf
+
+    AppConfigAccessor(AppConfig conf) {
+        this.conf = conf
     }
 
-
-
-
-
-
+    String getCredentialId() {
+        return this.conf.docker.credentialId
+    }
 
     Platform getPlatform(String environment) {
         Platform host
@@ -20,7 +23,7 @@ class AppConfigAccessor extends BaseObject {
             case "dev":
             case "stage":
             case "prod":
-                host = this.appConfig.deploy.platforms[environment]
+                host = this.conf.deploy.platforms[environment]
                 break
             default:
                 throw new Exception("Environment can't be mapped: '${environment}'")
@@ -42,11 +45,11 @@ class AppConfigAccessor extends BaseObject {
     }
 
     String getCredentialId() {
-        return this.appConfig.docker.credentialId
+        return this.conf.docker.credentialId
     }
 
     String getDockerImage(){
-        return this.appConfig.getDockerImage()
+        return this.conf.getDockerImage()
     }    
 
     String getDockerImageFull() {
@@ -54,11 +57,15 @@ class AppConfigAccessor extends BaseObject {
     }
 
     String getStackName(){
-        return String.format("%s-%s", this.appConfig.app.group, this.environment)
+        return String.format("%s-%s", this.conf.app.group, this.environment)
     }
-    
+
     String getInternalNetwork() {
         return String.format("%s_internal", this.getStackName())
+    }
+
+    String getBuild(){
+        return this.conf.build.builder
     }
 
 }

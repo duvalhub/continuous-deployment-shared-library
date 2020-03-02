@@ -5,7 +5,7 @@ def call(BuildRequest buildRequest) {
   stage('Build') {
     AppConfig conf = buildRequest.appConfig
     String version = buildRequest.version
-    String image = conf.getDockerImage()
+    String image = buildRequest.getDockerImage()
     String image_name = "${image}:${version}"
     def basePath = "${env.PIPELINE_WORKDIR}"
     String template_path = "${basePath}/build/templates"
@@ -19,8 +19,8 @@ def call(BuildRequest buildRequest) {
       "DOCKERFILE_PATH=${dockerfile_path}"
     ]) {
       dir(appBasePath) {
-        setDockerEnvironment.withCredentials(conf.build.host, conf.docker.credentialId) {
-          sh "chmod +x ${script} && bash -c \"${script} --templates $TEMPLATE_PATH --builder ${conf.build.builder} --build-destination ${conf.build.destination} --container ${conf.build.container}\""
+        setDockerEnvironment.withCredentials(buildRequest.getDockerHost(), buildRequest.getCredentialId()) {
+          sh "chmod +x ${script} && bash -c \"${script} --templates $TEMPLATE_PATH --builder ${buildRequest.getBuilder()} --build-destination ${conf.build.destination} --container ${conf.build.container}\""
         }
       }
     }
