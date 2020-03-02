@@ -10,6 +10,7 @@ def call(DeployRequest request) {
       String params = "--network ${request.getInternalNetwork()}"
       executeScript(prepare_script, false, params)
 
+/*
       String deploy_script = "${env.PIPELINE_WORKDIR}/deploy/scripts/deploy/deploy.sh"
       withEnv([
         "COMPOSE_FILE_PATH=${composeFilePath}",
@@ -17,8 +18,8 @@ def call(DeployRequest request) {
       ]) {
         executeScript(deploy_script)
       }
-
-//      sh "echo \"$DOCKER_CREDENTIALS_PSW\" | docker login --username \"$DOCKER_CREDENTIALS_USR\" --password-stdin && docker stack deploy -c ${composeFilePath} ${request.getStackName()}"
+*/
+      sh "docker stack deploy --with-registry-auth -c ${composeFilePath} ${request.getStackName()}"
     }
   }
 }
