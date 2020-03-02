@@ -11,7 +11,7 @@ def call(DeployRequest request) {
       executeScript(prepare_script, false, params)
 
       String deploy_script = "${env.PIPELINE_WORKDIR}/deploy/scripts/deploy/deploy.sh"
-      setEnv([
+      withEnv([
         "COMPOSE_FILE_PATH=${composeFilePath}",
         "STACK_NAME=${request.getStackName()}"
       ]) {
