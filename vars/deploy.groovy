@@ -9,7 +9,7 @@ def call(DeployRequest request) {
       String script = "${env.PIPELINE_WORKDIR}/deploy/scripts/network/createIfNotExist.sh"
       String params = "--network ${request.getInternalNetwork()}"
       executeScript(script, false, params)
-      sh "docker stack deploy -c ${composeFilePath} ${request.getStackName()}"
+      sh "echo \"$DOCKER_CREDENTIALS_PSW\" | docker login --username \"$DOCKER_CREDENTIALS_USR\" --password-stdin && docker stack deploy -c ${composeFilePath} ${request.getStackName()}"
     }
   }
 }
