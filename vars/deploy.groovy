@@ -3,6 +3,7 @@ import com.duvalhub.writecompose.WriteComposeRequest
 
 def call(DeployRequest request) {
   stage('Deploy') {
+    echo "### Deploying an artifact. DeployRequest: '${request.toString()}'"
     WriteComposeRequest writeComposeRequest = new WriteComposeRequest(request)
     String composeFilePath = writeCompose(writeComposeRequest)
     setDockerEnvironment.withCredentials(request.getDockerHost(request.environment), request.getCredentialId()) {
