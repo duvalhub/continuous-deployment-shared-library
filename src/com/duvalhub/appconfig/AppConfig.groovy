@@ -7,10 +7,6 @@ class AppConfig extends BaseObject {
     Build build
     Deploy deploy
     Docker docker
-
-    String getDockerImage(){
-        return "${this.docker.registry}/${this.docker.namespace}/${this.docker.repository}"
-    }
 }
 class App {
     String name
@@ -37,6 +33,7 @@ class Platforms {
 class Platform {
     String hostname
     Boolean defaultHostname = true
+    String[] environmentFiles
     Volume[] volumes
     DockerHost host
 
@@ -55,6 +52,10 @@ class Docker {
     String namespace
     String repository
     String credentialId
+
+    String getDockerImage(){
+        return String.format("%s/%s/%s", this.registry, this.namespace, this.repository)
+    }
 }
 
 class DockerHosts {

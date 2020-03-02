@@ -18,46 +18,4 @@ class DeployRequest extends BaseObject {
         this.version = version
         this.environment = environment
     }
-
-    Platform getPlatform() {
-        Platform host
-        switch(this.environment) {
-            case "dev":
-            case "stage":
-            case "prod":
-                host = this.appConfig.deploy.platforms[this.environment]
-                break
-            default:
-                throw new Exception("Environment can't be mapped: '${this.environment}'")
-        }
-        return host
-    }
-
-    DockerHost getDockerHost() {
-        return this.getPlatform().host
-    }
-
-    String getInternalNetwork() {
-        return "${this.getStackName()}_internal"
-    }
-
-    String getDockerUrl() {
-        return this.getDockerHost().getDockerUrl()
-    }
-
-    String getBundleId() {
-        return this.getDockerHost().bundleId
-    }
-
-    String getCredentialId() {
-        return this.appConfig.docker.credentialId
-    }
-
-    String getDockerImage() {
-        return "${appConfig.getDockerImage()}:${this.version}"
-    }
-
-    String getStackName(){
-        return "${this.appConfig.app.group}-${this.environment}"
-    }
 }

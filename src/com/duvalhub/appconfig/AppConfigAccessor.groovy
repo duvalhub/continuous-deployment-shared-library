@@ -46,18 +46,19 @@ class AppConfigAccessor extends BaseObject {
     }
 
     String getDockerImage(){
-        return "${this.appConfig.docker.registry}/${this.appConfig.docker.namespace}/${this.appConfig.docker.repository}"
+        return this.appConfig.getDockerImage()
     }    
 
     String getDockerImageFull() {
-        return "${appConfig.getDockerImage()}:${this.version}"
+        return String.format("%s:%s", this.getDockerImage(), this.version)
     }
 
     String getStackName(){
-        return "${this.appConfig.app.group}-${this.environment}"
+        return String.format("%s-%s", this.appConfig.app.group, this.environment)
     }
+    
     String getInternalNetwork() {
-        return "${this.getStackName()}_internal"
+        return String.format("%s_internal", this.getStackName())
     }
 
 }
