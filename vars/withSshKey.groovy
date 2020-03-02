@@ -11,6 +11,5 @@ def call (Closure body) {
             sh "git config --global user.name \"Toto Africa\""
             body()
         }
-        //env.GIT_SSH_COMMAND="ssh -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -i $SSH_KEY_PATH -F /dev/null"
     }
 }
