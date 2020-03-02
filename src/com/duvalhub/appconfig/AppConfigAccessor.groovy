@@ -4,6 +4,7 @@ import com.duvalhub.BaseObject
 import com.duvalhub.appconfig.AppConfig
 import com.duvalhub.appconfig.Platform
 import com.duvalhub.appconfig.DockerHost
+import com.duvalhub.appconfig.Docker
 
 class AppConfigAccessor extends BaseObject {
 
@@ -45,8 +46,12 @@ class AppConfigAccessor extends BaseObject {
     }
 
     String getDockerImage(){
-        return this.appConfig.getDockerImage()
-    }    
+        return this.getDocker().getDockerImage()
+    }
+
+    Docker getDocker() {
+        return this.appConfig.docker
+    }
 
     String getDockerImageFull() {
         return String.format("%s:%s", this.getDockerImage(), this.version)
