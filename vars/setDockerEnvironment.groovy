@@ -5,9 +5,12 @@ def call(DockerHost dockerHost, Closure body) {
   withCredentials([
       dockerCert(credentialsId: dockerHost.bundleId, variable: 'DOCKER_CERT_PATH')
   ]) {
-    env.DOCKER_HOST = dockerHost.getDockerUrl()
-    env.DOCKER_TLS_VERIFY = 1
-    body()
+    String docker_url = dockerHost.getDockerUrl()
+    def envs = ["DOCKER_TLS_VERIFY=1"]
+    envs.add("DOCKER_HOST=${docker_url}")
+    withEnv(envs) {
+      body()
+    }
   }
 }
 
