@@ -17,6 +17,7 @@ def call(DockerHost dockerHost, Closure body) {
 
 def withCredentials(DockerHost dockerHost, String credentialId, Closure body) {
   setDockerEnvironment(dockerHost) {
+    echo "Login into Docker Registry. credentialId: '${credentialId}'"
     withCredentials([
       usernamePassword(credentialsId: credentialId, usernameVariable: 'DOCKER_CREDENTIALS_USR', passwordVariable: 'DOCKER_CREDENTIALS_PSW')
     ]) {

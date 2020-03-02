@@ -28,7 +28,7 @@ class DeployRequest extends BaseObject {
                 host = this.appConfig.deploy.platforms[this.environment]
                 break
             default:
-                throw new Exception("Environment can be mapped: '${this.environment}'")
+                throw new Exception("Environment can't be mapped: '${this.environment}'")
         }
         return host
     }
