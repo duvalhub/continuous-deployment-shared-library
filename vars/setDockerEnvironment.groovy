@@ -22,6 +22,7 @@ def withCredentials(DockerHost dockerHost, String credentialId, Closure body) {
       usernamePassword(credentialsId: credentialId, usernameVariable: 'DOCKER_CREDENTIALS_USR', passwordVariable: 'DOCKER_CREDENTIALS_PSW')
     ]) {
       sh 'echo "$DOCKER_CREDENTIALS_PSW" | docker login --username "$DOCKER_CREDENTIALS_USR" --password-stdin'
+      sh 'cat $HOME/.docker/config.json'
       body()
     }
   }
