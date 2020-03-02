@@ -23,8 +23,6 @@ class AppConfigAccessor extends BaseObject {
             case "prod":
                 host = this.appConfig.deploy.platforms[environment]
                 break
-            case "build":
-                host = this.getBuild().host
             default:
                 throw new Exception("Environment can't be mapped: '${environment}'")
         }
@@ -32,9 +30,15 @@ class AppConfigAccessor extends BaseObject {
     }
 
     DockerHost getDockerHost(String environment) {
-        return this.getPlatform(environment).host
+        DockerHost host
+        switch(environment) {
+            case "build":
+                host = this.getBuild().host
+            default:
+                host = this.getPlatform(environment).host
+        }
+        return host
     }
-    
 
     String getDockerUrl(String environment) {
         return this.getDockerHost(environment).getDockerUrl()
