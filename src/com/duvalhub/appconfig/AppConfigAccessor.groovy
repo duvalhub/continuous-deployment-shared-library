@@ -45,7 +45,11 @@ class AppConfigAccessor extends BaseObject {
         return this.appConfig.docker.credentialId
     }
 
-    String getDockerImage() {
+    String getDockerImage(){
+        return "${this.appConfig.docker.registry}/${this.appConfig.docker.namespace}/${this.appConfig.docker.repository}"
+    }    
+
+    String getDockerImageFull() {
         return "${appConfig.getDockerImage()}:${this.version}"
     }
 
