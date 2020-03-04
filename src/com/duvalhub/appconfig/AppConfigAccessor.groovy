@@ -81,10 +81,6 @@ class AppConfigAccessor extends BaseObject {
     }
 
 
-    String getStackName() {
-        return this.request.getStackName()
-    }
-
     String getImage() {
         return this.request.getDockerImage()
     }
