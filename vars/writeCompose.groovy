@@ -1,7 +1,8 @@
 import com.duvalhub.writecompose.WriteComposeRequest
+import com.duvalhub.deploy.DeployRequest
 import com.duvalhub.appconfig.AppConfig
 
-def call(WriteComposeRequest request) {
+def call(DeployRequest request) {
   String[] envs = [
     "STACK_NAME=${request.stackName}",
     "APP_NAME=${request.appName}",
