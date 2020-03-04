@@ -7,11 +7,11 @@ def call(DeployRequest request) {
     "STACK_NAME=${request.stackName}",
     "APP_NAME=${request.appName}",
     "IMAGE=${request.image}",
-    "HOSTS=${request.hosts}",
+    "HOSTS=${request.deployHosts}",
     "VOLUMES=${request.volumes}"
   ]
-  if (request.port) {
-    envs.add("PORT=${request.port}")
+  if (request.deployPort) {
+    envs.add("PORT=${request.deployPort}")
   }
   
   String env_files_id = request.getEnvironmentFileId()

@@ -46,7 +46,10 @@ class AppConfigAccessor extends BaseObject {
     String getImage() {
         return this.request.getDockerImage()
     }
-
+    
+    String getDeployPort() {
+        return this.appConfig.deploy.port
+    }
 
 
     String getStackName(String environment){

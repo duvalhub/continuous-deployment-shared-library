@@ -36,7 +36,7 @@ class DeployRequest extends AppConfigAccessor {
         return this.getVolumes(this.environment)
     }       
 
-    String getEnvironmentFileId(String environment) {
+    String getEnvironmentFileId() {
         return this.getEnvironmentFileId(this.environment)
     }
 
