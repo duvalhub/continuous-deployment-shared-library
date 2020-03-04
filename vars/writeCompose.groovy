@@ -7,7 +7,7 @@ def call(DeployRequest request) {
     "STACK_NAME=${request.stackName}",
     "APP_NAME=${request.appName}",
     "IMAGE=${request.image}",
-    "HOSTS=${request.deployHosts}",
+    "HOSTS=${request.domainNames}",
     "VOLUMES=${request.volumes}"
   ]
   if (request.deployPort) {
