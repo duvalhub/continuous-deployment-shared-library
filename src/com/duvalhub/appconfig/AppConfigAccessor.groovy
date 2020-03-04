@@ -15,6 +15,9 @@ class AppConfigAccessor extends BaseObject {
         this.appConfig = appConfig
     }
 
+    String getAppName() {
+        return this.appConfig.app.name
+    }
 
     String getCredentialId() {
         return this.getDocker().credentialId
@@ -39,7 +42,6 @@ class AppConfigAccessor extends BaseObject {
     Build getBuild() {
         return this.appConfig.build
     }
-
 
     String getImage() {
         return this.request.getDockerImage()
@@ -83,6 +85,15 @@ class AppConfigAccessor extends BaseObject {
         return volumes_string
     }       
 
+    String getEnvironmentFileId(String environment) {
+        Platform platform = this.getPlatform(environment)
+        String string = ""
+        for (String environmentFile: platform.environmentFiles) {
+            string += "${environmentFile} ";
+        }
+        return string        
+    }
+
     Platform getPlatform(String environment) {
         Platform host
         switch(environment) {
@@ -115,4 +126,5 @@ class AppConfigAccessor extends BaseObject {
     String getBundleId(String environment) {
         return this.getDockerHost(environment).bundleId
     }
+
 }

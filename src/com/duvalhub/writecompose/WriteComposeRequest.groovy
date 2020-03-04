@@ -8,28 +8,27 @@ import com.duvalhub.appconfig.Platform
 import com.duvalhub.appconfig.Volume
 
 class WriteComposeRequest extends BaseObject {
-    DeployRequest request
-    AppConfig config
     String base = "philippeduval.ca"
     String scriptPath = "deploy/scripts/processYml/processYml.sh"
     String compose = "docker-compose.yml"
+
+    String stackName
     String appName
     String image
     String hosts
+    String volumes
     String port
+    String environmentFileId
 
     WriteComposeRequest(DeployRequest request) {
-        this.request = request
-        this.config = request.appConfig
-        this.appName = this.config.app.name
-        if (this.config.deploy) {
-            if( this.config.deploy.hosts )  {
-                this.hosts = this.config.deploy.hosts
-            }
-            if ( this.config.deploy.port ) {
-                this.port = this.config.deploy.port
-            }
-        }
+        this.stackName = request.getStackName()
+        this.appName = request.getAppName()    
+        this.image = request.getImage()  
+        this.hosts = request.getDeployHosts()
+        this.volumes = request.getVolumes()
+        this.port = request.getDeployPort()
+        this.environmentFileId = request.getEnvironmentFileId()
+
     }
  
 }

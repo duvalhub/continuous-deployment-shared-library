@@ -3,11 +3,11 @@ import com.duvalhub.appconfig.AppConfig
 
 def call(WriteComposeRequest request) {
   String[] envs = [
-    "STACK_NAME=${request.getStackName()}",
-    "APP_NAME=${request.getAppName()}",
-    "IMAGE=${request.getImage()}",
-    "HOSTS=${request.getDomainNames(request.environment)}",
-    "VOLUMES=${request.getVolumes()}"
+    "STACK_NAME=${request.stackName}",
+    "APP_NAME=${request.appName}",
+    "IMAGE=${request.image}",
+    "HOSTS=${request.hosts}",
+    "VOLUMES=${request.volumes}"
   ]
   if (request.port) {
     envs.add("PORT=${request.port}")
