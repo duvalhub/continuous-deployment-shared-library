@@ -15,6 +15,74 @@ class AppConfigAccessor extends BaseObject {
         this.appConfig = appConfig
     }
 
+
+    String getCredentialId() {
+        return this.getDocker().credentialId
+    }
+
+    String getDockerImage(){
+        return this.getDocker().getDockerImage()
+    }
+
+    Docker getDocker() {
+        return this.appConfig.docker
+    }
+
+    String getDockerImageFull() {
+        return String.format("%s:%s", this.getDockerImage(), this.version)
+    }
+   
+    String getBuilder(){
+        return this.appConfig.build.builder
+    }
+
+    Build getBuild() {
+        return this.appConfig.build
+    }
+
+
+    String getImage() {
+        return this.request.getDockerImage()
+    }
+
+
+
+    String getStackName(String environment){
+        return String.format("%s-%s", this.appConfig.app.group, environment)
+    }
+
+    String getInternalNetwork(String environment) {
+        return String.format("%s_internal", this.getStackName(environment))
+    }
+
+    String getDomainNames(String environment) {
+
+        Platform platform = this.getPlatform(environment)
+        String urls = ""
+
+        if ( platform.defaultHostname ) {
+            String name = this.appName
+            String group = this.config.app.group
+            String base = this.base
+            urls += [this.appName, this.config.app.group, environment, this.base].join(".")
+        }
+
+        if(platform.hostname) {
+           urls += "," + platform.hostname
+        }
+
+        return urls        
+    }
+
+    String getVolumes(String environment) {
+        Platform platform = this.getPlatform(environment)
+        String volumes_string = ""
+        for (Volume volume: platform.volumes) {
+            volumes_string += "${volume.toString()} ";
+        }
+        return volumes_string
+    }       
+
     Platform getPlatform(String environment) {
         Platform host
         switch(environment) {
@@ -47,70 +115,4 @@ class AppConfigAccessor extends BaseObject {
     String getBundleId(String environment) {
         return this.getDockerHost(environment).bundleId
     }
-
-    String getCredentialId() {
-        return this.getDocker().credentialId
-    }
-
-    String getDockerImage(){
-        return this.getDocker().getDockerImage()
-    }
-
-    Docker getDocker() {
-        return this.appConfig.docker
-    }
-
-    String getDockerImageFull() {
-        return String.format("%s:%s", this.getDockerImage(), this.version)
-    }
-
-    String getStackName(){
-        return String.format("%s-%s", this.appConfig.app.group, this.environment)
-    }
-
-    String getInternalNetwork() {
-        return String.format("%s_internal", this.getStackName())
-    }
-
-    String getBuilder(){
-        return this.appConfig.build.builder
-    }
-
-    Build getBuild() {
-        return this.appConfig.build
-    }
-
-
-    String getImage() {
-        return this.request.getDockerImage()
-    }
-
-    String getDomainNames(String environment) {
-
-        Platform platform = this.getPlatform(environment)
-        String urls = ""
-
-        if ( platform.defaultHostname ) {
-            String name = this.appName
-            String group = this.config.app.group
-            String base = this.base
-            urls += [this.appName, this.config.app.group, environment, this.base].join(".")
-        }
-
-        if(platform.hostname) {
-           urls += "," + platform.hostname
-        }
-
-        return urls        
-    }
-
-    String getVolumes(String environment) {
-        Platform platform = this.getPlatform(environment)
-        String volumes_string = ""
-        for (Volume volume: platform.volumes) {
-            volumes_string += "${volume.toString()} ";
-        }
-        return volumes_string
-    }       
-
 }
