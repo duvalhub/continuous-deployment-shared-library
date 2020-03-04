@@ -31,41 +31,5 @@ class WriteComposeRequest extends BaseObject {
             }
         }
     }
-
-    String getStackName() {
-        return this.request.getStackName()
-    }
-
-    String getImage() {
-        return this.request.getDockerImage()
-    }
-
-    String getDomainNames() {
-
-        Platform platform = this.request.getPlatform()
-        String urls = ""
-
-        if ( platform.defaultHostname ) {
-            String name = this.appName
-            String group = this.config.app.group
-            String env = this.request.environment
-            String base = this.base
-            urls += [this.appName, this.config.app.group, this.request.environment, this.base].join(".")
-        }
-
-        if(platform.hostname) {
-           urls += "," + platform.hostname
-        }
-
-        return urls        
-    }
-
-    String getVolumes() {
-        Platform platform = this.request.getPlatform()
-        String volumes_string = ""
-        for (Volume volume: platform.volumes) {
-            volumes_string += "${volume.toString()} ";
-        }
-        return volumes_string
-    }    
+ 
 }

@@ -80,4 +80,41 @@ class AppConfigAccessor extends BaseObject {
         return this.appConfig.build
     }
 
+
+    String getStackName() {
+        return this.request.getStackName()
+    }
+
+    String getImage() {
+        return this.request.getDockerImage()
+    }
+
+    String getDomainNames(String environment) {
+
+        Platform platform = this.getPlatform(environment)
+        String urls = ""
+
+        if ( platform.defaultHostname ) {
+            String name = this.appName
+            String group = this.config.app.group
+            String base = this.base
+            urls += [this.appName, this.config.app.group, environment, this.base].join(".")
+        }
+
+        if(platform.hostname) {
+           urls += "," + platform.hostname
+        }
+
+        return urls        
+    }
+
+    String getVolumes(String environment) {
+        Platform platform = this.getPlatform(environment)
+        String volumes_string = ""
+        for (Volume volume: platform.volumes) {
+            volumes_string += "${volume.toString()} ";
+        }
+        return volumes_string
+    }       
+
 }
