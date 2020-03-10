@@ -8,10 +8,10 @@ def call(BuildRequest buildRequest) {
     String version = buildRequest.version
     String image = buildRequest.getDockerImage()
     String image_name = "${image}:${version}"
-    def basePath = "${env.PIPELINE_WORKDIR}"
-    String template_path = "${basePath}/build/templates"
+    def basePath = "${env.PIPELINE_WORKDIR}/libs/build"
+    String template_path = "${basePath}/templates"
     String dockerfile_path = "${env.TEMPLATE_PATH}/Dockerfile"
-    def script = "${basePath}/libs/build/scripts/build/build.sh"
+    def script = "${basePath}/scripts/build/build.sh"
     def appBasePath =  "${env.APP_WORKDIR}"
 
     withEnv([
