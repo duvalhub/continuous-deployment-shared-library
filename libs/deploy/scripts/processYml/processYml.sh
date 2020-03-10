@@ -67,6 +67,12 @@ add_volume_to_service() {
     local base_path="$2"
     yq w -i "$TMP_YML" "$base_path.volumes[+]" "$name:$mount_point"
 }
+add_env_vars(){
+  local IFS=$'\n'
+  for env in $ENV_VARIABLES; do
+    yq w -i "$TMP_YML" "$BASE_PATH.environment[+]" "$env"
+  done
+}
 ###################
 # Prepare
 ###################
@@ -112,9 +118,7 @@ if [ ! -z "$HOSTS" ]; then
 fi
 
 if [ ! -z "$ENV_VARIABLES" ]; then
-    for env in $ENV_VARIABLES; do
-      yq w -i "$TMP_YML" "$BASE_PATH.environment[+]" "$env"
-    done
+  add_env_vars
 fi
 
 # Networks

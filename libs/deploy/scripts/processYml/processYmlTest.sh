@@ -22,7 +22,7 @@ echo "####################"
 echo "############ With Env Vars"
 echo "####################"
 export ENV_VARIABLES="TOTO=pitou
-DAMN=toto"
+DAMN=toto oijo oijoij"
 ./processYml.sh
 
 
