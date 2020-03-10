@@ -7,7 +7,7 @@ def call(DeployRequest request) {
   List<String> envs = [
     "STACK_NAME=${request.stackName}",
     "APP_NAME=${request.appName}",
-    "IMAGE=${request.image}",
+    "IMAGE=${request.getDockerImageFull()}",
     "HOSTS=${request.domainNames}",
     "VOLUMES=${request.volumes}"
   ]

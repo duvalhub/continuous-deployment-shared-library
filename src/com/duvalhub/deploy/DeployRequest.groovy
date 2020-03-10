@@ -19,7 +19,9 @@ class DeployRequest extends AppConfigAccessor {
         this.environment = environment
     }
 
-
+    String getDockerImageFull() {
+        return this.getDockerImageFull(this.version)
+    }
     String getStackName(){
         return this.getStackName(this.environment)
     }

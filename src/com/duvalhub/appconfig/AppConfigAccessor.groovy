@@ -25,6 +25,10 @@ class AppConfigAccessor extends BaseObject {
         return this.getDocker().getDockerImage()
     }
 
+    String getDockerImageFull(String version) {
+        return String.format("%s:%s", this.getDockerImage(), this.version)
+    }
+
     Docker getDocker() {
         return this.appConfig.docker
     }
