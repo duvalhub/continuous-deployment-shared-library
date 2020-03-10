@@ -25,9 +25,12 @@ def call(DeployRequest request) {
       environment_variables = environment_variables + '\n'
     }
   }
+  echo "asdasd : ${environment_variables}"
   if(environment_variables) {
     envs.add("ENV_VARIABLES=${environment_variables}")
   }
+
+  sh "exit 1"
 
   withEnv(envs) {
     def processScript = "${env.PIPELINE_WORKDIR}/${request.scriptPath}"
