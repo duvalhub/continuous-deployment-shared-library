@@ -14,20 +14,20 @@ def call(DeployRequest request) {
   if (request.deployPort) {
     envs.add("PORT=${request.deployPort}")
   }
-  
-  String env_files_id = request.getEnvironmentFileId()
-  if(env_files_id) {
-    withCredentials([file(credentialsId: env_files_id, variable: 'FILE')]) {
+
+  String environment_variables
+  for (String environment_file_id: request.getEnvironmentFileId()) {
+    if(!environment_variables) {
+      environment_variables = ""
+    }
+    withCredentials([file(credentialsId: environment_file_id, variable: 'FILE')]) {
       String env_file_content = sh(returnStdout: true, script: 'cat $FILE').trim()
-      String[] ens_files = env_file_content.split('\n')
-      for(String env: ens_files) {
-        echo "env: '${env}'"
-      }
-      echo env_file_content
+      environment_variables = environment_variables + '\n'
     }
   }
-
-  sh "exit 1"
+  if(environment_variables) {
+    envs.add("ENV_VARIABLES=${environment_variables}")
+  }
 
   withEnv(envs) {
     def processScript = "${env.PIPELINE_WORKDIR}/${request.scriptPath}"
