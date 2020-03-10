@@ -22,7 +22,8 @@ def call(DeployRequest request) {
     }
     withCredentials([file(credentialsId: environment_file_id, variable: 'FILE')]) {
       String env_file_content = sh(returnStdout: true, script: 'cat $FILE').trim()
-      environment_variables = environment_variables + '\n'
+
+      environment_variables = environment_variables + env_file_content + '\n'
     }
   }
   echo "asdasd : ${environment_variables}"
