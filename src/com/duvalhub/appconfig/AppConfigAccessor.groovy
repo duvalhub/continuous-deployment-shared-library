@@ -67,9 +67,9 @@ class AppConfigAccessor extends BaseObject {
 
         if ( platform.defaultHostname ) {
             String name = this.appName
-            String group = this.config.app.group
+            String group = this.appConfig.app.group
             String base = this.base
-            urls += [this.appName, this.config.app.group, environment, this.base].join(".")
+            urls += [this.appName, this.appConfig.app.group, environment, this.base].join(".")
         }
 
         if(platform.hostname) {
