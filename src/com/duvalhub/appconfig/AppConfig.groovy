@@ -69,6 +69,8 @@ class DockerHost extends BaseObject {
     String port = "2376"
     String bundleId
 
+    DockerHost() {}
+
     DockerHost(String url, String bundleId) {
         this.url = url
         this.bundleId = bundleId
