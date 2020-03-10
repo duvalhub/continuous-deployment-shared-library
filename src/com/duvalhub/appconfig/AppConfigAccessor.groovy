@@ -1,13 +1,11 @@
 package com.duvalhub.appconfig
 
 import com.duvalhub.BaseObject
-import com.duvalhub.appconfig.AppConfig
-import com.duvalhub.appconfig.Platform
-import com.duvalhub.appconfig.DockerHost
-import com.duvalhub.appconfig.Build
-import com.duvalhub.appconfig.Docker
 
 class AppConfigAccessor extends BaseObject {
+    String base = "philippeduval.ca"
+    String scriptPath = "libs/deploy/scripts/processYml/processYml.sh"
+    String compose = "docker-compose.yml"
 
     AppConfig appConfig
 
@@ -31,10 +29,6 @@ class AppConfigAccessor extends BaseObject {
         return this.appConfig.docker
     }
 
-    String getDockerImageFull() {
-        return String.format("%s:%s", this.getDockerImage(), this.version)
-    }
-   
     String getBuilder(){
         return this.appConfig.build.builder
     }
@@ -69,7 +63,7 @@ class AppConfigAccessor extends BaseObject {
             String name = this.appName
             String group = this.appConfig.app.group
             String base = this.base
-            urls += [this.appName, this.appConfig.app.group, environment, this.base].join(".")
+            urls += [name, group, environment, base].join(".")
         }
 
         if(platform.hostname) {
@@ -83,7 +77,7 @@ class AppConfigAccessor extends BaseObject {
         Platform platform = this.getPlatform(environment)
         String volumes_string = ""
         for (Volume volume: platform.volumes) {
-            volumes_string += "${volume.toString()} ";
+            volumes_string += "${volume.toString()} "
         }
         return volumes_string
     }       
@@ -92,7 +86,7 @@ class AppConfigAccessor extends BaseObject {
         Platform platform = this.getPlatform(environment)
         String string = ""
         for (String environmentFile: platform.environmentFiles) {
-            string += "${environmentFile} ";
+            string += "${environmentFile} "
         }
         return string        
     }
@@ -103,7 +97,7 @@ class AppConfigAccessor extends BaseObject {
             case "dev":
             case "stage":
             case "prod":
-                host = this.appConfig.deploy.platforms[environment]
+                host = this.appConfig.deploy.platforms[environment] as Platform
                 break
             default:
                 throw new Exception("Environment can't be mapped: '${environment}'")
@@ -116,6 +110,7 @@ class AppConfigAccessor extends BaseObject {
         switch(environment) {
             case "build":
                 host = this.getBuild().host
+                break
             default:
                 host = this.getPlatform(environment).host
         }
