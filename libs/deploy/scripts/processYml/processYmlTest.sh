@@ -16,6 +16,20 @@ echo "############ With Hosts"
 echo "####################"
 
 export HOSTS="totoafrica.com"
+./processYml.sh
+
+echo "####################"
+echo "############ With Env Vars"
+echo "####################"
+export ENV_VARIABLES="TOTO=pitou
+DAMN=toto"
+./processYml.sh
+
+
+echo "####################"
+echo "############ Result"
+echo "####################"
+
 temp_file=$(mktemp)
 ./processYml.sh "$temp_file" > /dev/null
 cat "$temp_file"

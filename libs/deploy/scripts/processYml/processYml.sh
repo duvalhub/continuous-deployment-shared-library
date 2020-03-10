@@ -111,6 +111,12 @@ if [ ! -z "$HOSTS" ]; then
     yq w -i "$TMP_YML" "$BASE_PATH.environment[+]" "LETSENCRYPT_HOST=$HOSTS"
 fi
 
+if [ ! -z "$ENV_VARIABLES" ]; then
+    for env in $ENV_VARIABLES; do
+      yq w -i "$TMP_YML" "$BASE_PATH.environment[+]" "$env"
+    done
+fi
+
 # Networks
 yq w -i "$TMP_YML" "$BASE_PATH.networks[+]" internal
 if [ ! -z "$HOSTS" ]; then
