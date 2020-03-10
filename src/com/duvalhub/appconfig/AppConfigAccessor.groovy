@@ -82,16 +82,9 @@ class AppConfigAccessor extends BaseObject {
         return volumes_string
     }       
 
-    String getEnvironmentFileId(String environment) {
+    String[] getEnvironmentFileId(String environment) {
         Platform platform = this.getPlatform(environment)
-        String string
-        for (String environmentFile: platform.environmentFiles) {
-            if(!string){
-                string = ""
-            }
-            string += "${environmentFile} "
-        }
-        return string        
+        return platform.environmentFiles
     }
 
     Platform getPlatform(String environment) {
