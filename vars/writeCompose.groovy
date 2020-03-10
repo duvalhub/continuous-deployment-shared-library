@@ -19,11 +19,15 @@ def call(DeployRequest request) {
   if(env_files_id) {
     withCredentials([file(credentialsId: env_files_id, variable: 'FILE')]) {
       String env_file_content = sh(returnStdout: true, script: 'cat $FILE').trim()
+      String[] ens_files = env_file_content.split('\n')
+      for(String env: ens_files) {
+        echo "env: '${env}'"
+      }
       echo env_file_content
     }
   }
 
-  sh "exit 0"
+  sh "exit 1"
 
   withEnv(envs) {
     def processScript = "${env.PIPELINE_WORKDIR}/${request.scriptPath}"
