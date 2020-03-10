@@ -17,7 +17,7 @@ class Build {
     String builder
     String destination = "build"
     String container
-    DockerHost host
+    DockerHost host = new DockerHost("docker.build.philippeduval.ca", "DUVALHUB_BUILD_BUNDLE")
 }
 class Deploy {
     String hostnames
@@ -69,6 +69,12 @@ class DockerHost extends BaseObject {
     String port = "2376"
     String bundleId
 
+    DockerHost() {}
+
+    DockerHost(String url, String bundleId) {
+        this.url = url
+        this.bundleId = bundleId
+    }
     String getDockerUrl() {
         return String.format("%s://%s:%s", this.protocole, this.url, this.port)
         
