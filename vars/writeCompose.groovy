@@ -22,16 +22,12 @@ def call(DeployRequest request) {
     }
     withCredentials([file(credentialsId: environment_file_id, variable: 'FILE')]) {
       String env_file_content = sh(returnStdout: true, script: 'cat $FILE').trim()
-
       environment_variables = environment_variables + env_file_content + '\n'
     }
   }
-  echo "asdasd : ${environment_variables}"
   if(environment_variables) {
     envs.add("ENV_VARIABLES=${environment_variables}")
   }
-
-  sh "exit 1"
 
   withEnv(envs) {
     def processScript = "${env.PIPELINE_WORKDIR}/${request.scriptPath}"
