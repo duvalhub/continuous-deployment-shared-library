@@ -9,7 +9,7 @@ import com.duvalhub.appconfig.Volume
 
 class WriteComposeRequest extends BaseObject {
     String base = "philippeduval.ca"
-    String scriptPath = "deploy/scripts/processYml/processYml.sh"
+    String scriptPath = "libs/deploy/scripts/processYml/processYml.sh"
     String compose = "docker-compose.yml"
 
     String stackName

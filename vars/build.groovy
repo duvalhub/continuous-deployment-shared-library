@@ -1,10 +1,9 @@
-import com.duvalhub.build.BuildRequest
 import com.duvalhub.appconfig.AppConfig
+import com.duvalhub.build.BuildRequest
 
 def call(BuildRequest buildRequest) {
   stage('Build') {
     echo "### Building an app. BuildRequest: '${buildRequest.toString()}'"
-
     AppConfig conf = buildRequest.appConfig
     String version = buildRequest.version
     String image = buildRequest.getDockerImage()
@@ -12,7 +11,7 @@ def call(BuildRequest buildRequest) {
     def basePath = "${env.PIPELINE_WORKDIR}"
     String template_path = "${basePath}/build/templates"
     String dockerfile_path = "${env.TEMPLATE_PATH}/Dockerfile"
-    def script = "${basePath}/build/scripts/build/build.sh"
+    def script = "${basePath}/libs/build/scripts/build/build.sh"
     def appBasePath =  "${env.APP_WORKDIR}"
 
     withEnv([

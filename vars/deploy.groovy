@@ -7,7 +7,7 @@ def call(DeployRequest request) {
     //WriteComposeRequest writeComposeRequest = new WriteComposeRequest(request)
     String composeFilePath = writeCompose(request)
     setDockerEnvironment.withCredentials(request.getDockerHost(request.environment), request.getCredentialId()) {
-      String prepare_script = "${env.PIPELINE_WORKDIR}/deploy/scripts/network/createIfNotExist.sh"
+      String prepare_script = "${env.PIPELINE_WORKDIR}/libs/deploy/scripts/network/createIfNotExist.sh"
       String params = "--network ${request.getInternalNetwork()}"
       executeScript(prepare_script, false, params)
       sh "docker stack deploy --with-registry-auth -c ${composeFilePath} ${request.getStackName()}"

@@ -1,7 +1,7 @@
 #!/bin/bash
 
 export STACK_NAME="caramba"
-export APP_NAME="toto"
+export APP_NAME="build"
 export IMAGE="africa"
 
 export VOLUMES="isExternal:/src/etc:external avol2:/src/oekp"

@@ -1,8 +1,8 @@
 package com.duvalhub.deploy
 
-import com.duvalhub.BaseObject
-import com.duvalhub.appconfig.AppConfigAccessor
+
 import com.duvalhub.appconfig.AppConfig
+import com.duvalhub.appconfig.AppConfigAccessor
 import com.duvalhub.appconfig.DockerHost
 import com.duvalhub.appconfig.Platform
 
