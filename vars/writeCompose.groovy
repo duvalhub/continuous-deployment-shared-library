@@ -3,6 +3,7 @@ import com.duvalhub.deploy.DeployRequest
 import com.duvalhub.appconfig.AppConfig
 
 def call(DeployRequest request) {
+  echo "Writing Compose file: DeployRequest: '${request.toString()}'"
   List<String> envs = [
     "STACK_NAME=${request.stackName}",
     "APP_NAME=${request.appName}",
@@ -15,13 +16,14 @@ def call(DeployRequest request) {
   }
   
   String env_files_id = request.getEnvironmentFileId()
-
-  withCredentials([file(credentialsId: env_files_id, variable: 'FILE')]) {
-    String env_file_content = sh(returnStdout: true, script: 'cat $FILE').trim()
-    echo env_file_content
+  if(env_files_id) {
+    withCredentials([file(credentialsId: env_files_id, variable: 'FILE')]) {
+      String env_file_content = sh(returnStdout: true, script: 'cat $FILE').trim()
+      echo env_file_content
+    }
   }
-  sh "exit 0"
 
+  sh "exit 0"
 
   withEnv(envs) {
     def processScript = "${env.PIPELINE_WORKDIR}/${request.scriptPath}"
