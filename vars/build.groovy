@@ -1,4 +1,5 @@
 import com.duvalhub.appconfig.AppConfig
+import com.duvalhub.appconfig.DockerHost
 import com.duvalhub.build.BuildRequest
 
 def call(BuildRequest buildRequest) {
@@ -20,7 +21,8 @@ def call(BuildRequest buildRequest) {
       "DOCKERFILE_PATH=${dockerfile_path}"
     ]) {
       dir(appBasePath) {
-        setDockerEnvironment.withCredentials(buildRequest.getDockerHost('build'), buildRequest.getCredentialId()) {
+        DockerHost buildDockerHost = buildRequest.getDockerHost('build')
+        setDockerEnvironment.withCredentials(buildDockerHost, buildRequest.getCredentialId()) {
           sh "chmod +x ${script} && bash -c \"${script} --templates $TEMPLATE_PATH --builder ${buildRequest.getBuilder()} --build-destination ${conf.build.destination} --container ${conf.build.container}\""
         }
       }
