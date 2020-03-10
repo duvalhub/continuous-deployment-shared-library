@@ -1,4 +1,4 @@
-package ping;
+package build.templates.containers.jre.extras;
 
 import java.io.IOException;
 import java.net.InetSocketAddress;

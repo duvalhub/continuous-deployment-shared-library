@@ -1,19 +1,40 @@
 import com.duvalhub.writecompose.WriteComposeRequest
+import com.duvalhub.deploy.DeployRequest
 import com.duvalhub.appconfig.AppConfig
 
-def call(WriteComposeRequest request) {
-  env.STACK_NAME = request.request.getStackName()
-  env.APP_NAME = request.appName
-  env.IMAGE = request.getImage()
-  env.HOSTS = request.getDomainNames()
-  env.VOLUMES = request.getVolumes()
-
-  if (request.port) {
-    env.PORT = request.port
+def call(DeployRequest request) {
+  echo "Writing Compose file: DeployRequest: '${request.toString()}'"
+  List<String> envs = [
+    "STACK_NAME=${request.stackName}",
+    "APP_NAME=${request.appName}",
+    "IMAGE=${request.getDockerImageFull()}",
+    "HOSTS=${request.domainNames}",
+    "VOLUMES=${request.volumes}"
+  ]
+  if (request.deployPort) {
+    envs.add("PORT=${request.deployPort}")
   }
-  def processScript = "${env.PIPELINE_WORKDIR}/${request.scriptPath}"
-  def compose = request.compose
-  sh "chmod +x ${processScript} && ${processScript} ${compose}"
-  return compose
+
+  String environment_variables
+  for (String environment_file_id: request.getEnvironmentFileId()) {
+    if(!environment_variables) {
+      environment_variables = ""
+    }
+    withCredentials([file(credentialsId: environment_file_id, variable: 'FILE')]) {
+      String env_file_content = sh(returnStdout: true, script: 'cat $FILE').trim()
+      environment_variables = environment_variables + env_file_content + '\n'
+    }
+  }
+  if(environment_variables) {
+    envs.add("ENV_VARIABLES=${environment_variables}")
+  }
+
+  withEnv(envs) {
+    def processScript = "${env.PIPELINE_WORKDIR}/${request.scriptPath}"
+    def compose = request.compose
+    executeScript(processScript, false, compose)
+    return compose
+
+  }
 }
 
