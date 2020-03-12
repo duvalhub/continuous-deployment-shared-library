@@ -1,4 +1,5 @@
-FROM node:alpine
+ARG builder_version=8
+FROM node:${builder_version}
 WORKDIR /app
 ARG build_directory
 COPY --from=builder ${build_directory}  ./
