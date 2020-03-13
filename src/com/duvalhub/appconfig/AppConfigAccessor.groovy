@@ -61,20 +61,20 @@ class AppConfigAccessor extends BaseObject {
     String getDomainNames(String environment) {
 
         Platform platform = this.getPlatform(environment)
-        String urls = ""
+        String[] urls = []
 
         if ( platform.defaultHostname ) {
             String name = this.appName
             String group = this.appConfig.app.group
             String base = this.base
-            urls += [name, group, environment, base].join(".")
+            urls.add([name, group, environment, base].join("."))
         }
 
         if(platform.hostname) {
-           urls += "," + platform.hostname
+           urls.add(platform.hostname)
         }
 
-        return urls        
+        return urls.join(",")
     }
 
     String getVolumes(String environment) {
