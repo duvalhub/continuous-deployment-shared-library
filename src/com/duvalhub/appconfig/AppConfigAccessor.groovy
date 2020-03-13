@@ -61,7 +61,7 @@ class AppConfigAccessor extends BaseObject {
     String getDomainNames(String environment) {
 
         Platform platform = this.getPlatform(environment)
-        String[] urls = []
+        def urls = []
 
         if ( platform.defaultHostname ) {
             String name = this.appName
