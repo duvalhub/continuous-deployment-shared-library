@@ -1,5 +1,5 @@
-ARG builder_version=8-alpine
-FROM node:${builder_version}
+ARG container_version=8-alpine
+FROM node:${container_version}
 WORKDIR /app
 ARG build_directory
 ARG build_destination

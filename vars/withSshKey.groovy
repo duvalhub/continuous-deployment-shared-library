@@ -5,7 +5,7 @@ def call (Closure body) {
     ]) {
         String ssh_key_path = env.SSH_KEY_PATH
         withEnv([
-            "GIT_SSH_COMMAND='ssh -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -i ${ssh_key_path} -F /dev/null'"
+            "GIT_SSH_COMMAND=ssh -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -i ${ssh_key_path} -F /dev/null"
         ]) {
             sh "git config --global user.email \"toto-africa@email.com\""
             sh "git config --global user.name \"Toto Africa\""
