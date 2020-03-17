@@ -3,5 +3,5 @@
 # Logging
 ############
 log() {
-    echo ""
+    echo "$(date '+%Y-%m-%dT%H:%M:%S'): $@"
 }
