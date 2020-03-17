@@ -1,4 +1,4 @@
-FROM node:8-alpine
+FROM node:${container_version}
 WORKDIR /app
 ARG build_directory
 ARG build_destination

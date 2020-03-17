@@ -1,5 +1,4 @@
-ARG version=8
-FROM node:${version} as builder
+FROM node:${builder_version} as builder
 ARG build_directory
 WORKDIR ${build_directory}
 ARG build_destination
