@@ -24,9 +24,9 @@ def call(BuildRequest buildRequest) {
         DockerHost buildDockerHost = buildRequest.getDockerHost('build')
         setDockerEnvironment.withCredentials(buildDockerHost, buildRequest.getCredentialId()) {
           executeScript(script, false, "--templates $TEMPLATE_PATH " +
-                  "--builder ${buildRequest.getBuilder()} --builder_version ${buildRequest.getBuilderVersion()} " +
+                  "--builder ${buildRequest.getBuilder()} --builder-version ${buildRequest.getBuilderVersion()} " +
                   "--build-destination ${buildRequest.getBuildDestination()} " +
-                  "--container ${buildRequest.getContainer()}  --container_version ${buildRequest.getContainerVersion()}")
+                  "--container ${buildRequest.getContainer()}  --container-version ${buildRequest.getContainerVersion()}")
         }
       }
     }
