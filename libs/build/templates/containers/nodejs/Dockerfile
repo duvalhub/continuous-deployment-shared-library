@@ -1,4 +1,3 @@
-ARG container_version=8-alpine
 FROM node:${container_version}
 WORKDIR /app
 ARG build_directory

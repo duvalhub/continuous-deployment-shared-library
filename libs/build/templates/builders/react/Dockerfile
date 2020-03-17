@@ -1,4 +1,4 @@
-FROM node:lts AS builder
+FROM node:${builder_version} AS builder
 WORKDIR /app
 ARG BUILD_COMMAND="npm run build"
 ARG BUILD_DEST="build"

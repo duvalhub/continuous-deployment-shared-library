@@ -15,8 +15,10 @@ class App {
 }
 class Build {
     String builder
+    String builder_version = "latest"
     String destination = "build"
     String container
+    String container_version = "alpine"
     DockerHost host = new DockerHost("docker.build.philippeduval.ca", "DUVALHUB_BUILD_BUNDLE")
 }
 class Deploy {

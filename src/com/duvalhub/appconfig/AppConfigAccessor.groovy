@@ -37,6 +37,22 @@ class AppConfigAccessor extends BaseObject {
         return this.appConfig.build.builder
     }
 
+    String getBuilderVersion(){
+        return this.appConfig.build.builder_version
+    }
+
+    String getBuildDestination() {
+        return this.appConfig.build.destination
+    }
+
+    String getContainer(){
+        return this.appConfig.build.container
+    }
+
+    String getContainerVersion(){
+        return this.appConfig.build.container_version
+    }
+
     Build getBuild() {
         return this.appConfig.build
     }
@@ -61,20 +77,20 @@ class AppConfigAccessor extends BaseObject {
     String getDomainNames(String environment) {
 
         Platform platform = this.getPlatform(environment)
-        String urls = ""
+        def urls = []
 
         if ( platform.defaultHostname ) {
             String name = this.appName
             String group = this.appConfig.app.group
             String base = this.base
-            urls += [name, group, environment, base].join(".")
+            urls.add([name, group, environment, base].join("."))
         }
 
         if(platform.hostname) {
-           urls += "," + platform.hostname
+           urls.add(platform.hostname)
         }
 
-        return urls        
+        return urls.join(",")
     }
 
     String getVolumes(String environment) {
