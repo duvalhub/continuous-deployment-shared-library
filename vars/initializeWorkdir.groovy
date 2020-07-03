@@ -3,7 +3,6 @@ import com.duvalhub.git.GitRepo
 import com.duvalhub.initializeworkdir.InitializeWorkdirIn
 
 
-
 def call(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
     echo "### Initializing Work Directory. InitializeWorkdirIn: '${params.toString()}'"
     def pipelineBranch = env.PIPELINE_BRANCH ?: "master"
@@ -18,7 +17,7 @@ def call(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
             checkout scm
             def scmUrl = scm.getUserRemoteConfigs()[0].getUrl()
             def urlParts = scmUrl.split('/')
-            String org = urlParts[urlParts.size() - 2 ]
+            String org = urlParts[urlParts.size() - 2]
             String repo = urlParts[urlParts.size() - 1].split('\\.')[0]
             String branch = scm.branches[0].name
             echo "App Git Info: org: '$org', repo: '$repo', branch: '$branch'"
@@ -31,19 +30,6 @@ def call(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
     echo "### Cloning App into Workdir..."
     GitCloneRequest appRequest = new GitCloneRequest(appGitRepo, params.appWorkdir)
     gitClone(appRequest)
-
-    /*
-    if (params.appGitRepo) {
-    } else {
-        dir(params.appWorkdir) {
-            checkout scm
-            def scmUrl = scm.getUserRemoteConfigs()[0].getUrl()
-            def urlParts = scmUrl.split('/')
-            org = urlParts[urlParts.size() - 2 ]
-            repo = urlParts[urlParts.size() - 1].split('\\.')[0]
-        }
-    }
-    */
     env.APP_WORKDIR = "$WORKSPACE/${params.appWorkdir}"
 
 }
@@ -51,18 +37,18 @@ def call(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
 def stage(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
     stage("Initialization") {
         initializeWorkdir(params)
-    }    
+    }
 }
 
 def getConfigFile(String branch, GitRepo gitRepo) {
     def response = downloadConfigFile(branch, gitRepo);
-    if ( response.status == 404 ) {
-        if( branch != 'master' ) {
+    if (response.status == 404) {
+        if (branch != 'master') {
             echo "Config file not found on branch '${branch}'. Trying branch 'master'"
             response = downloadConfigFile('master', gitRepo)
         }
 
-        if( response.status == 404 ) {
+        if (response.status == 404) {
             echo "Config file not found. Fatal error."
             sh "exit 1"
         }
@@ -71,8 +57,15 @@ def getConfigFile(String branch, GitRepo gitRepo) {
     return response
 }
 
-def downloadConfigFile(String branch, GitRepo gitRepo){
+def downloadConfigFile(String branch, GitRepo gitRepo) {
     def configUrl = String.format("https://raw.githubusercontent.com/duvalhub/continous-deployment-configs/%s/%s/%s/config.yml", branch, gitRepo.getOrg(), gitRepo.getRepo())
     echo "Downloading the config file from url: '${configUrl}'"
+    def headers = []
+    if (true) {
+        headers.add([
+                name : "Authorization",
+                value: "token INSERTOKEN"
+        ])
+    }
     return httpRequest(url: configUrl, outputFile: "config.yml", validResponseCodes: "200,404")
 }
