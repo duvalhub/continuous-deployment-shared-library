@@ -60,12 +60,20 @@ def getConfigFile(String branch, GitRepo gitRepo) {
 def downloadConfigFile(String branch, GitRepo gitRepo) {
     def configUrl = String.format("https://raw.githubusercontent.com/duvalhub/continous-deployment-configs/%s/%s/%s/config.yml", branch, gitRepo.getOrg(), gitRepo.getRepo())
     echo "Downloading the config file from url: '${configUrl}'"
-    def headers = []
-    if (true) {
-        headers.add([
-                name : "Authorization",
-                value: "token INSERTOKEN"
-        ])
+
+    withCredentials()
+    withCredentials([
+            usernamePassword(credentialsId: "SERVICE_ACCOUNT_GITHUB_TOKEN", usernameVariable: 'GITHUB_TOKEN_USR', passwordVariable: 'GITHUB_TOKEN_PSW')
+    ]) {
+        def headers = []
+        def token = env.GITHUB_TOKEN_PSW
+        if (token) {
+            headers.add([
+                    name : "Authorization",
+                    value: "token $token"
+            ])
+        }
+        return httpRequest(url: configUrl, outputFile: "config.yml", validResponseCodes: "200,404", customHeaders: headers)
     }
-    return httpRequest(url: configUrl, outputFile: "config.yml", validResponseCodes: "200,404", customHeaders: headers)
+
 }
