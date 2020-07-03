@@ -68,11 +68,15 @@ def downloadConfigFile(String branch, GitRepo gitRepo) {
         def token = env.GITHUB_TOKEN_PSW
         if (token) {
             headers.add([
-                    name : "Authorization",
+                    name : "asd",
                     value: "token $token"
             ])
         }
-        return httpRequest(url: configUrl, outputFile: "config.yml", validResponseCodes: "200,404", customHeaders: headers)
+        return httpRequest(url: configUrl,
+                outputFile: "config.yml",
+                validResponseCodes: "200,404",
+                authentication: "SERVICE_ACCOUNT_GITHUB_TOKEN_TODELETE",
+                customHeaders: headers)
     }
 
 }
