@@ -21,7 +21,7 @@ def call(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
             String org = urlParts[urlParts.size() - 2 ]
             String repo = urlParts[urlParts.size() - 1].split('\\.')[0]
             String branch = sh (
-                    script: 'git rev-parse --abbrev-ref HEAD',
+                    script: "git rev-parse --abbrev-ref HEAD",
                     returnStdout: true
             )
             echo "App Git Info: org: '$org', repo: '$repo', branch: '$branch'"
