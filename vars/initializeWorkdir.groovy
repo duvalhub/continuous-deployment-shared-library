@@ -62,15 +62,14 @@ def downloadConfigFile(String branch, GitRepo gitRepo) {
     echo "Downloading the config file from url: '${configUrl}'"
 
     withCredentials([
-            usernamePassword(credentialsId: "SERVICE_ACCOUNT_GITHUB_TOKEN", usernameVariable: 'GITHUB_TOKEN_USR', passwordVariable: 'GITHUB_TOKEN_PSW')
+            usernamePassword(credentialsId: "SERVICE_ACCOUNT_GITHUB_TOKEN_TODELETE", usernameVariable: 'GITHUB_TOKEN_USR', passwordVariable: 'GITHUB_TOKEN_PSW')
     ]) {
         def headers = []
         def token = env.GITHUB_TOKEN_PSW
         if (token) {
             headers.add([
-                    name : "toto",
-                    value: "token $token",
-                    maskValue: false
+                    name : "Authorization",
+                    value: "token $token"
             ])
         }
         return httpRequest(url: configUrl, outputFile: "config.yml", validResponseCodes: "200,404", customHeaders: headers)
