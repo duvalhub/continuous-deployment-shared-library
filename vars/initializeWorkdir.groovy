@@ -21,7 +21,7 @@ def call(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
             String org = urlParts[urlParts.size() - 2 ]
             String repo = urlParts[urlParts.size() - 1].split('\\.')[0]
             String branch = scm.branches[0].name
-            echo "App Git Info: org: '$org', repo: '$repo', branch: '$branch', toto: '$toto'"
+            echo "App Git Info: org: '$org', repo: '$repo', branch: '$branch'"
             appGitRepo = new GitRepo(org, repo, branch)
         }
     }
