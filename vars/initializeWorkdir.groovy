@@ -69,7 +69,8 @@ def downloadConfigFile(String branch, GitRepo gitRepo) {
         if (token) {
             headers.add([
                     name : "Authorization",
-                    value: "token $token"
+                    value: "token $token",
+                    maskValue: false
             ])
         }
         return httpRequest(url: configUrl, outputFile: "config.yml", validResponseCodes: "200,404", customHeaders: headers)
