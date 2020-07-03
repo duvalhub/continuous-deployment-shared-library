@@ -20,11 +20,7 @@ def call(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
             def urlParts = scmUrl.split('/')
             String org = urlParts[urlParts.size() - 2 ]
             String repo = urlParts[urlParts.size() - 1].split('\\.')[0]
-            String branch = sh (
-                    script: "git rev-parse --abbrev-ref HEAD",
-                    returnStdout: true
-            )
-            String toto = scm.branches[0].name
+            String branch = scm.branches[0].name
             echo "App Git Info: org: '$org', repo: '$repo', branch: '$branch', toto: '$toto'"
             appGitRepo = new GitRepo(org, repo, branch)
         }
