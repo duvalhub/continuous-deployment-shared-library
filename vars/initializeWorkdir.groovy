@@ -67,5 +67,5 @@ def downloadConfigFile(String branch, GitRepo gitRepo) {
                 value: "token INSERTOKEN"
         ])
     }
-    return httpRequest(url: configUrl, outputFile: "config.yml", validResponseCodes: "200,404")
+    return httpRequest(url: configUrl, outputFile: "config.yml", validResponseCodes: "200,404", customHeaders: headers)
 }
