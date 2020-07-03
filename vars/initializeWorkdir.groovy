@@ -61,7 +61,6 @@ def downloadConfigFile(String branch, GitRepo gitRepo) {
     def configUrl = String.format("https://raw.githubusercontent.com/duvalhub/continous-deployment-configs/%s/%s/%s/config.yml", branch, gitRepo.getOrg(), gitRepo.getRepo())
     echo "Downloading the config file from url: '${configUrl}'"
 
-    withCredentials()
     withCredentials([
             usernamePassword(credentialsId: "SERVICE_ACCOUNT_GITHUB_TOKEN", usernameVariable: 'GITHUB_TOKEN_USR', passwordVariable: 'GITHUB_TOKEN_PSW')
     ]) {
