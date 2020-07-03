@@ -20,7 +20,11 @@ def call(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
             def urlParts = scmUrl.split('/')
             String org = urlParts[urlParts.size() - 2 ]
             String repo = urlParts[urlParts.size() - 1].split('\\.')[0]
-            appGitRepo = new GitRepo(org, repo)
+            String branch = sh (
+                    script: 'git rev-parse --abbrev-ref HEAD',
+                    returnStdout: true
+            )
+            appGitRepo = new GitRepo(org, repo, branch)
         }
     }
     echo "### Getting app config file"
