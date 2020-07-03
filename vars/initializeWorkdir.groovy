@@ -24,7 +24,8 @@ def call(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
                     script: "git rev-parse --abbrev-ref HEAD",
                     returnStdout: true
             )
-            echo "App Git Info: org: '$org', repo: '$repo', branch: '$branch'"
+            String toto = scm.branches[0].name
+            echo "App Git Info: org: '$org', repo: '$repo', branch: '$branch', toto: '$toto'"
             appGitRepo = new GitRepo(org, repo, branch)
         }
     }
