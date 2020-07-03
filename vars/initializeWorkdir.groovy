@@ -24,6 +24,7 @@ def call(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
                     script: 'git rev-parse --abbrev-ref HEAD',
                     returnStdout: true
             )
+            echo "App Git Info: org: '$org', repo: '$repo', branch: '$branch'"
             appGitRepo = new GitRepo(org, repo, branch)
         }
     }

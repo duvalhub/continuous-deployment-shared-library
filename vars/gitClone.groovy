@@ -7,14 +7,14 @@ def call(GitCloneRequest request) {
     withSshKey() {
         withEnv([
             "GIT_DIRECTORY=${request.directory}",
-            "GIT_URL=${request.gitRepo.getUrl()}"
+            "GIT_URL=${gitRepo.getUrl()}"
         ]) {
             String script = "${env.PIPELINE_WORKDIR}/libs/scripts/gitclone/gitclone.sh"
             executeScript(script)
 
-            if ( request.gitRepo.branch ) {
+            if ( gitRepo.branch ) {
                 dir( request.directory) {
-                    sh "git checkout ${request.gitRepo.branch}"
+                    sh "git checkout ${gitRepo.branch}"
                 }
             }
         }
