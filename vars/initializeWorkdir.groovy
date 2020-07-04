@@ -80,7 +80,9 @@ def downloadConfigFile(String branch, GitRepo gitRepo) {
         )
     }
  */
-    return httpRequest authentication: 'SERVICE_ACCOUNT_GITHUB_TOKEN_TODELETE', url: configUrl, outputFile: 'config.yml', validResponseCodes: "200,404"
+    def response = httpRequest authentication: 'SERVICE_ACCOUNT_GITHUB_TOKEN_TODELETE', url: configUrl
+
+//    return httpRequest authentication: 'SERVICE_ACCOUNT_GITHUB_TOKEN_TODELETE', url: configUrl, outputFile: 'config.yml', validResponseCodes: "200,404"
 
 /*
     return httpRequest url: configUrl,
