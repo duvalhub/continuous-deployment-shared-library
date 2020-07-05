@@ -62,7 +62,7 @@ def downloadConfigFile(String branch, GitRepo gitRepo) {
     echo "Downloading the config file from url: '${configUrl}'"
 
     return httpRequest(
-            authentication: 'SERVICE_ACCOUNT_GITHUB_TOKEN_TODELETE',
+            authentication: 'SERVICE_ACCOUNT_GITHUB_TOKEN',
             url: configUrl,
             outputFile: 'config.yml',
             validResponseCodes: "200,404"
