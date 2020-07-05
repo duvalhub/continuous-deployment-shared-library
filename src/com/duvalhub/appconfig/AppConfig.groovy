@@ -28,6 +28,7 @@ class Deploy {
     DockerHosts hosts
 }
 class Platforms {
+    Platform base
     Platform dev
     Platform stage
     Platform prod
