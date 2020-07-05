@@ -115,7 +115,6 @@ if [ ! -z "$NETWORKS" ]; then
         add_thing_to_service "networks" "$network" "$BASE_PATH"
     done
 fi
-#add_thing_to_service "networks" "internal;external" "$BASE_PATH"
 
 if [ ! -z "$HOSTS" ]; then
     add_thing_to_service "networks" "reverseproxy;external" "$BASE_PATH"

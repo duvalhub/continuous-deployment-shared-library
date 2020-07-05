@@ -52,8 +52,12 @@ class Volume {
 }
 class Network {
     String name
+    boolean external
 
     String toString() {
+        if(external) {
+            return String.format("%s;external", this.name)
+        }
         return this.name
     }
 }
