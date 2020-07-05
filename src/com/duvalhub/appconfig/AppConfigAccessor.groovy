@@ -99,7 +99,7 @@ class AppConfigAccessor extends BaseObject {
         for (Volume volume: platform.volumes) {
             volumes_string += "${volume.toString()} "
         }
-        return volumes_stri
+        return volumes_string
     }
     String getNetworks(String environment) {
         Platform platform = this.getPlatform(environment)
