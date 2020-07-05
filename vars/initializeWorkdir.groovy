@@ -67,6 +67,4 @@ def downloadConfigFile(String branch, GitRepo gitRepo) {
             outputFile: 'config.yml',
             validResponseCodes: "200,404"
     )
-
-
 }
