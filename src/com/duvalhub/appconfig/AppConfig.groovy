@@ -38,6 +38,7 @@ class Platform {
     Boolean defaultHostname = true
     String[] environmentFiles
     Volume[] volumes
+    Network[] networks
     DockerHost host
 
 }
@@ -48,6 +49,9 @@ class Volume {
     String toString() {
         return String.format("%s:%s", this.name, this.destination)
     }
+}
+class Network {
+    String name
 }
 class Docker {
     String registry_api = "https://index.docker.io/v1"
