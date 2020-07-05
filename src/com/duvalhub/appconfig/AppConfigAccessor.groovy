@@ -99,7 +99,7 @@ class AppConfigAccessor extends BaseObject {
         for (Volume volume: platform.volumes) {
             volumes_string += "${volume.toString()} "
         }
-        return volumes_string
+        return volumes_stri
     }
     String getNetworks(String environment) {
         Platform platform = this.getPlatform(environment)
@@ -107,7 +107,7 @@ class AppConfigAccessor extends BaseObject {
         for (Network network: platform.networks) {
             networks_string += "${network.toString()} "
         }
-        networks_string += "${request.getInternalNetwork()};external "
+        networks_string += "${this.getInternalNetwork()};external "
         return networks_string
     }
     String[] getEnvironmentFileId(String environment) {
