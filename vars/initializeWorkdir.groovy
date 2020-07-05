@@ -75,7 +75,7 @@ def downloadConfigFile(String branch, GitRepo gitRepo) {
         }
 
 
-        sh "curl --header 'Autorization: token $GITHUB_TOKEN_PSW' $configUrl -o config.yml"
+        sh "curl --header 'Authorization: token $GITHUB_TOKEN_PSW' $configUrl -o config.yml"
 
         echo "yo"
         sh "cat config.yml"
