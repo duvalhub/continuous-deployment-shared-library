@@ -38,6 +38,7 @@ class DeployRequest extends AppConfigAccessor {
     String getVolumes() {
         return this.getVolumes(this.environment)
     }
+
     String getNetworks() {
         return this.getNetworks(this.environment)
     }
