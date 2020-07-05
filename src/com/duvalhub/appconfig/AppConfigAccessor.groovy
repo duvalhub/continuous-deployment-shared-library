@@ -100,8 +100,15 @@ class AppConfigAccessor extends BaseObject {
             volumes_string += "${volume.toString()} "
         }
         return volumes_string
-    }       
-
+    }
+    String getNetworks(String environment) {
+        Platform platform = this.getPlatform(environment)
+        String networks_string = ""
+        for (Network network: platform.networks) {
+            networks_string += "${network.toString()} "
+        }
+        return networks_string
+    }
     String[] getEnvironmentFileId(String environment) {
         Platform platform = this.getPlatform(environment)
         return platform.environmentFiles

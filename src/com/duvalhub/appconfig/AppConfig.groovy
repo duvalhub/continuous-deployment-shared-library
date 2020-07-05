@@ -52,6 +52,10 @@ class Volume {
 }
 class Network {
     String name
+
+    String toString() {
+        return this.name
+    }
 }
 class Docker {
     String registry_api = "https://index.docker.io/v1"
