@@ -107,6 +107,7 @@ class AppConfigAccessor extends BaseObject {
         for (Network network: platform.networks) {
             networks_string += "${network.toString()} "
         }
+        networks_string += "${request.getInternalNetwork()};external "
         return networks_string
     }
     String[] getEnvironmentFileId(String environment) {

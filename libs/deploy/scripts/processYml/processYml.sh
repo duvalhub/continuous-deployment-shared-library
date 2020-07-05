@@ -24,6 +24,8 @@ test_param() {
     if [ -z "${!1}" ]; then
         warn "Missing '$1' environment variable. Fatal error"
         missing_params=true
+    else
+        info "Param '$1' value '${!1}"
     fi
 }
 validate_param(){
@@ -57,11 +59,6 @@ add_network() {
 }
 add_thing_to_service() {
   local thing="$1"
-#  if [ "$thing" = "networks" ]; then
-#    add_network "$2" "$3"
-#  elif [ "$thing" = "volumes" ]; then
-#    add_volume "$2" "$3"
-#  fi
   local IFS=';'
   read -ra PARAMS <<< "$2"
   local value="${PARAMS[0]}"
@@ -69,14 +66,7 @@ add_thing_to_service() {
   IFS=':'
   read -ra PARAMS <<< "$value"
   local key="${PARAMS[0]}"
-  #local value="${PARAMS[1]}"
-  #if [ -z "$value" ]; then
-  #  value="$key"
-  #fi
-  #local external="${PARAMS[2]}"
   local base_path="$3"
-  echo "1:'$1', 2:'$2', 3:'$3', key:'$key', value:'$value', "
-  #return
   yq w -i "$TMP_YML" "$base_path.$thing[+]" "$value"
   add_external_thing "$thing" "$key" "$external"
 }
