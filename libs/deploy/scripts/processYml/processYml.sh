@@ -46,7 +46,6 @@ add_external_thing() {
     local thing="$1"
     local thing_ref="${2:-internal}"
     local external="$3"
-    #local thing_name="${3:-$thing_ref}"
     yq w -i "$TMP_YML" "$thing.$thing_ref.name" "$thing_ref"
     if [ ! -z "$external" ]; then
       yq w -i "$TMP_YML" "$thing.$thing_ref.external" "true"
@@ -119,7 +118,7 @@ fi
 # Volumes
 if [ ! -z "$VOLUMES" ]; then
     for volume in $VOLUMES; do
-        add_thing_to_service volumes "$volume" "$BASE_PATH"
+        add_thing_to_service "volumes" "$volume" "$BASE_PATH"
     done
 fi
 
@@ -131,3 +130,5 @@ if [ ! -z "$1" ]; then
     cat "$TMP_YML" > "$1"
     echo "### Wrote yml file succesfully."
 fi
+
+rm -f "$TMP_YML"
