@@ -52,11 +52,6 @@ add_external_thing() {
       yq w -i "$TMP_YML" "$thing.$thing_ref.external" "true"
     fi
 }
-add_network() {
-  local value="$1"
-  local base_path="$2"
-  yq w -i "$TMP_YML" "$base_path.networks[+]" "$key" "$value"
-}
 add_thing_to_service() {
   local thing="$1"
   local IFS=';'
