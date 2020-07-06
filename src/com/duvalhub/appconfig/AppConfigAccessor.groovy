@@ -100,8 +100,16 @@ class AppConfigAccessor extends BaseObject {
             volumes_string += "${volume.toString()} "
         }
         return volumes_string
-    }       
-
+    }
+    String getNetworks(String environment) {
+        Platform platform = this.getPlatform(environment)
+        String networks_string = ""
+        for (Network network: platform.networks) {
+            networks_string += "${network.toString()} "
+        }
+        networks_string += "${this.getInternalNetwork()};external "
+        return networks_string
+    }
     String[] getEnvironmentFileId(String environment) {
         Platform platform = this.getPlatform(environment)
         return platform.environmentFiles
@@ -118,7 +126,11 @@ class AppConfigAccessor extends BaseObject {
             default:
                 throw new Exception("Environment can't be mapped: '${environment}'")
         }
-        return host
+        Platform base = this.appConfig.deploy.platforms['base'] as Platform
+        Platform merged = (base.properties.findAll { k, v -> v }  // p1's non-null properties
+                + host.properties.findAll { k, v -> v }) // plus p2's non-null properties
+                .findAll { k, v -> k != 'class' }      // excluding the 'class' property
+        return merged
     }
 
     DockerHost getDockerHost(String environment) {

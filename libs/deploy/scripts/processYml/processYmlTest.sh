@@ -1,10 +1,10 @@
 #!/bin/bash
 
 export STACK_NAME="caramba"
-export APP_NAME="build"
+export APP_NAME="app_name"
 export IMAGE="africa"
-
-export VOLUMES="isExternal:/src/etc:external avol2:/src/oekp"
+export NETWORKS="totoafrica banana"
+export VOLUMES="isExternal:/src/etc avol2:/src/oekp"
 
 echo "####################"
 echo "############ Without Hosts"

@@ -24,6 +24,8 @@ test_param() {
     if [ -z "${!1}" ]; then
         warn "Missing '$1' environment variable. Fatal error"
         missing_params=true
+    else
+        info "Param '$1' value '${!1}"
     fi
 }
 validate_param(){
@@ -40,32 +42,28 @@ validate_param
 ###################
 # Utils
 ###################
-add_external_network() {
-    local network_ref="${1:-internal}"
-    local network_name="${2:-$network_ref}"
-    yq w -i "$TMP_YML" "networks.$network_ref.name" $network_name
-    yq w -i "$TMP_YML" "networks.$network_ref.external" "true"
-}
-add_volume() {
-    local IFS=':'
-    read -ra VOL <<< "$1"
-    local name="${VOL[0]}"
-    local external="${VOL[2]}"
-    local base_path=""
-    if [ ! -z "$2" ]; then
-        base_path="$2.volumes"
-    else
-        base_path="volumes"
+add_external_thing() {
+    local thing="$1"
+    local thing_ref="${2:-internal}"
+    local external="$3"
+    #local thing_name="${3:-$thing_ref}"
+    yq w -i "$TMP_YML" "$thing.$thing_ref.name" "$thing_ref"
+    if [ ! -z "$external" ]; then
+      yq w -i "$TMP_YML" "$thing.$thing_ref.external" "true"
     fi
-    yq w -i "$TMP_YML" "$base_path.$name.name" "$STACK_NAME"_"$name"
 }
-add_volume_to_service() {
-    local IFS=':'
-    read -ra VOL <<< "$1"
-    local name="${VOL[0]}"
-    local mount_point="${VOL[1]}"
-    local base_path="$2"
-    yq w -i "$TMP_YML" "$base_path.volumes[+]" "$name:$mount_point"
+add_thing_to_service() {
+  local thing="$1"
+  local IFS=';'
+  read -ra PARAMS <<< "$2"
+  local value="${PARAMS[0]}"
+  local external="${PARAMS[1]}"
+  IFS=':'
+  read -ra PARAMS <<< "$value"
+  local key="${PARAMS[0]}"
+  local base_path="$3"
+  yq w -i "$TMP_YML" "$base_path.$thing[+]" "$value"
+  add_external_thing "$thing" "$key" "$external"
 }
 add_env_vars(){
   local IFS=$'\n'
@@ -86,26 +84,10 @@ BASE_PATH="services.$APP_NAME"
 yq n version \"3.8\" > "$TMP_YML"
 
 #####################
-# Networks Section
-add_external_network internal "$STACK_NAME"_internal
-if [ ! -z "$HOSTS" ]; then
-    add_external_network reverseproxy
-fi
-
-
-#####################
-# Volumes Section
-if [ ! -z "$VOLUMES" ]; then
-    for volume in $VOLUMES; do
-        add_volume "$volume"
-    done
-fi
-
-#####################
-# App Section
 # Image
 yq w -i "$TMP_YML" "$BASE_PATH.image" "$IMAGE"
 
+#####################
 # Environments
 if [ ! -z "$PORT" ];
 then
@@ -121,19 +103,27 @@ if [ ! -z "$ENV_VARIABLES" ]; then
   add_env_vars
 fi
 
+#####################
 # Networks
-yq w -i "$TMP_YML" "$BASE_PATH.networks[+]" internal
-if [ ! -z "$HOSTS" ]; then
-    yq w -i "$TMP_YML" "$BASE_PATH.networks[+]" reverseproxy
-fi
-
-# Volumes
-if [ ! -z "$VOLUMES" ]; then
-    for volume in $VOLUMES; do
-        add_volume_to_service "$volume" "$BASE_PATH"
+if [ ! -z "$NETWORKS" ]; then
+    for network in $NETWORKS; do
+        add_thing_to_service "networks" "$network" "$BASE_PATH"
     done
 fi
 
+if [ ! -z "$HOSTS" ]; then
+    add_thing_to_service "networks" "reverseproxy;external" "$BASE_PATH"
+fi
+
+#####################
+# Volumes
+if [ ! -z "$VOLUMES" ]; then
+    for volume in $VOLUMES; do
+        add_thing_to_service volumes "$volume" "$BASE_PATH"
+    done
+fi
+
+#####################
 echo "### Result : "
 cat "$TMP_YML"
 

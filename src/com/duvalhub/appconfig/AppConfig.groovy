@@ -28,6 +28,7 @@ class Deploy {
     DockerHosts hosts
 }
 class Platforms {
+    Platform base
     Platform dev
     Platform stage
     Platform prod
@@ -37,6 +38,7 @@ class Platform {
     Boolean defaultHostname = true
     String[] environmentFiles
     Volume[] volumes
+    Network[] networks
     DockerHost host
 
 }
@@ -46,6 +48,17 @@ class Volume {
 
     String toString() {
         return String.format("%s:%s", this.name, this.destination)
+    }
+}
+class Network {
+    String name
+    boolean external
+
+    String toString() {
+        if(external) {
+            return String.format("%s;external", this.name)
+        }
+        return this.name
     }
 }
 class Docker {

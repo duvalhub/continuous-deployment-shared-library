@@ -1,6 +1,4 @@
-import com.duvalhub.writecompose.WriteComposeRequest
 import com.duvalhub.deploy.DeployRequest
-import com.duvalhub.appconfig.AppConfig
 
 def call(DeployRequest request) {
   echo "Writing Compose file: DeployRequest: '${request.toString()}'"
@@ -9,7 +7,8 @@ def call(DeployRequest request) {
     "APP_NAME=${request.appName}",
     "IMAGE=${request.getDockerImageFull()}",
     "HOSTS=${request.domainNames}",
-    "VOLUMES=${request.volumes}"
+    "VOLUMES=${request.volumes}",
+    "NETWORKS=${request.networks}"
   ]
   if (request.deployPort) {
     envs.add("PORT=${request.deployPort}")
