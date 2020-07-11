@@ -127,9 +127,14 @@ class AppConfigAccessor extends BaseObject {
                 throw new Exception("Environment can't be mapped: '${environment}'")
         }
         Platform base = this.appConfig.deploy.platforms['base'] as Platform
-        Platform merged = (base.properties.findAll { k, v -> v }  // p1's non-null properties
-                + host.properties.findAll { k, v -> v }) // plus p2's non-null properties
-                .findAll { k, v -> k != 'class' }      // excluding the 'class' property
+        Platform merged
+        if(base) {
+            merged = (base.properties.findAll { k, v -> v }  // p1's non-null properties
+                    + host.properties.findAll { k, v -> v }) // plus p2's non-null properties
+                    .findAll { k, v -> k != 'class' } as Platform
+        } else {
+            merged = host
+        }
         return merged
     }
 
