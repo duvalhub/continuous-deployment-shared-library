@@ -46,9 +46,11 @@ add_external_thing() {
     local thing="$1"
     local thing_ref="${2:-internal}"
     local external="$3"
-    yq w -i "$TMP_YML" "$thing.$thing_ref.name" "$thing_ref"
     if [ ! -z "$external" ]; then
+      yq w -i "$TMP_YML" "$thing.$thing_ref.name" "$thing_ref"
       yq w -i "$TMP_YML" "$thing.$thing_ref.external" "true"
+    else
+      yq w -i "$TMP_YML" "$thing.$thing_ref.name" "$STACK_NAME"_"$thing_ref"
     fi
 }
 add_thing_to_service() {
@@ -61,7 +63,7 @@ add_thing_to_service() {
   read -ra PARAMS <<< "$value"
   local key="${PARAMS[0]}"
   local base_path="$3"
-  yq w -i "$TMP_YML" "$base_path.$thing[+]" "$value"
+  yq w -i "$TMP_YML" "$base_path"."$thing""[+]" "$value"
   add_external_thing "$thing" "$key" "$external"
 }
 add_env_vars(){
