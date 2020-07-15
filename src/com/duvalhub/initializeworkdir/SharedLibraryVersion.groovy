@@ -10,3 +10,14 @@ class SharedLibraryVersion {
         return env[SharedLibraryEnvironmentVariable.SHARED_LIBRARY_ENVIRONMENT_VARIABLE.name()];
     }
 }
+
+enum SharedLibraryEnvironmentVariable {
+
+    SHARED_LIBRARY_ENVIRONMENT_VARIABLE("SHARED_LIBRARY_VERSION");
+
+    String name;
+
+    SharedLibraryEnvironmentVariable(String name) {
+        this.name = name;
+    }
+}
