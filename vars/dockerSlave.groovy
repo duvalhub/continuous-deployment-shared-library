@@ -1,6 +1,7 @@
-def call(Closure body) {
+import com.duvalhub.initializeworkdir.SharedLibraryVersion
 
-    if(!env.PIPELINE_BRANCH) {
+def call(Closure body) {
+    if(!SharedLibraryVersion.get(env)) {
         initializeSharedLibrary.findVersion()
     }
 
