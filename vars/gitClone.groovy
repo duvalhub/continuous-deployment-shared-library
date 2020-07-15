@@ -9,7 +9,7 @@ def call(GitCloneRequest request) {
             "GIT_DIRECTORY=${request.directory}",
             "GIT_URL=${gitRepo.getUrl()}"
         ]) {
-            String script = "${env.PIPELINE_WORKDIR}/libs/scripts/gitclone/gitclone.sh"
+            String script = "${SharedLibrary.getWorkdir(env)}/libs/scripts/gitclone/gitclone.sh"
             executeScript(script)
 
             if ( gitRepo.branch ) {

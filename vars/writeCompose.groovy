@@ -29,7 +29,7 @@ def call(DeployRequest request) {
   }
 
   withEnv(envs) {
-    def processScript = "${env.PIPELINE_WORKDIR}/${request.scriptPath}"
+    def processScript = "${SharedLibrary.getWorkdir(env)}/${request.scriptPath}"
     def compose = request.compose
     executeScript(processScript, false, compose)
     return compose
