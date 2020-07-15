@@ -1,6 +1,4 @@
-import com.duvalhub.git.GitCloneRequest
 import com.duvalhub.initializeworkdir.InitializeWorkdirIn
-import com.duvalhub.appconfig.AppConfig
 
 def call(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
     echo "### Cloning Jenkins into Workdir..."
@@ -12,6 +10,7 @@ def call(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
 
 def stage(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
     stage("Initialization Shared Library") {
-        initializeSharedLibrary(params)
-    }    
+        call(params)
+    }
 }
+gi
