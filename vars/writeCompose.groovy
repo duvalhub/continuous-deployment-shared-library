@@ -1,4 +1,5 @@
 import com.duvalhub.deploy.DeployRequest
+import com.duvalhub.initializeworkdir.SharedLibrary
 
 def call(DeployRequest request) {
   echo "Writing Compose file: DeployRequest: '${request.toString()}'"

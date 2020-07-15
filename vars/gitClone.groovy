@@ -1,5 +1,6 @@
 import com.duvalhub.git.GitCloneRequest
 import com.duvalhub.git.GitRepo
+import com.duvalhub.initializeworkdir.SharedLibrary
 
 def call(GitCloneRequest request) {
     echo "#### GitCloning with GitCloneRequest '${request.toString()}'"
