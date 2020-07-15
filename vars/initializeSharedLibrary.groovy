@@ -19,7 +19,7 @@ def findVersion(){
     node('master') {
         def branch = sh(script: "env | grep 'library.shared-library.version' | cut -d '=' -f 2", returnStdout: true).trim()
         SharedLibraryVersion.set(env, branch)
-        echo "Hello wolr: '${SharedLibraryVersion.get(env)}'"
+        echo "Hello wolr: '${SharedLibraryVersion2.get(env)}'"
         //String key = SharedLibrary.SHARED_LIBRARY_ENVIRONMENT_VARIABLE.name()
         //env.ad = branch
         echo "Setting 'env.PIPELINE_BRANCH' from shared-library version. Found: '$branch'"
