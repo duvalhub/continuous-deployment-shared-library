@@ -1,4 +1,5 @@
 import com.duvalhub.initializeworkdir.InitializeWorkdirIn
+import com.duvalhub.initializeworkdir.SharedLibraryVersion
 
 def call(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
     echo "### Cloning Jenkins into Workdir..."
