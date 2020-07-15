@@ -13,4 +13,3 @@ def stage(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
         call(params)
     }
 }
-gi
