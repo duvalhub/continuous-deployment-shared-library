@@ -1,17 +1,26 @@
-import com.duvalhub.git.GitCloneRequest
 import com.duvalhub.initializeworkdir.InitializeWorkdirIn
-import com.duvalhub.appconfig.AppConfig
+import com.duvalhub.initializeworkdir.SharedLibrary
 
 def call(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
     echo "### Cloning Jenkins into Workdir..."
-    env.PIPELINE_WORKDIR = "$WORKSPACE/${params.pipelineWorkdir}"
-    echo "### PIPELINE_WORKDIR variable set to '${env.PIPELINE_WORKDIR}'"
-    def pipelineBranch = env.PIPELINE_BRANCH ?: "master"
-    sh "rm -rf $PIPELINE_WORKDIR && git clone ${params.pipelineGitRepo.getHttpUrl()} -b ${pipelineBranch} $PIPELINE_WORKDIR"
+    String sharedLibraryWorkdir = "$WORKSPACE/${params.pipelineWorkdir}"
+    SharedLibrary.setWorkdir(env, sharedLibraryWorkdir)
+    echo "### PIPELINE_WORKDIR variable set to '${SharedLibrary.getWorkdir(env)}'"
+    def pipelineBranch = SharedLibrary.getVersion(env) ?: "master"
+    sh "rm -rf '${SharedLibrary.getWorkdir(env)}' && git clone '${params.pipelineGitRepo.getHttpUrl()}' -b '${pipelineBranch}' '${SharedLibrary.getWorkdir(env)}'"
 }
 
 def stage(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
     stage("Initialization Shared Library") {
-        initializeSharedLibrary(params)
-    }    
+        call(params)
+    }
+}
+
+def findVersion(){
+    node('master') {
+        def branch = sh(script: "env | grep 'library.shared-library.version' | cut -d '=' -f 2", returnStdout: true).trim()
+        SharedLibrary.setVersion(env, branch)
+        echo "Setting Shared Library Version. Version: '$branch'"
+        return branch
+    }
 }
