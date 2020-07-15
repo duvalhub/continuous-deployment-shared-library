@@ -17,7 +17,10 @@ def stage(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
 def findVersion(){
     node('master') {
         def branch = sh(script: "env | grep 'library.shared-library.version' | cut -d '=' -f 2", returnStdout: true).trim()
-        env.PIPELINE_BRANCH = branch
+        SharedLibraryVersion.set(env, branch)
+        echo "Hello wolr: '${SharedLibraryVersion.get(env)}'"
+        //String key = SharedLibrary.SHARED_LIBRARY_ENVIRONMENT_VARIABLE.name()
+        //env.ad = branch
         echo "Setting 'env.PIPELINE_BRANCH' from shared-library version. Found: '$branch'"
         return branch
     }
