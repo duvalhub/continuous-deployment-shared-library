@@ -1,10 +1,12 @@
 package com.duvalhub.initializeworkdir
 
+import org.jenkinsci.plugins.workflow.cps.EnvActionImpl
+
 class SharedLibraryVersion {
-    static void set(Map<String,String> env, String value) {
-        env.put(SharedLibraryEnvironmentVariable.SHARED_LIBRARY_ENVIRONMENT_VARIABLE.name(), value);
+    static void set(EnvActionImpl env, String value) {
+        env[SharedLibraryEnvironmentVariable.SHARED_LIBRARY_ENVIRONMENT_VARIABLE.name()] = value;
     }
-    static String get(Map<String,String> env) {
-        return env.get(SharedLibraryEnvironmentVariable.SHARED_LIBRARY_ENVIRONMENT_VARIABLE.name());
+    static String get(EnvActionImpl env) {
+        return env[SharedLibraryEnvironmentVariable.SHARED_LIBRARY_ENVIRONMENT_VARIABLE.name()];
     }
 }
