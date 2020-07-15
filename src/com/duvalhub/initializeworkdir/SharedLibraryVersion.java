@@ -2,7 +2,7 @@ package com.duvalhub.initializeworkdir;
 
 import java.util.Map;
 
-public class SharedLibraryVersion {
+class SharedLibraryVersion {
     public static void set(Map<String,String> env, String value) {
         env.put(SharedLibraryEnvironmentVariable.SHARED_LIBRARY_ENVIRONMENT_VARIABLE.name(), value);
     }
