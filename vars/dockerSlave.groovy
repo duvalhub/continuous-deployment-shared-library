@@ -1,7 +1,7 @@
-import com.duvalhub.initializeworkdir.SharedLibraryVersion
+import com.duvalhub.initializeworkdir.SharedLibrary
 
 def call(Closure body) {
-    if(!SharedLibraryVersion.get(env)) {
+    if(!SharedLibrary.getVersion(env)) {
         initializeSharedLibrary.findVersion()
     }
 
