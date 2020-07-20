@@ -63,7 +63,7 @@ DOCKERFILE=$(mktemp)
 }  > "$DOCKERFILE"
 
 if [ -d "$templates/containers/$container/extras" ]; then
-  mv "$templates/containers/$container/extras/*" ./
+  mv "$templates"/containers/"$container"/extras/* ./
 fi
 
 echo "### Dockerfile :"
