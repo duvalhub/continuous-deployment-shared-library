@@ -6,7 +6,6 @@ import com.duvalhub.initializeworkdir.SharedLibrary
 def call(BuildRequest buildRequest) {
   stage('Build') {
     echo "### Building an app. BuildRequest: '${buildRequest.toString()}'"
-    AppConfig conf = buildRequest.appConfig
     String version = buildRequest.version
     String image = buildRequest.getDockerImage()
     String image_name = "${image}:${version}"
