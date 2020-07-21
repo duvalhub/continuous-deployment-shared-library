@@ -3,7 +3,7 @@ set -e
 
 ENV_VARIABLE=""
 
-if [ ! -z $APPLICATION_PROFILE ]
+if [ ! -z "$APPLICATION_PROFILE" ]
 then
 	ENV_VARIABLE+=" -Dspring.profiles.active=$APPLICATION_PROFILE"
 fi
@@ -11,4 +11,4 @@ fi
 /usr/bin/java \
 -Djava.security.egd=file:/dev/./urandom \
 $ENV_VARIABLE \
--jar app.jar
+-jar "$JAR_FILE"
