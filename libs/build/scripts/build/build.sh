@@ -42,9 +42,9 @@ test_param "DOCKER_CREDENTIALS_PSW"
 test_param "IMAGE"
 test_param "templates"
 test_param "builder"
+test_param "build_destination"
 test_param "container"
 assert_param_valid
-default_param build_destination build
 default_param builder_version latest
 default_param container_version alpine
 
@@ -74,6 +74,9 @@ echo "### Version"
 docker version
 echo "### Building"
 export build_destination
-docker build --build-arg build_directory=$(mktemp) --build-arg build_destination -t "$IMAGE" -f "$DOCKERFILE" .
+docker build \
+--build-arg build_directory=$(mktemp) \
+--build-arg build_destination \
+-t "$IMAGE" -f "$DOCKERFILE" .
 echo "### Pushing"
 docker push "$IMAGE"

@@ -6,8 +6,8 @@ FROM openjdk:8-jre-alpine
 WORKDIR /app
 EXPOSE 8080
 ARG build_directory
-ARG JAR_FILE=target/*.jar
-COPY --from=builder ${build_directory} app.jar
+ENV JAR_FILE=app.jar
+COPY --from=builder ${build_directory} ${JAR_FILE}
 COPY --from=ping Healthcheck.class healthcheck/Healthcheck.class
 COPY init_container.sh ./
 RUN chmod +x init_container.sh

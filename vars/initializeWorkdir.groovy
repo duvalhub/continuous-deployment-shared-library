@@ -1,11 +1,12 @@
 import com.duvalhub.git.GitCloneRequest
 import com.duvalhub.git.GitRepo
 import com.duvalhub.initializeworkdir.InitializeWorkdirIn
+import com.duvalhub.initializeworkdir.SharedLibrary
 
 
 def call(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
     echo "### Initializing Work Directory. InitializeWorkdirIn: '${params.toString()}'"
-    def pipelineBranch = env.PIPELINE_BRANCH ?: "master"
+    def pipelineBranch = SharedLibrary.getVersion(env) ?: "master"
 
     initializeSharedLibrary(params)
 
