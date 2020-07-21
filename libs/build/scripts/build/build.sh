@@ -42,9 +42,9 @@ test_param "DOCKER_CREDENTIALS_PSW"
 test_param "IMAGE"
 test_param "templates"
 test_param "builder"
+test_param "build_destination"
 test_param "container"
 assert_param_valid
-default_param build_destination ""
 default_param builder_version latest
 default_param container_version alpine
 

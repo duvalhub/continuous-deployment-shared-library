@@ -23,15 +23,15 @@ def call(BuildRequest buildRequest) {
             dir(appBasePath) {
                 DockerHost buildDockerHost = buildRequest.getDockerHost('build')
                 String build_destination = buildRequest.getBuildDestination()
-                def params = [
+                List<String> params = [
                         "--templates $TEMPLATE_PATH",
                         "--builder ${buildRequest.getBuilder()}",
                         "--builder-version ${buildRequest.getBuilderVersion()}",
                         "--container ${buildRequest.getContainer()}",
                         "--container-version ${buildRequest.getContainerVersion()}"
-                ]
+                ] as String[]
                 if (build_destination) {
-                    params.add(build_destination as GString)
+                    params.add(build_destination)
                 }
                 setDockerEnvironment.withCredentials(buildDockerHost, buildRequest.getCredentialId()) {
                     executeScript(script, false, params.join(" "))
