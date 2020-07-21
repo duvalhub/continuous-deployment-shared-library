@@ -31,7 +31,7 @@ def call(BuildRequest buildRequest) {
                         "--container-version ${buildRequest.getContainerVersion()}"
                 ] as String[]
                 if (build_destination) {
-                    params.add(build_destination)
+                    params.add("--builder-destination ${build_destination}")
                 }
                 setDockerEnvironment.withCredentials(buildDockerHost, buildRequest.getCredentialId()) {
                     executeScript(script, false, params.join(" "))
