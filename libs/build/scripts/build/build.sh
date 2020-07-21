@@ -44,7 +44,7 @@ test_param "templates"
 test_param "builder"
 test_param "container"
 assert_param_valid
-default_param build_destination build
+default_param build_destination ""
 default_param builder_version latest
 default_param container_version alpine
 

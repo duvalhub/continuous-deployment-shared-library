@@ -42,12 +42,7 @@ class AppConfigAccessor extends BaseObject {
     }
 
     String getBuildDestination() {
-        String build_destination = this.appConfig.build.destination
-        if (build_destination != null) {
-            return build_destination
-        } else {
-            return ""
-        }
+        return this.appConfig.build.destination
     }
 
     String getContainer() {
