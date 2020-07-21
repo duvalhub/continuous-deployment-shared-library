@@ -65,7 +65,6 @@ class AppConfigAccessor extends BaseObject {
         return this.appConfig.deploy.port
     }
 
-
     String getStackName(String environment) {
         return String.format("%s-%s", this.appConfig.app.group, environment)
     }

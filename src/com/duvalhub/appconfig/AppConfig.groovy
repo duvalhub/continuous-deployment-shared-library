@@ -62,7 +62,6 @@ class Network {
     }
 }
 class Docker {
-    String registry_api = "https://index.docker.io/v1"
     String registry = "docker.io"
     String namespace
     String repository
@@ -79,7 +78,7 @@ class DockerHosts {
 }
 
 class DockerHost extends BaseObject {
-    String protocole = "tcp"
+    String protocol = "tcp"
     String url
     String port = "2376"
     String bundleId
@@ -90,8 +89,8 @@ class DockerHost extends BaseObject {
         this.url = url
         this.bundleId = bundleId
     }
+
     String getDockerUrl() {
-        return String.format("%s://%s:%s", this.protocole, this.url, this.port)
-        
+        return String.format("%s://%s:%s", this.protocol, this.url, this.port)
     }
 }
