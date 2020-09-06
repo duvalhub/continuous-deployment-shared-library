@@ -13,8 +13,46 @@ class AppConfigAccessor extends BaseObject {
         this.appConfig = appConfig
     }
 
+    // App
+    App getApp() {
+        return this.appConfig.app
+    }
+
     String getAppName() {
-        return this.appConfig.app.name
+        return this.getApp().name
+    }
+
+    String getVersionControl() {
+        return this.getApp().version_control
+    }
+
+    String getStackName(String environment) {
+        return String.format("%s-%s", this.getApp().group, environment)
+    }
+
+    String getInternalNetwork(String environment) {
+        return String.format("%s_internal", this.getStackName(environment))
+    }
+
+    // Docker
+    Docker getDocker() {
+        return this.appConfig.docker
+    }
+
+    String getRegistry() {
+        return this.getDocker().registry
+    }
+
+    String getRegistryApi() {
+        return this.getDocker().registryApi
+    }
+
+    String getNamespace() {
+        return this.getDocker().namespace
+    }
+
+    String getRepository() {
+        return this.getDocker().repository
     }
 
     String getCredentialId() {
@@ -29,8 +67,9 @@ class AppConfigAccessor extends BaseObject {
         return String.format("%s:%s", this.getDockerImage(), this.version)
     }
 
-    Docker getDocker() {
-        return this.appConfig.docker
+    // Build
+    Build getBuild() {
+        return this.appConfig.build
     }
 
     String getBuilder() {
@@ -53,24 +92,9 @@ class AppConfigAccessor extends BaseObject {
         return this.appConfig.build.container_version
     }
 
-    Build getBuild() {
-        return this.appConfig.build
-    }
-
-    String getImage() {
-        return this.request.getDockerImage()
-    }
-
+    // Deploy
     String getDeployPort() {
         return this.appConfig.deploy.port
-    }
-
-    String getStackName(String environment) {
-        return String.format("%s-%s", this.appConfig.app.group, environment)
-    }
-
-    String getInternalNetwork(String environment) {
-        return String.format("%s_internal", this.getStackName(environment))
     }
 
     String getDomainNames(String environment) {
