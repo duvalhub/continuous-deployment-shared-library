@@ -63,6 +63,7 @@ class Network {
 }
 class Docker {
     String registry = "docker.io"
+    String registryApi = "https://registry.hub.docker.com/v1"
     String namespace
     String repository
     String credentialId
