@@ -8,7 +8,7 @@ then
 	ENV_VARIABLE+=" -Dspring.profiles.active=$APPLICATION_PROFILE"
 fi
 
-/usr/bin/java \
+java \
 -Djava.security.egd=file:/dev/./urandom \
 $ENV_VARIABLE \
 -jar "$JAR_FILE"
