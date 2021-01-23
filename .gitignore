@@ -1,7 +1,7 @@
-.idea
-build
-.gradle
-gradle
-gradlew
-gradlew.bat
-target
+/.idea
+/build
+/.gradle
+/gradle
+/gradlew
+/gradlew.bat
+/target
