@@ -1,8 +1,8 @@
-FROM openjdk:8-jdk-alpine as ping
+FROM openjdk:${container_version}-jdk-alpine as ping
 COPY Healthcheck.java ./
 RUN javac Healthcheck.java
 
-FROM openjdk:8-jre-alpine
+FROM openjdk:${container_version}-jre-alpine
 WORKDIR /app
 EXPOSE 8080
 ARG build_directory
