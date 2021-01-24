@@ -5,7 +5,9 @@ ARG build_destination="build"
 ARG build_directory
 COPY package.json package-lock.jso[n] ./
 RUN npm install
-COPY . .
+COPY src ./src
+COPY public ./public
+COPY build ./build
 RUN ${BUILD_COMMAND}
 RUN mkdir -p ${build_directory} \
 && rm -r ${build_directory} \
