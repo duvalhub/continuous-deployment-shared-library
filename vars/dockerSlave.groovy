@@ -6,7 +6,7 @@ def call(Closure body) {
     }
 
     def dockerSlaveImage = 'duvalhub/jenkins-slave:1.0.4'
-    dockerNode(image: dockerSlaveImage, dockerHost: 'docker-ssh') {
+    dockerNode(dockerSlaveImage) {
       body()
     }
 }
