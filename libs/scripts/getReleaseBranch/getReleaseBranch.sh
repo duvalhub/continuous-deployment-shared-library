@@ -1,9 +1,9 @@
 #!/bin/bash
 set -e
 git fetch
-release_branch_count=$(git branch -a | grep '^  remotes/origin/release' | wc -l); 
+release_branch_count=$(git branch -a | grep -c '^  remotes/origin/release');
 
-if (( $release_branch_count > 0 )); then
+if (( release_branch_count > 0 )); then
     version=$(git branch -a | grep '^  remotes/origin/release' | awk -F"release/" '{print $2}')
     echo -n "release/$version"
 else 
