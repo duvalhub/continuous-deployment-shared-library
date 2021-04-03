@@ -4,7 +4,7 @@ def call(Closure body) {
     if(!SharedLibrary.getVersion(env)) {
         initializeSharedLibrary.findVersion()
     }
-    dockerNode('duvalhub/jenkins-slave:1.0.4') {
+    dockerNode('duvalhub/jenkins-slave:1.0.5') {
       body()
     }
 }
