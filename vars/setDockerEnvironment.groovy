@@ -4,7 +4,7 @@ import com.duvalhub.appconfig.DockerHost
 def call(Closure body) {
 //    echo "Setting docker environment. dockerHost: '${dockerHost.toString()}'"
     sh "docker context ls"
-    sh "docker context show"
+    sh 'ls -l $HOME/.ssh/'
 }
 
 def setupTls(DockerHost dockerHost, Closure body) {
