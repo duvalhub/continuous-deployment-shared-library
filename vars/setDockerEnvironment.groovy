@@ -1,7 +1,7 @@
 import com.duvalhub.appconfig.DockerHost
 
 
-def call(DockerHost dockerHost, Closure body) {
+def call(Closure body) {
     echo "Setting docker environment. dockerHost: '${dockerHost.toString()}'"
     sh "docker context ls"
     sh "docker context show"
