@@ -17,8 +17,8 @@ def call(String host, String credentialId, Closure body) {
             sh 'echo "Host $HOST" > $SSH_CONFIG'
             sh 'echo "HostName $HOST" >> $SSH_CONFIG'
             sh 'bash -c \'echo "IdentityFile ${!CRED_VAR}" >> $SSH_CONFIG\''
+            sh 'echo "StrictHostKeyChecking=no" >> $SSH_CONFIG'
         }
-//            sh 'echo "StrictHostKeyChecking=no" >> $SSH_CONFIG'
         sh "cat ${sshConfig}"
         sh "ssh ${host} \"ls -l\""
         sh "exit 1"
