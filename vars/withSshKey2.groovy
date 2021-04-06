@@ -21,7 +21,6 @@ def call(String host, String credentialId, Closure body) {
         }
         sh "cat ${sshConfig}"
         sh "ssh ${host} \"ls -l\""
-        sh "exit 1"
         body()
     }
 }
