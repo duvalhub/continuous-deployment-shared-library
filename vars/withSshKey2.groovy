@@ -5,12 +5,11 @@ def call (Closure body) {
     ]) {
         String ssh_key_path = env.SSH_KEY_PATH
         String sshConfig = "/home/jenkins/.ssh/config"
-        sh """
-            mkdir -p /home/jenkins/.ssh;
-            echo "Host *" > ${sshConfig}";
-            echo "HostName vps287088.duvalhub.com" >> ${sshConfig};
-            echo "IdentityFile ${env.SSH_KEY_PATH}" >> ${sshConfig};
-        """
+        sh "mkdir -p /home/jenkins/.ssh"
+        sh "echo \"Host *\" > ${sshConfig}"
+        sh "echo \"HostName vps287088.duvalhub.com\" >> ${sshConfig}"
+        sh "echo \"IdentityFile ${env.SSH_KEY_PATH}\" >> ${sshConfig}"
+
         sh "cat ${sshConfig}"
         ssh 'ssh root@vps287088.duvalhub.com "ls -l"'
         body()
