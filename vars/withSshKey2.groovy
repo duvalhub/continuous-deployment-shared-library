@@ -9,6 +9,7 @@ def call (Closure body) {
         sh "echo \"Host *\" > ${sshConfig}"
         sh "echo \"HostName vps287088.duvalhub.com\" >> ${sshConfig}"
         sh "echo \"IdentityFile ${env.SSH_KEY_PATH}\" >> ${sshConfig}"
+        sh "echo \"StrictHostKeyChecking=no\" >> ${sshConfig}"
 
         sh "cat ${sshConfig}"
         sh 'ssh root@vps287088.duvalhub.com "ls -l"'
