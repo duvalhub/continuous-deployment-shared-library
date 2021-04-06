@@ -26,6 +26,15 @@ def setupTls(DockerHost dockerHost, Closure body) {
 }
 
 def withCredentials(DockerHost dockerHost, String credentialId, Closure body) {
+    echo "Trying to login before setting ssh"
+    withCredentials([
+            usernamePassword(credentialsId: credentialId, usernameVariable: 'DOCKER_CREDENTIALS_USR', passwordVariable: 'DOCKER_CREDENTIALS_PSW')
+    ]) {
+        sh 'echo "$DOCKER_CREDENTIALS_PSW" | docker login --username "$DOCKER_CREDENTIALS_USR" --password-stdin'
+        echo "We are sucessfully login"
+    }
+
+
     setDockerEnvironment(dockerHost) {
         echo "Login into Docker Registry. credentialId: '${credentialId}'"
         withCredentials([
