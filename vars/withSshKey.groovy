@@ -1,15 +1,23 @@
-def call (Closure body) {
-    echo "### Setting GIT_SSH_COMMAND environment variable"
+import com.duvalhub.initializeworkdir.SharedLibrary
+
+def call(String host, String credentialId, String user, Closure body) {
+    echo "### Setting SSH Config File for ${host} using ${credentialId}..."
+    String credVar = "SSH_KEY_PATH"
     withCredentials([
-        sshUserPrivateKey(keyFileVariable: 'SSH_KEY_PATH', credentialsId: "SERVICE_ACCOUNT_SSH")
+            sshUserPrivateKey(keyFileVariable: credVar, credentialsId: credentialId)
     ]) {
-        String ssh_var_name = "SSH_KEY_PATH"
+        String sshFolder = "/home/jenkins/.ssh"
+        String sshConfig = "${sshFolder}/config"
         withEnv([
-            "GIT_SSH_COMMAND=ssh -oStrictHostKeyChecking=no -oUserKnownHostsFile=/dev/null -i ${ssh_var_name} -F /dev/null"
+                "SSH_HOME=${sshFolder}",
+                "SSH_CONFIG=${sshConfig}",
+                "SSH_USER=${user}",
+                "HOST=${host}",
+                "KEY_FILE_SSH_VAR_NAME=${credVar}"
         ]) {
-            sh "git config --global user.email \"toto-africa@email.com\""
-            sh "git config --global user.name \"Toto Africa\""
-            body()
+            String script = "${SharedLibrary.getWorkdir(env)}/libs/scripts/ssh/createConfigFile.sh"
+            executeScript(script)
         }
+        body()
     }
 }
