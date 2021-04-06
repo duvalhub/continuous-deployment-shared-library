@@ -79,6 +79,7 @@ class DockerHosts {
 }
 
 class DockerHost extends BaseObject {
+    String user = "jenkins"
     String protocol = "tcp"
     String url
     String port = "2376"

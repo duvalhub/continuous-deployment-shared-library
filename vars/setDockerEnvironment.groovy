@@ -3,8 +3,9 @@ import com.duvalhub.appconfig.DockerHost
 def call(DockerHost dockerHost, Closure body) {
     echo "Setting docker environment using SSH. dockerHost: '${dockerHost.toString()}'"
     String host = dockerHost.getUrl()
+    String user = dockerHost.getUser()
     withSshKey(host, "SERVICE_ACCOUNT_SSH_2", "jenkins") {
-        sh "docker context create ${host} --description 'Context for ${host}' --docker 'host=ssh://${host}'"
+        sh "docker context create ${host} --description 'Context for ${host}' --docker 'host=ssh://${user}@${host}'"
         sh "docker context use ${host}"
         body()
     }
@@ -33,7 +34,6 @@ def withCredentials(DockerHost dockerHost, String credentialId, Closure body) {
         sh 'echo "$DOCKER_CREDENTIALS_PSW" | docker login --username "$DOCKER_CREDENTIALS_USR" --password-stdin'
         echo "We are sucessfully login"
     }
-
 
     setDockerEnvironment(dockerHost) {
         echo "Login into Docker Registry. credentialId: '${credentialId}'"
