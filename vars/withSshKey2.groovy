@@ -11,6 +11,9 @@ def call (Closure body) {
         sh "echo \"IdentityFile ${env.SSH_KEY_PATH}\" >> ${sshConfig}"
         sh "echo \"StrictHostKeyChecking=no\" >> ${sshConfig}"
 
+
+        sh "whoami"
+
         sh "cat ${sshConfig}"
         sh 'ssh root@vps287088.duvalhub.com "ls -l"'
         body()
