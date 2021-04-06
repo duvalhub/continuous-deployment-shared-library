@@ -17,7 +17,7 @@ def call(String host, String credentialId, String user, Closure body) {
         ]) {
             String script = "${SharedLibrary.getWorkdir(env)}/libs/scripts/ssh/createConfigFile.sh"
             executeScript(script)
+            body()
         }
-        body()
     }
 }
