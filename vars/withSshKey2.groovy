@@ -12,7 +12,7 @@ def call(String host, String credentialId, Closure body) {
                 "HOST=${host}",
                 "CRED_VAR=${keyFileVar}"
         ]) {
-            echo 'SSH_HOME=$SSH_HOME, SSH_CONFIG=$SSH_CONFIG, HOST=$HOST, CRED_VAR=$CRED_VAR'
+            sh 'echo SSH_HOME=$SSH_HOME, SSH_CONFIG=$SSH_CONFIG, HOST=$HOST, CRED_VAR=$CRED_VAR'
             sh 'mkdir -p $SSH_HOME'
             sh 'echo "Host $HOST" > $SSH_CONFIG'
             sh 'echo "HostName $HOST" >> $SSH_CONFIG'
