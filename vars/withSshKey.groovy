@@ -2,7 +2,7 @@ import com.duvalhub.initializeworkdir.SharedLibrary
 
 def call(String host, String credentialId, String user, Closure body) {
     echo "### Setting SSH Config File for ${host} using ${credentialId}..."
-    String credVar = "SSH_KEY_PATH"
+    String credVar = "SKP_${credentialId}"
     withCredentials([
             sshUserPrivateKey(keyFileVariable: credVar, credentialsId: credentialId)
     ]) {
