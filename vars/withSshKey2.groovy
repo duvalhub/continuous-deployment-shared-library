@@ -2,7 +2,7 @@ def call(String host, String credentialId, Closure body) {
     echo "### Setting SSH Config File for $host using $credentialId..."
     String keyFileVar = "SSH_KEY_PATH"
     withCredentials([
-            sshUserPrivateKey(keyFileVariable: keyFileVar, credentialsId: "SERVICE_ACCOUNT_SSH_2")
+            sshUserPrivateKey(keyFileVariable: keyFileVar, credentialsId: credentialId)
     ]) {
         String sshFolder = "/home/jenkins/.ssh"
         String sshConfig = "${sshFolder}/config"
@@ -14,7 +14,7 @@ def call(String host, String credentialId, Closure body) {
         ]) {
             sh 'mkdir -p $SSH_HOME'
             sh 'echo "Host $HOST" > $SSH_CONFIG'
-            sh 'echo "HostName vps287088.duvalhub.com" >> $SSH_CONFIG'
+            sh 'echo "HostName $HOST" >> $SSH_CONFIG'
             sh 'echo "IdentityFile ${!CRED_VAR}" >> $SSH_CONFIG'
 //            sh 'echo "StrictHostKeyChecking=no" >> $SSH_CONFIG'
         }
