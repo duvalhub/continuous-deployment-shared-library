@@ -5,10 +5,10 @@ import com.duvalhub.initializeworkdir.SharedLibrary
 def call(GitCloneRequest request) {
     echo "#### GitCloning with GitCloneRequest '${request.toString()}'"
     GitRepo gitRepo = request.gitRepo
-    withSshKey() {
+    withSshKey2("github.com", "SERVICE_ACCOUNT_SSH","git") {
         withEnv([
-            "GIT_DIRECTORY=${request.directory}",
-            "GIT_URL=${gitRepo.getUrl()}"
+                "GIT_DIRECTORY=${request.directory}",
+                "GIT_URL=${gitRepo.getUrl()}"
         ]) {
             String script = "${SharedLibrary.getWorkdir(env)}/libs/scripts/gitclone/gitclone.sh"
             executeScript(script)
@@ -21,4 +21,3 @@ def call(GitCloneRequest request) {
         }
     }
 }
-
