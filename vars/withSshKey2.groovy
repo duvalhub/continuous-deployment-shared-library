@@ -1,22 +1,26 @@
-def call (Closure body) {
-    echo "### Setting GIT_SSH_COMMAND environment variable"
-    String keyFileVar ="SSH_KEY_PATH"
+def call(String host, String credentialId, Closure body) {
+    echo "### Setting SSH Config File for $host using $credentialId..."
+    String keyFileVar = "SSH_KEY_PATH"
     withCredentials([
-        sshUserPrivateKey(keyFileVariable: keyFileVar, credentialsId: "SERVICE_ACCOUNT_SSH_2")
+            sshUserPrivateKey(keyFileVariable: keyFileVar, credentialsId: "SERVICE_ACCOUNT_SSH_2")
     ]) {
-        String ssh_key_path = env.SSH_KEY_PATH
-        String sshConfig = "/home/jenkins/.ssh/config"
-        sh "mkdir -p /home/jenkins/.ssh"
-        sh "echo \"Host *\" > ${sshConfig}"
-        sh "echo \"HostName vps287088.duvalhub.com\" >> ${sshConfig}"
-        sh "echo \"IdentityFile \$${keyFileVar}\" >> ${sshConfig}"
-        sh "echo \"StrictHostKeyChecking=no\" >> ${sshConfig}"
-
-
-        sh "whoami"
-
+        String sshFolder = "/home/jenkins/.ssh"
+        String sshConfig = "${sshFolder}/config"
+        withEnv([
+                "SSH_HOME=${sshFolder}",
+                "SSH_CONFIG=${sshConfig}",
+                "HOST=${host}",
+                "CRED_VAR=${keyFileVar}"
+        ]) {
+            sh 'mkdir -p $SSH_HOME'
+            sh 'echo "Host $HOST" > $SSH_CONFIG'
+            sh 'echo "HostName vps287088.duvalhub.com" >> $SSH_CONFIG'
+            sh 'echo "IdentityFile ${!CRED_VAR}" >> $SSH_CONFIG'
+//            sh 'echo "StrictHostKeyChecking=no" >> $SSH_CONFIG'
+        }
         sh "cat ${sshConfig}"
-        sh 'ssh root@vps287088.duvalhub.com "ls -l"'
+        sh "ssh ${host} \"ls -l\""
+        sh "exit 1"
         body()
     }
 }
