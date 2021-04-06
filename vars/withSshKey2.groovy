@@ -1,3 +1,5 @@
+import com.duvalhub.initializeworkdir.SharedLibrary
+
 def call(String host, String credentialId, String user, Closure body) {
     echo "### Setting SSH Config File for ${host} using ${credentialId}..."
     String credVar = "SSH_KEY_PATH"
@@ -13,13 +15,8 @@ def call(String host, String credentialId, String user, Closure body) {
                 "HOST=${host}",
                 "CRED_VAR=${credVar}"
         ]) {
-            sh 'mkdir -p $SSH_HOME'
-            sh 'echo "Host $HOST" > $SSH_CONFIG'
-            sh 'echo "User $SSH_USER" > $SSH_CONFIG'
-            sh 'echo "HostName $HOST" >> $SSH_CONFIG'
-            sh 'bash -c \'echo "IdentityFile ${!CRED_VAR}" >> $SSH_CONFIG\''
-            sh 'echo "StrictHostKeyChecking=no" >> $SSH_CONFIG'
-            sh 'echo "UserKnownHostsFile=/dev/null" >> $SSH_CONFIG'
+            String script = "${SharedLibrary.getWorkdir(env)}/libs/scripts/ssh/createConfigFile.sh"
+            executeScript(script)
         }
         body()
     }
