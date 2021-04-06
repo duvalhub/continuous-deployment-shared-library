@@ -11,7 +11,7 @@ def call (Closure body) {
         sh "echo \"IdentityFile ${env.SSH_KEY_PATH}\" >> ${sshConfig}"
 
         sh "cat ${sshConfig}"
-        ssh 'ssh root@vps287088.duvalhub.com "ls -l"'
+        sh 'ssh root@vps287088.duvalhub.com "ls -l"'
         body()
     }
 }
