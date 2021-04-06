@@ -5,7 +5,7 @@ import com.duvalhub.initializeworkdir.SharedLibrary
 def call(GitCloneRequest request) {
     echo "#### GitCloning with GitCloneRequest '${request.toString()}'"
     GitRepo gitRepo = request.gitRepo
-    withSshKey2("github.com", "SERVICE_ACCOUNT_SSH","git") {
+    withSshKey("github.com", "SERVICE_ACCOUNT_SSH","git") {
         withEnv([
                 "GIT_DIRECTORY=${request.directory}",
                 "GIT_URL=${gitRepo.getUrl()}"
