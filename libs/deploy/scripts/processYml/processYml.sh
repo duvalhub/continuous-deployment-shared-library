@@ -87,7 +87,6 @@ yq n version \"3.8\" > "$TMP_YML"
 
 #####################
 # Image
-#yq n "$BASE_PATH.image" "$IMAGE" > "$TMP_YML"
 yq w -i "$TMP_YML" "$BASE_PATH.image" "$IMAGE"
 
 #####################
@@ -97,7 +96,7 @@ if [ -n "$PORT" ]; then
 fi
 
 if [ -n "$HOSTS" ]; then
-    yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"reverseproxy.host\"" "$HOSTS"
+    yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"reverseproxy.host\"" "\"$HOSTS\""
     yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"reverseproxy.ssl\"" "false"
 fi
 
