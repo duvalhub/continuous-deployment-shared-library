@@ -127,6 +127,9 @@ if [ ! -z "$VOLUMES" ]; then
 fi
 
 #####################
+sed -i -e "s/'\"/\"/g" -e "s/\"'/\"/g" "$TMP_YML"
+
+#####################
 echo "### Result : "
 cat "$TMP_YML"
 
