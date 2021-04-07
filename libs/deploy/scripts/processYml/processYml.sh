@@ -94,7 +94,13 @@ yq w -i "$TMP_YML" "$BASE_PATH.image" "$IMAGE"
 # Environments
 if [ ! -z "$PORT" ];
 then
-    yq w -i "$TMP_YML" "$BASE_PATH.environment[+]" "VIRTUAL_PORT=$PORT"
+#    deploy:
+#      replicas: 2
+#      labels:
+#        reverseproxy.host: "toto.vps287088.duvalhub.com"
+#        reverseproxy.ssl: "true"
+#
+    yq w -i "$TMP_YML" "$BASE_PATH.deploy.label.\"reverseproxy.port\"" "$PORT"
 fi
 
 if [ ! -z "$HOSTS" ]; then
