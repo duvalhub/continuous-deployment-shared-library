@@ -95,6 +95,7 @@ if [ -n "$PORT" ]; then
     yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"reverseproxy.port\"" "$PORT"
 fi
 
+
 if [ -n "$HOSTS" ]; then
     yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"reverseproxy.host\"" "\"$HOSTS\""
     yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"reverseproxy.ssl\"" "\"true\""
