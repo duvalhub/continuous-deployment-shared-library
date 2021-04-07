@@ -83,12 +83,12 @@ BASE_PATH="services.$APP_NAME"
 #####################
 # Begin writing files
 #####################
-#yq n version \"3.8\" > "$TMP_YML"
+yq n version \"3.8\" > "$TMP_YML"
 
 #####################
 # Image
-yq n "$BASE_PATH.image" "$IMAGE" > "$TMP_YML"
-#yq w -i "$TMP_YML" "$BASE_PATH.image" "$IMAGE"
+#yq n "$BASE_PATH.image" "$IMAGE" > "$TMP_YML"
+yq w -i "$TMP_YML" "$BASE_PATH.image" "$IMAGE"
 
 #####################
 # Environments
