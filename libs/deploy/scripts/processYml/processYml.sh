@@ -82,17 +82,18 @@ BASE_PATH="services.$APP_NAME"
 #####################
 # Begin writing files
 #####################
-yq n version \"3.8\" > "$TMP_YML"
+yq e -n 'version = "3.8"' > "$TMP_YML"
 
 #####################
 # Image
-yq w -i "$TMP_YML" "$BASE_PATH.image" "$IMAGE"
-
+yq eval "$BASE_PATH.image = $IMAGE" "$TMP_YML"
+exit
 #####################
 # Environments
 if [ ! -z "$PORT" ];
 then
     yq w -i "$TMP_YML" "$BASE_PATH.environment[+]" "VIRTUAL_PORT=$PORT"
+    yq eval "$BASE_PATH.environment[+]" "VIRTUAL_PORT=$PORT" "$TMP_YML"
 fi
 
 if [ ! -z "$HOSTS" ]; then
