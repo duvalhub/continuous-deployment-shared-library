@@ -47,7 +47,7 @@ add_external_thing() {
     local thing="$1"
     local thing_ref="${2:-internal}"
     local external="$3"
-    if [ ! -z "$external" ]; then
+    if [ -n "$external" ]; then
       yq w -i "$TMP_YML" "$thing.$thing_ref.name" "$thing_ref"
       yq w -i "$TMP_YML" "$thing.$thing_ref.external" "true"
     else
@@ -92,41 +92,34 @@ yq w -i "$TMP_YML" "$BASE_PATH.image" "$IMAGE"
 
 #####################
 # Environments
-if [ ! -z "$PORT" ];
-then
-#    deploy:
-#      replicas: 2
-#      labels:
-#        reverseproxy.host: "toto.vps287088.duvalhub.com"
-#        reverseproxy.ssl: "true"
-#
-    yq w -i "$TMP_YML" "$BASE_PATH.deploy.label.\"reverseproxy.port\"" "$PORT"
+if [ -n "$PORT" ]; then
+    yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"reverseproxy.port\"" "$PORT"
 fi
 
-if [ ! -z "$HOSTS" ]; then
-    yq w -i "$TMP_YML" "$BASE_PATH.environment[+]" "VIRTUAL_HOST=$HOSTS"
-    yq w -i "$TMP_YML" "$BASE_PATH.environment[+]" "LETSENCRYPT_HOST=$HOSTS"
+if [ -n "$HOSTS" ]; then
+    yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"reverseproxy.host\"" "$HOSTS"
+    yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"reverseproxy.ssl\"" "false"
 fi
 
-if [ ! -z "$ENV_VARIABLES" ]; then
+if [ -n "$ENV_VARIABLES" ]; then
   add_env_vars
 fi
 
 #####################
 # Networks
-if [ ! -z "$NETWORKS" ]; then
+if [ -n "$NETWORKS" ]; then
     for network in $NETWORKS; do
         add_thing_to_service "networks" "$network" "$BASE_PATH"
     done
 fi
 
-if [ ! -z "$HOSTS" ]; then
+if [ -n "$HOSTS" ]; then
     add_thing_to_service "networks" "reverseproxy;external" "$BASE_PATH"
 fi
 
 #####################
 # Volumes
-if [ ! -z "$VOLUMES" ]; then
+if [ -n "$VOLUMES" ]; then
     for volume in $VOLUMES; do
         add_thing_to_service "volumes" "$volume" "$BASE_PATH"
     done
@@ -139,7 +132,7 @@ sed -i -e "s/'\"/\"/g" -e "s/\"'/\"/g" "$TMP_YML"
 echo "### Result : "
 cat "$TMP_YML"
 
-if [ ! -z "$1" ]; then
+if [ -n "$1" ]; then
     cat "$TMP_YML" > "$1"
     echo "### Wrote yml file succesfully."
 fi
