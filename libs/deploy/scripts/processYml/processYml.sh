@@ -97,7 +97,7 @@ fi
 
 if [ -n "$HOSTS" ]; then
     yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"reverseproxy.host\"" "\"$HOSTS\""
-    yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"reverseproxy.ssl\"" "\"false\""
+    yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"reverseproxy.ssl\"" "\"true\""
 fi
 
 if [ -n "$ENV_VARIABLES" ]; then
