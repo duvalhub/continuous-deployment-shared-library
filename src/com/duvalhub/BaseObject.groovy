@@ -7,4 +7,7 @@ class BaseObject  {
     String toString() {
         return new JsonBuilder(this).toPrettyString()
     }
+    def propertyMissing( name ) {
+        null
+    }
 }
