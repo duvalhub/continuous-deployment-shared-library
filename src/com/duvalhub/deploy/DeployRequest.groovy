@@ -23,7 +23,7 @@ class DeployRequest extends AppConfigAccessor {
         return this.getDockerImageFull(this.version)
     }
 
-    String getStackName(){
+    String getStackName() {
         return this.getStackName(this.environment)
     }
 
@@ -41,6 +41,10 @@ class DeployRequest extends AppConfigAccessor {
 
     String getNetworks() {
         return this.getNetworks(this.environment)
+    }
+
+    String[] getEnvironmentVariables() {
+        return this.getEnvironmentVariables(this.environment)
     }
 
     String getEnvironmentFileId() {
@@ -61,5 +65,5 @@ class DeployRequest extends AppConfigAccessor {
 
     String getBundleId(String environment) {
         return this.getBundleId(this.environment)
-    }    
+    }
 }

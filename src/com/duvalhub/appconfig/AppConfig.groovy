@@ -22,7 +22,6 @@ class Build {
     DockerHost host
 }
 class Deploy {
-    String[] hostnames
     String port = "80"
     Platforms platforms
 }
@@ -33,7 +32,7 @@ class Platforms {
     Platform prod
 }
 class Platform {
-    String hostname
+    String[] hostnames
     Boolean defaultHostname = true
     String[] environments
     String[] environmentFiles

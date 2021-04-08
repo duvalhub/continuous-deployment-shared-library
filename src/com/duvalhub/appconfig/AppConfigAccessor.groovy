@@ -109,8 +109,8 @@ class AppConfigAccessor extends BaseObject {
             urls.add([name, group, environment, base].join("."))
         }
 
-        if (platform.hostname) {
-            urls.add(platform.hostname)
+        if (platform.hostnames) {
+            urls.addAll(platform.hostnames)
         }
 
         return urls.join(",")
@@ -133,6 +133,11 @@ class AppConfigAccessor extends BaseObject {
         }
         networks_string += "${this.getInternalNetwork()};external "
         return networks_string
+    }
+
+    String[] getEnvironmentVariables(String environment) {
+        Platform platform = this.getPlatform(environment)
+        return platform.environments
     }
 
     String[] getEnvironmentFileId(String environment) {
