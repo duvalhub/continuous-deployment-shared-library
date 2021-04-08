@@ -109,7 +109,8 @@ def getConfigUrl(String branch, String[] pathToFile) {
 }
 
 def getConfigUrl(String branch, String org, String repo) {
-    return getConfigUrl(branch, [org, repo, "config.yml"])
+    String[] pathToFile = [org, repo, "config.yml"]
+    return getConfigUrl(branch, pathToFile)
 }
 
 def downloadConfigFile(String configUrl, String destination) {
