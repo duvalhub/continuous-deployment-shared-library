@@ -6,7 +6,7 @@ def call() {
     return conf
 }
 
-AppConfig valueOf(Map<String, Object> params) {
+AppConfig valueOf(Map<String, Object> source) {
     try {
         return new AppConfig(source)
     } catch (MissingPropertyException e) {
