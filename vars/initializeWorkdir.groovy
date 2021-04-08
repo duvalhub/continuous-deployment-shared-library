@@ -11,7 +11,7 @@ def call(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
     GitRepo appGitRepo = params.getAppGitRepo()
 
     echo "### Getting app config file"
-    AppConfig appConfig = getConfigFile(pipelineBranch, appGitRepo)
+    AppConfig appConfig = getMergedFile(pipelineBranch, appGitRepo)
 
     return appConfig
 
