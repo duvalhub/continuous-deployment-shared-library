@@ -6,9 +6,11 @@ import com.duvalhub.git.GitRepo
 class InitializeWorkdirIn extends BaseObject {
     String appWorkdir
     GitRepo appGitRepo
+    Boolean cloneAppRepo = true
     
     String pipelineWorkdir
     GitRepo pipelineGitRepo
+    Boolean clonePipelineRepo = true
 
     InitializeWorkdirIn() {
         this.pipelineGitRepo = new GitRepo("duvalhub", "continuous-deployment-shared-library")

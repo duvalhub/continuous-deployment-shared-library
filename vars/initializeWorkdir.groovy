@@ -28,11 +28,12 @@ def call(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
     echo "### Getting app config file"
     getConfigFile(pipelineBranch, appGitRepo)
 
-    echo "### Cloning App into Workdir..."
-    GitCloneRequest appRequest = new GitCloneRequest(appGitRepo, params.appWorkdir)
-    gitClone(appRequest)
-    env.APP_WORKDIR = "$WORKSPACE/${params.appWorkdir}"
-
+    if(params.getCloneAppRepo()) {
+        echo "### Cloning App into Workdir..."
+        GitCloneRequest appRequest = new GitCloneRequest(appGitRepo, params.appWorkdir)
+        gitClone(appRequest)
+        env.APP_WORKDIR = "$WORKSPACE/${params.appWorkdir}"
+    }
 }
 
 def stage(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
