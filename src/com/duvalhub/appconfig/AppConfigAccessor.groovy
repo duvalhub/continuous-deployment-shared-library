@@ -3,7 +3,6 @@ package com.duvalhub.appconfig
 import com.duvalhub.BaseObject
 
 class AppConfigAccessor extends BaseObject {
-    String base = "philippeduval.ca"
     String scriptPath = "libs/deploy/scripts/processYml/processYml.sh"
     String compose = "docker-compose.yml"
 
@@ -100,12 +99,12 @@ class AppConfigAccessor extends BaseObject {
     String getDomainNames(String environment) {
 
         Platform platform = this.getPlatform(environment)
+        String base = platform.getBaseDomainName()
         def urls = []
 
-        if (platform.defaultHostname) {
+        if (base && platform.defaultHostname) {
             String name = this.appName
             String group = this.appConfig.app.group
-            String base = this.base
             urls.add([name, group, environment, base].join("."))
         }
 

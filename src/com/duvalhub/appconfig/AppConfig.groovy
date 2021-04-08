@@ -34,6 +34,7 @@ class Platforms extends BaseObject {
 class Platform extends BaseObject {
     String[] hostnames
     Boolean defaultHostname = true
+    String baseDomainName
     String[] environments
     String[] environmentFiles
     Volume[] volumes
