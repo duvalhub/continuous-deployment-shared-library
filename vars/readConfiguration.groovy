@@ -10,7 +10,7 @@ AppConfig valueOf(Map<String, Object> params) {
     try {
         return new AppConfig(source)
     } catch (MissingPropertyException e) {
-        log.info(e.getMessage())
+//        log.info(e.getMessage())
         source.remove(e.property)
         return valueOf(source)
     }
