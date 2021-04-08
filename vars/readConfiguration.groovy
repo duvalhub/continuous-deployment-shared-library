@@ -10,6 +10,7 @@ def call() {
 
 AppConfig valueOf(Map<String, Object> source) {
     echo source.toString()
+    echo source.getClass()
     try {
         return new AppConfig(source)
     } catch (MissingPropertyException | GroovyCastException  e) {
