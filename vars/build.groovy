@@ -11,19 +11,16 @@ def call(BuildRequest buildRequest) {
         String image_name = "${image}:${version}"
         def basePath = "${SharedLibrary.getWorkdir(env)}/libs/build"
         String template_path = "${basePath}/templates"
-        String dockerfile_path = "${env.TEMPLATE_PATH}/Dockerfile"
         def script = "${basePath}/scripts/build/build.sh"
         def appBasePath = "${env.APP_WORKDIR}"
 
         withEnv([
-                "IMAGE=${image_name}",
-                "TEMPLATE_PATH=${template_path}",
-                "DOCKERFILE_PATH=${dockerfile_path}"
+                "IMAGE=${image_name}"
         ]) {
             dir(appBasePath) {
                 DockerHost buildDockerHost = buildRequest.getDockerHost('build')
                 List<String> params = [
-                        "--templates $TEMPLATE_PATH",
+                        "--templates ${template_path}",
                         "--builder ${buildRequest.getBuilder()}",
                         "--builder-version ${buildRequest.getBuilderVersion()}",
                         "--container ${buildRequest.getContainer()}",

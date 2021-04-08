@@ -19,13 +19,12 @@ class Build {
     String destination
     String container
     String container_version = "alpine"
-    DockerHost host = new DockerHost("docker.build.philippeduval.ca", "DUVALHUB_BUILD_BUNDLE")
+    DockerHost host
 }
 class Deploy {
-    String hostnames
+    String[] hostnames
     String port = "80"
     Platforms platforms
-    DockerHosts hosts
 }
 class Platforms {
     Platform base
@@ -36,11 +35,11 @@ class Platforms {
 class Platform {
     String hostname
     Boolean defaultHostname = true
+    String[] environments
     String[] environmentFiles
     Volume[] volumes
     Network[] networks
     DockerHost host
-
 }
 class Volume {
     String name
@@ -73,24 +72,12 @@ class Docker {
     }
 }
 
-class DockerHosts {
-    DockerHost dev
-    DockerHost prod
-}
-
 class DockerHost extends BaseObject {
     String user = "jenkins"
     String protocol = "tcp"
     String url
     String port = "2376"
     String bundleId
-
-    DockerHost() {}
-
-    DockerHost(String url, String bundleId) {
-        this.url = url
-        this.bundleId = bundleId
-    }
 
     String getDockerUrl() {
         return String.format("%s://%s:%s", this.protocol, this.url, this.port)
