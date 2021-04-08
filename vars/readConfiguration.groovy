@@ -3,14 +3,15 @@ import org.codehaus.groovy.runtime.metaclass.MissingPropertyExceptionNoStack
 import org.codehaus.groovy.runtime.typehandling.GroovyCastException
 
 def call() {
-    AppConfig conf = valueOf(readYaml(file:'config.yml'))
+    def yaml = readYaml(file:'config.yml')
+    AppConfig conf = new AppConfig(yaml)
     echo conf.toString()
     return conf
 }
 
 AppConfig valueOf(Map<String, Object> source) {
     echo source.toString()
-    echo source.getClass()
+//    echo instanceof source
     try {
         return new AppConfig(source)
     } catch (MissingPropertyException | GroovyCastException  e) {
