@@ -49,11 +49,13 @@ def stage(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
 
 def getMergedFile(String branch, GitRepo gitRepo) {
     String configFile = "config.yml"
-    getConfigFile(branch, gitRepo, configFile)
+    branch = getConfigFile(branch, gitRepo, configFile)
     def configs = readYaml(file: configFile)
     while (configs.parent) {
         def parentFile = 'parent.yml'
-        def response = downloadConfigFile(configs.parent, parentFile)
+        def parentValue = configs.parent
+        def configUrl = getConfigUrl(branch, parentValue)
+        def response = downloadConfigFile(parentValue, parentFile)
         configs.parent = null
         if (response.status == 200) {
             def parent = readYaml(file: parentFile)
@@ -78,7 +80,7 @@ def merge(Map lhs, Map rhs) {
 }
 
 def getConfigFile(String branch, GitRepo gitRepo, String destination) {
-    String configUrl = String.format("https://raw.githubusercontent.com/duvalhub/continous-deployment-configs/%s/%s/%s/config.yml", branch, gitRepo.getOrg(), gitRepo.getRepo())
+    String configUrl = getConfigUrl(branch, gitRepo.getOrg(), gitRepo.getRepo())
     def response = downloadConfigFile(configUrl, destination);
     if (response.status == 404) {
         if (branch != 'master') {
@@ -94,6 +96,18 @@ def getConfigFile(String branch, GitRepo gitRepo, String destination) {
     echo "File downloaded and is supposedly at ${destination}"
     return branch
 }
+
+def getConfigUrl(String branch, String org, String repo) {
+    return String.format("https://raw.githubusercontent.com/duvalhub/continous-deployment-configs/%s/%s/%s/config.yml", branch, org, repo)
+}
+
+def getConfigUrl(String branch, String orgRepo) {
+    String[] arr = orgRepo.split("/")
+    String org = arr[0]
+    String repo = arr[1]
+    return getConfigUrl(branch, org, repo)
+}
+
 
 def downloadConfigFile(String configUrl, String destination) {
     echo "Downloading the config file from url: '${configUrl}' to ${destination}"
