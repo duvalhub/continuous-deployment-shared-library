@@ -8,7 +8,7 @@ def call() {
 }
 
 AppConfig valueOf(Map<String, Object> source) {
-    echo source
+    echo source.toString()
     try {
         return new AppConfig(source)
     } catch (MissingPropertyExceptionNoStack e) {
