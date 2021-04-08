@@ -5,7 +5,7 @@ import groovy.json.JsonBuilder
 trait IgnoreUnknownProperties {
     def propertyMissing(String name, value) {
         // do nothing
-        echo "Missing property $name"
+//        echo "Missing property $name"
     }
 }
 
