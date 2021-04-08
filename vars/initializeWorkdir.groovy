@@ -12,9 +12,9 @@ def call(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
 
     echo "### Getting app config file"
     def configs = getMergedFile(pipelineBranch, appGitRepo)
-    echo configs
+    def configsString = configs.toString()
+    echo configsString
     AppConfig appConfig = configs
-
     return appConfig
 
     initializeSharedLibrary(params)
