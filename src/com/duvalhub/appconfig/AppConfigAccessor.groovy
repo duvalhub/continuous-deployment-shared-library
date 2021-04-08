@@ -113,7 +113,7 @@ class AppConfigAccessor extends BaseObject {
             urls.addAll(platform.hostnames)
         }
 
-        return urls.join(",")
+        return urls.join(" ")
     }
 
     String getVolumes(String environment) {
