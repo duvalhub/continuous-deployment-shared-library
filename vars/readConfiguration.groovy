@@ -14,6 +14,7 @@ AppConfig valueOf(Map<String, Object> source) {
         return new AppConfig(source)
     } catch (MissingPropertyException | GroovyCastException  e) {
         echo e.getMessage()
+        echo e.toString()
 //        echo e
         source.remove(e.getCause().property)
         return valueOf(source)
