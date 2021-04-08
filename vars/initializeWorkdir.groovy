@@ -100,17 +100,17 @@ def getConfigFile(String branch, GitRepo gitRepo, String destination) {
     return branch
 }
 
+def getConfigUrl(String branch, String path) {
+    return String.format("https://raw.githubusercontent.com/duvalhub/continous-deployment-configs/%s/%s", branch, path)
+}
+
+def getConfigUrl(String branch, String[] pathToFile) {
+    return getConfigUrl(branch, pathToFile.join("/"))
+}
+
 def getConfigUrl(String branch, String org, String repo) {
-    return String.format("https://raw.githubusercontent.com/duvalhub/continous-deployment-configs/%s/%s/%s/config.yml", branch, org, repo)
+    return getConfigUrl(branch, [org, repo, "config.yml"])
 }
-
-def getConfigUrl(String branch, String orgRepo) {
-    String[] arr = orgRepo.split("/")
-    String org = arr[0]
-    String repo = arr[1]
-    return getConfigUrl(branch, org, repo)
-}
-
 
 def downloadConfigFile(String configUrl, String destination) {
     echo "Downloading the config file from url: '${configUrl}' to ${destination}"
