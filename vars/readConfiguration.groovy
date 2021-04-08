@@ -3,8 +3,8 @@ import org.codehaus.groovy.runtime.metaclass.MissingPropertyExceptionNoStack
 import org.codehaus.groovy.runtime.typehandling.GroovyCastException
 
 def call() {
-    def yaml = readYaml(file:'config.yml')
-    AppConfig conf = new AppConfig(yaml)
+//    def yaml = readYaml(file:'config.yml')
+    AppConfig conf = readYaml(file:'config.yml')
     echo conf.toString()
     return conf
 }
