@@ -10,6 +10,20 @@ def call(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
     def pipelineBranch = SharedLibrary.getVersion(env) ?: "master"
     GitRepo appGitRepo = params.getAppGitRepo()
 
+    if (!appGitRepo) {
+        echo "### Lets find 'appGitRepo' from 'checkout scm'"
+        dir(params.getAppWorkdir()) {
+            checkout scm
+            def scmUrl = scm.getUserRemoteConfigs()[0].getUrl()
+            def urlParts = scmUrl.split('/')
+            String org = urlParts[urlParts.size() - 2]
+            String repo = urlParts[urlParts.size() - 1].split('\\.')[0]
+            String branch = scm.branches[0].name
+            echo "App Git Info: org: '$org', repo: '$repo', branch: '$branch'"
+            appGitRepo = new GitRepo(org, repo, branch)
+        }
+    }
+
     echo "### Getting Application Configs"
     AppConfig appConfig = getMergedFile(pipelineBranch, appGitRepo)
 
@@ -18,20 +32,6 @@ def call(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
 
     // Download App Code if required
     if (params.getCloneAppRepo()) {
-        if (!appGitRepo) {
-            echo "### Lets find 'appGitRepo' from 'checkout scm'"
-            dir(params.getAppWorkdir()) {
-                checkout scm
-                def scmUrl = scm.getUserRemoteConfigs()[0].getUrl()
-                def urlParts = scmUrl.split('/')
-                String org = urlParts[urlParts.size() - 2]
-                String repo = urlParts[urlParts.size() - 1].split('\\.')[0]
-                String branch = scm.branches[0].name
-                echo "App Git Info: org: '$org', repo: '$repo', branch: '$branch'"
-                appGitRepo = new GitRepo(org, repo, branch)
-            }
-        }
-
         echo "### Cloning App into Workdir..."
         GitCloneRequest appRequest = new GitCloneRequest(appGitRepo, params.appWorkdir)
         gitClone(appRequest)
