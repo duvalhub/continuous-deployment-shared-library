@@ -4,9 +4,9 @@ def call(Closure body) {
     if(!SharedLibrary.getVersion(env)) {
         initializeSharedLibrary.findVersion()
     }
-
-    def dockerSlaveImage = 'duvalhub/jenkins-slave:1.0.4'
-    dockerNode(dockerSlaveImage) { 
+    String image = 'duvalhub/jenkins-slave:1.0.5.rc1'
+    dockerNode(image) {
       body()
     }
 }
+

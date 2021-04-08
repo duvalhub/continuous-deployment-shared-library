@@ -3,6 +3,7 @@ package com.duvalhub.git
 import com.duvalhub.BaseObject
 
 class GitRepo extends BaseObject {
+    String username="git"
     String org
     String repo
     String branch
