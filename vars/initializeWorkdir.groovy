@@ -11,6 +11,10 @@ def call(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
     GitRepo appGitRepo = params.getAppGitRepo()
 
     echo "### Getting Application Configs"
+    def configs = getMergedFile(pipelineBranch, appGitRepo)
+    def confStr = configs.toString()
+    echo confStr
+    sh "exit 1"
     AppConfig appConfig = getMergedFile(pipelineBranch, appGitRepo)
 
     // Download Shared Library
