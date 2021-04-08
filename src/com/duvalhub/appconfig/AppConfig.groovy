@@ -8,12 +8,12 @@ class AppConfig extends BaseObject {
     Deploy deploy
     Docker docker
 }
-class App {
+class App extends BaseObject {
     String name
     String group
     String version_control
 }
-class Build {
+class Build extends BaseObject {
     String builder
     String builder_version = "latest"
     String destination
@@ -21,17 +21,17 @@ class Build {
     String container_version = "alpine"
     DockerHost host
 }
-class Deploy {
+class Deploy extends BaseObject {
     String port = "80"
     Platforms platforms
 }
-class Platforms {
+class Platforms extends BaseObject {
     Platform base
     Platform dev
     Platform stage
     Platform prod
 }
-class Platform {
+class Platform extends BaseObject {
     String[] hostnames
     Boolean defaultHostname = true
     String[] environments
@@ -40,7 +40,7 @@ class Platform {
     Network[] networks
     DockerHost host
 }
-class Volume {
+class Volume extends BaseObject {
     String name
     String destination
 
@@ -48,7 +48,7 @@ class Volume {
         return String.format("%s:%s", this.name, this.destination)
     }
 }
-class Network {
+class Network extends BaseObject {
     String name
     boolean external
 
@@ -59,7 +59,7 @@ class Network {
         return this.name
     }
 }
-class Docker {
+class Docker extends BaseObject {
     String registry = "docker.io"
     String registryApi = "https://registry.hub.docker.com/v1"
     String namespace
