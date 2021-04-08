@@ -57,7 +57,8 @@ def getMergedFile(String branch, GitRepo gitRepo) {
         configs.parent = null
         if (response.status == 200) {
             def parent = readYaml(file: parentFile)
-            configs = merge(configs, parent)
+            configs = merge(parent, configs)
+            configs.parent = parent.parent
         }
     }
     return configs
