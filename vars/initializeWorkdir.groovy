@@ -53,9 +53,8 @@ def getMergedFile(String branch, GitRepo gitRepo) {
     def configs = readYaml(file: configFile)
     while (configs.parent) {
         def parentFile = 'parent.yml'
-        def parentValue = configs.parent
-        def configUrl = getConfigUrl(branch, parentValue)
-        def response = downloadConfigFile(parentValue, parentFile)
+        def configUrl = getConfigUrl(branch, configs.parent)
+        def response = downloadConfigFile(configUrl, parentFile)
         configs.parent = null
         if (response.status == 200) {
             def parent = readYaml(file: parentFile)
