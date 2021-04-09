@@ -9,7 +9,8 @@ def call(DeployRequest request) {
             "IMAGE=${request.getDockerImageFull()}",
             "HOSTS=${request.domainNames}",
             "VOLUMES=${request.volumes}",
-            "NETWORKS=${request.networks}"
+            "NETWORKS=${request.networks}",
+            "REPLICAS=${request.replicas}"
     ]
     if (request.deployPort) {
         envs.add("PORT=${request.deployPort}")

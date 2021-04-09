@@ -40,6 +40,7 @@ class Platform extends BaseObject {
     Volume[] volumes
     Network[] networks
     DockerHost host
+    int replicas = 1
 }
 class Volume extends BaseObject {
     String name
