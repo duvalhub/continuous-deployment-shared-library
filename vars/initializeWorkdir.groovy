@@ -49,7 +49,7 @@ def stage(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
 }
 
 def getMergedFile(String branch, GitRepo gitRepo) {
-    String[] previous = []
+    def previous = []
     String configFile = "config.yml"
     branch = getConfigFile(branch, gitRepo, configFile)
     def configs = readYaml(file: configFile)
