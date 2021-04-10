@@ -26,6 +26,7 @@ def call(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
 
     echo "### Getting Application Configs"
     AppConfig appConfig = getMergedFile(pipelineBranch, appGitRepo)
+    echo appConfig.toString()
 
     // Download Shared Library
     initializeSharedLibrary(params)

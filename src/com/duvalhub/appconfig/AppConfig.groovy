@@ -8,41 +8,40 @@ class AppConfig extends BaseObject {
     Deploy deploy
     Docker docker
 }
-class App {
+class App extends BaseObject {
     String name
     String group
     String version_control
 }
-class Build {
+class Build extends BaseObject {
     String builder
     String builder_version = "latest"
     String destination
     String container
     String container_version = "alpine"
-    DockerHost host = new DockerHost("docker.build.philippeduval.ca", "DUVALHUB_BUILD_BUNDLE")
+    DockerHost host
 }
-class Deploy {
-    String hostnames
+class Deploy extends BaseObject {
     String port = "80"
     Platforms platforms
-    DockerHosts hosts
 }
-class Platforms {
+class Platforms extends BaseObject {
     Platform base
     Platform dev
     Platform stage
     Platform prod
 }
-class Platform {
-    String hostname
+class Platform extends BaseObject {
+    String[] hostnames
     Boolean defaultHostname = true
+    String baseDomainName
+    String[] environments
     String[] environmentFiles
     Volume[] volumes
     Network[] networks
     DockerHost host
-
 }
-class Volume {
+class Volume extends BaseObject {
     String name
     String destination
 
@@ -50,7 +49,7 @@ class Volume {
         return String.format("%s:%s", this.name, this.destination)
     }
 }
-class Network {
+class Network extends BaseObject {
     String name
     boolean external
 
@@ -61,7 +60,7 @@ class Network {
         return this.name
     }
 }
-class Docker {
+class Docker extends BaseObject {
     String registry = "docker.io"
     String registryApi = "https://registry.hub.docker.com/v1"
     String namespace
@@ -73,24 +72,12 @@ class Docker {
     }
 }
 
-class DockerHosts {
-    DockerHost dev
-    DockerHost prod
-}
-
 class DockerHost extends BaseObject {
     String user = "jenkins"
     String protocol = "tcp"
     String url
     String port = "2376"
     String bundleId
-
-    DockerHost() {}
-
-    DockerHost(String url, String bundleId) {
-        this.url = url
-        this.bundleId = bundleId
-    }
 
     String getDockerUrl() {
         return String.format("%s://%s:%s", this.protocol, this.url, this.port)
