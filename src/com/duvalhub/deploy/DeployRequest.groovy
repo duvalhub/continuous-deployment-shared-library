@@ -47,6 +47,10 @@ class DeployRequest extends AppConfigAccessor {
         return this.getEnvironmentVariables(this.environment)
     }
 
+    int getReplicas() {
+        return this.getPlatform(this.environment).replicas
+    }
+
     String getEnvironmentFileId() {
         return this.getEnvironmentFileId(this.environment)
     }

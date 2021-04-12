@@ -42,7 +42,7 @@ test_param "DOCKER_CREDENTIALS_PSW"
 test_param "IMAGE"
 test_param "templates"
 test_param "builder"
-test_param "build_destination"
+#test_param "build_destination"
 test_param "container"
 assert_param_valid
 default_param builder_version latest
@@ -65,6 +65,8 @@ DOCKERFILE=$(mktemp)
 if [ -d "$templates/containers/$container/extras" ]; then
   mv "$templates"/containers/"$container"/extras/* ./
 fi
+
+mv "$templates/wrappers/start.sh" ./
 
 echo "### Dockerfile :"
 sed -e 's/^/   /' < "$DOCKERFILE"

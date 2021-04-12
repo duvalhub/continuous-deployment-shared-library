@@ -49,10 +49,16 @@ def stage(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
 }
 
 def getMergedFile(String branch, GitRepo gitRepo) {
+    def previous = []
     String configFile = "config.yml"
     branch = getConfigFile(branch, gitRepo, configFile)
     def configs = readYaml(file: configFile)
     while (configs.parent) {
+        if (previous.contains(configs.parent)) {
+            echo "Infinite loop detected in parent configurations. Exiting..."
+            sh "exit 1"
+        }
+        previous.add(configs.parent)
         def parentFile = 'parent.yml'
         def configUrl = getConfigUrl(branch, configs.parent)
         def response = downloadConfigFile(configUrl, parentFile)
