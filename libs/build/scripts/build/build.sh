@@ -66,6 +66,8 @@ if [ -d "$templates/containers/$container/extras" ]; then
   mv "$templates"/containers/"$container"/extras/* ./
 fi
 
+mv "$templates/wrappers/start.sh" ./
+
 echo "### Dockerfile :"
 sed -e 's/^/   /' < "$DOCKERFILE"
 echo ""

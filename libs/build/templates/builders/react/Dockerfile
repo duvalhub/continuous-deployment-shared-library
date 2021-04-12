@@ -1,5 +1,6 @@
 FROM node:${builder_version} AS builder
 WORKDIR /app
+ENV CI="true"
 ARG BUILD_COMMAND="npm run build"
 ARG BUILD_DEST="build"
 ARG build_directory
