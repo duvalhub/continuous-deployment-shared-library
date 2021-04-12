@@ -8,6 +8,7 @@ export VOLUMES="isExternal:/src/etc;external avol2:/src/oekp"
 export HOSTS="totoafrica.com"
 export ENV_VARIABLES="TOTO=pitou"
 export PORT="8080"
+export REPLICAS="1"
 
 echo "####################"
 echo "############ Processing"
