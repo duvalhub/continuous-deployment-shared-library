@@ -15,5 +15,5 @@ if [ "$result" = 0 ]; then
     exit 0
 fi
 
-echo "Network does not exist. Creating network '$network'"
-docker network create -d overlay "$network"
+echo "Network does not exist. Creating encrypted overlay network '$network'"
+docker network create -d overlay --opt encrypted "$network"
