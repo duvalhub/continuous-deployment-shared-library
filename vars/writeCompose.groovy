@@ -21,8 +21,8 @@ def call(DeployRequest request) {
         environment_variables += env + '\n'
     }
     for (String environment_file_id : request.getEnvironmentFileId()) {
-        withCredentials([file(credentialsId: environment_file_id, variable: 'FILE')]) {
-            String env_file_content = sh(returnStdout: true, script: 'cat $FILE').trim()
+        withCredentials([secret(credentialsId: environment_file_id, variable: 'FILE')]) {
+            String env_file_content = sh(returnStdout: true, script: 'echo $FILE').trim()
             environment_variables += env_file_content + '\n'
         }
     }
