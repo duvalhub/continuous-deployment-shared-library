@@ -20,16 +20,19 @@ def call(DeployRequest request) {
     for (String env : request.getEnvironmentVariables()) {
         environment_variables += env + '\n'
     }
-    for (String environment_file_id : request.getEnvironmentFileId()) {
-        withCredentials([string(credentialsId: environment_file_id, variable: 'FILE')]) {
-            String env_file_content = sh(returnStdout: true, script: 'echo $FILE').trim()
-            for(String env: env_file_content.split(" ")) {
-                environment_variables += env + '\n'
-            }
-        }
-    }
+
     if (environment_variables) {
         envs.add("ENV_VARIABLES=${environment_variables}")
+    }
+
+    String secrets = ""
+    for (String environment_file_id : request.getEnvironmentFileId()) {
+        withCredentials([string(credentialsId: environment_file_id, variable: 'FILE')]) {
+            secrets += $FILE + '\n'
+        }
+    }
+    if (secrets) {
+        envs.add("SECRETS=${secrets}")
     }
 
     withEnv(envs) {

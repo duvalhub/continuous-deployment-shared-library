@@ -60,12 +60,10 @@ add_external_thing() {
 }
 add_thing_to_service() {
   local thing="$1"
-  local IFS=';'
-  read -ra PARAMS <<<"$2"
+  IFS=';' read -ra PARAMS <<<"$2"
   local value="${PARAMS[0]}"
   local external="${PARAMS[1]}"
-  IFS=':'
-  read -ra PARAMS <<<"$value"
+  IFS=':' read -ra PARAMS <<<"$value"
   local key="${PARAMS[0]}"
   local base_path="$3"
   yq w -i "$TMP_YML" "$base_path"."$thing""[+]" "$value"
@@ -75,6 +73,12 @@ add_env_vars() {
   local IFS=$'\n'
   for env in $ENV_VARIABLES; do
     yq w -i "$TMP_YML" "$BASE_PATH.environment[+]" "$env"
+  done
+}
+add_secret_vars() {
+  local IFS=$'\n'
+  for secret in $SECRETS; do
+    add_thing_to_service "secrets" "$secret;external" "$BASE_PATH"
   done
 }
 ###################
@@ -96,7 +100,7 @@ yq w -i "$TMP_YML" "$BASE_PATH.image" "$IMAGE"
 yq w -i "$TMP_YML" "$BASE_PATH.deploy.replicas" "$REPLICAS"
 
 #####################
-# Environments
+# DNS
 if [ -n "$PORT" ]; then
   yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"reverseproxy.port\"" "$PORT"
 fi
@@ -106,10 +110,15 @@ if [ -n "$HOSTS" ]; then
   yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"reverseproxy.ssl\"" "\"true\""
 fi
 
+# Environments
 if [ -n "$ENV_VARIABLES" ]; then
   add_env_vars
 fi
 
+# Secrets
+if [ -n "$SECRETS" ]; then
+  add_secret_vars
+fi
 #####################
 # Networks
 if [ -n "$NETWORKS" ]; then
