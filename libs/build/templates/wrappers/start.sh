@@ -2,7 +2,7 @@
 
 if [ -d /run/secrets/ ]; then
   for file in /run/secrets/*; do
-    . "$file"
+    . <(sed 's/^/source /g' "$file")
   done
 fi
 
