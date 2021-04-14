@@ -3,7 +3,7 @@
 if [ -d /run/secrets/ ]; then
   tmp_file=$(mktemp)
   for file in /run/secrets/*; do
-    sed 's/^/source /g' "$file" >"$tmp_file"
+    sed 's/^/export /g' "$file" >"$tmp_file"
     . "$tmp_file"
   done
   rm -f "$tmp_file"
