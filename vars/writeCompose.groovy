@@ -28,7 +28,7 @@ def call(DeployRequest request) {
     String secrets = ""
     for (String environment_file_id : request.getEnvironmentFileId()) {
         withCredentials([string(credentialsId: environment_file_id, variable: 'FILE')]) {
-            secrets += $FILE + '\n'
+            secrets += ${FILE} + '\n'
         }
     }
     if (secrets) {
