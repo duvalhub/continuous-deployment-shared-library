@@ -28,7 +28,8 @@ def call(DeployRequest request) {
     String secrets = ""
     for (String environment_file_id : request.getEnvironmentFileId()) {
         withCredentials([string(credentialsId: environment_file_id, variable: 'FILE')]) {
-            secrets += ${FILE} + '\n'
+            String secret_value = sh(returnStdout: true, script: 'echo $FILE').trim()
+            secrets += secret_value + '\n'
         }
     }
     if (secrets) {
