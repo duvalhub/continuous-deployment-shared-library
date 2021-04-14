@@ -1,7 +1,5 @@
 #!/bin/sh
 
-echo "Mother fucking toto africa"
-
 if [ -d /run/secrets/ ]; then
   for file in /run/secrets/*; do
     . "$file"
