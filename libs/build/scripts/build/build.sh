@@ -76,7 +76,7 @@ echo "### Version"
 docker version
 echo "### Building"
 export build_destination
-docker build \
+docker build --pull \
 --build-arg build_directory=$(mktemp) \
 --build-arg build_destination \
 -t "$IMAGE" -f "$DOCKERFILE" .

@@ -5,7 +5,7 @@ if [ -d /run/secrets/ ]; then
   for file in /run/secrets/*; do
     sed 's/^/source /g' "$file" >"$tmp_file"
     . "$tmp_file"
-  dones
+  done
   rm -f "$tmp_file"
 fi
 
