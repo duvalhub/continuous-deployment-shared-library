@@ -7,4 +7,5 @@ COPY --from=builder ${build_directory}/node_modules  ./node_modules
 ARG port=80
 EXPOSE ${port}
 ENV PORT=${port}
-ENTRYPOINT ["node", "server.js"]
+ENTRYPOINT ["/bin/sh", "/app/start.sh"]
+CMD ["node", "server.js"]
