@@ -23,7 +23,9 @@ def call(DeployRequest request) {
     for (String environment_file_id : request.getEnvironmentFileId()) {
         withCredentials([string(credentialsId: environment_file_id, variable: 'FILE')]) {
             String env_file_content = sh(returnStdout: true, script: 'echo $FILE').trim()
-            environment_variables += env_file_content + '\n'
+            for(String env: env_file_content.split(" ")) {
+                environment_variables += env + '\n'
+            }
         }
     }
     if (environment_variables) {
