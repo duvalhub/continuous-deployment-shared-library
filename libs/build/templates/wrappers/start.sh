@@ -3,9 +3,9 @@
 if [ -d /run/secrets/ ]; then
   tmp_file=$(mktemp)
   for file in /run/secrets/*; do
-    echo "Sourcing $file"
-    sed 's/^/export /g' "$file" >"$tmp_file"
-    source "$tmp_file"
+#    echo "Sourcing $file"
+#    sed 's/^/export /g' "$file" >"$tmp_file"
+    . "$file"
   done
   rm -f "$tmp_file"
 fi
