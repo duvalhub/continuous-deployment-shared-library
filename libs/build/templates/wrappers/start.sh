@@ -2,7 +2,7 @@
 
 if [ -d /run/secrets/ ]; then
   tmp_file=$(mktemp)
-  for file in /run/secrets/*; do
+  for file in /run/secrets/ENVIRONMENT_*; do
     echo "Sourcing $file"
     sed 's/^/export /g' "$file" >"$tmp_file"
     . "$tmp_file"
