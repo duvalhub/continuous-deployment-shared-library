@@ -1,4 +1,4 @@
-FROM maven as builder
+FROM maven:${builder_version} as builder
 WORKDIR /builder
 ARG build_directory
 ARG build_destination=target/*.jar
