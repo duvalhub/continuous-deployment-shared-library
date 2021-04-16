@@ -1,0 +1,7 @@
+spring.application.name: "${APPLICATION_NAME}"
+spring.profiles.active: "${APPLICATION_PROFILES}"
+spring.config.import: "configserver:${CONFIG_URL}"
+spring.cloud.config:
+  label: "${CONFIG_LABEL}"
+  username: "${CONFIG_USERNAME}"
+  password: "${CONFIG_PASSWORD}"
