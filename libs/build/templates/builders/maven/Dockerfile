@@ -1,7 +1,8 @@
-FROM maven as builder
+FROM maven:${builder_version} as builder
 WORKDIR /builder
 ARG build_directory
 ARG build_destination=target/*.jar
+RUN mvn --version
 COPY pom.xml ./
 RUN mvn verify --fail-never
 COPY src ./src

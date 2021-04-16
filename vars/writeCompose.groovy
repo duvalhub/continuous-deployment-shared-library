@@ -17,6 +17,11 @@ def call(DeployRequest request) {
     }
 
     String environment_variables = ""
+    // Application Name, Application Profiles, Config Label
+    environment_variables += "APPLICATION_NAME=${request.getAppName()}" + '\n'
+    environment_variables += "APPLICATION_PROFILES=${request.getEnvironment()}" + '\n'
+    environment_variables += "CONFIG_LABEL=master" + '\n'
+
     for (String env : request.getEnvironmentVariables()) {
         environment_variables += env + '\n'
     }
