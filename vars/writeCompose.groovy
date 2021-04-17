@@ -48,7 +48,7 @@ def call(DeployRequest request) {
             secrets += secret_value + '\n'
             envs.add("DATABASE_IMAGE=${database.getImage()}")
             envs.add("DATABASE_VERSION=${database.getVersion()}")
-            envs.add("DATABASE_SECRET=${database.getSecretId()}")
+            envs.add("DATABASE_SECRET=${secret_value}")
         }
     }
 
