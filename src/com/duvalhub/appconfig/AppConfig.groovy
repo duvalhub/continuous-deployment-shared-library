@@ -8,11 +8,13 @@ class AppConfig extends BaseObject {
     Deploy deploy
     Docker docker
 }
+
 class App extends BaseObject {
     String name
     String group
     String version_control
 }
+
 class Build extends BaseObject {
     String builder
     String builder_version = "latest"
@@ -21,16 +23,31 @@ class Build extends BaseObject {
     String container_version = "alpine"
     DockerHost host
 }
+
 class Deploy extends BaseObject {
     String port = "80"
+    Database database
     Platforms platforms
 }
+
+class Database extends BaseObject {
+    boolean enabled = true
+    String secretId
+    String image = "mysql"
+    String version = "10.5"
+}
+
+enum Environment {
+    dev, stage, prod;
+}
+
 class Platforms extends BaseObject {
     Platform base
     Platform dev
     Platform stage
     Platform prod
 }
+
 class Platform extends BaseObject {
     String[] hostnames
     Boolean defaultHostname = true
@@ -42,6 +59,7 @@ class Platform extends BaseObject {
     DockerHost host
     int replicas = 1
 }
+
 class Volume extends BaseObject {
     String name
     String destination
@@ -50,17 +68,19 @@ class Volume extends BaseObject {
         return String.format("%s:%s", this.name, this.destination)
     }
 }
+
 class Network extends BaseObject {
     String name
     boolean external
 
     String toString() {
-        if(external) {
+        if (external) {
             return String.format("%s;external", this.name)
         }
         return this.name
     }
 }
+
 class Docker extends BaseObject {
     String registry = "docker.io"
     String registryApi = "https://registry.hub.docker.com/v1"
@@ -68,7 +88,7 @@ class Docker extends BaseObject {
     String repository
     String credentialId
 
-    String getDockerImage(){
+    String getDockerImage() {
         return String.format("%s/%s/%s", this.registry, this.namespace, this.repository)
     }
 }
