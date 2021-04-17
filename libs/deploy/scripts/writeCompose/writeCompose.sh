@@ -54,7 +54,7 @@ add_external_thing() {
   else
     yq w -i "$TMP_YML" "$thing.$thing_ref.name" "$STACK_NAME"_"$thing_ref"
     if [[ "$thing" == "networks" ]]; then
-      yq w -i "$TMP_YML" "$thing.$thing_ref.driver_opts.encrypted" "true"
+      yq w -i "$TMP_YML" "$thing.$thing_ref.driver_opts.encrypted" "\"true\""
     fi
   fi
 }
