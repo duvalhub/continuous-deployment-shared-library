@@ -47,7 +47,8 @@ def call(DeployRequest request) {
             String secret_value = sh(returnStdout: true, script: 'echo $FILE').trim()
             secrets += secret_value + '\n'
             envs.add("DATABASE_IMAGE=${database.getImage()}")
-            envs.add("DATABASE_IMAGE=${database.getVersion()}")
+            envs.add("DATABASE_VERSION=${database.getVersion()}")
+            envs.add("DATABASE_SECRET=${database.getSecretId()}")
         }
     }
 

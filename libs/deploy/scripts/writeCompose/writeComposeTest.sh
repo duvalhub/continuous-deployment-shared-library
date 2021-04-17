@@ -10,13 +10,16 @@ export ENV_VARIABLES="TOTO=pitou"
 export SECRETS="MY_SECRET"
 export PORT="8080"
 export REPLICAS="1"
+export DATABASE_IMAGE="mysql"
+export DATABASE_VERSION="10.5"
+export DATABASE_SECRET="MYSQL_SECRET"
 
 echo "####################"
 echo "############ Processing"
 echo "####################"
 
 temp_file=$(mktemp)
-./processYml.sh "$temp_file"
+./writeCompose.sh "$temp_file"
 
 echo "####################"
 echo "############ Result"
