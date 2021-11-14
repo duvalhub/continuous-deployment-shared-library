@@ -1,5 +1,5 @@
 #!/bin/sh
-
+# Sourcing secrets prefixed by 'ENVIRONMENT_'
 if [ -d /run/secrets/ ]; then
   tmp_file=$(mktemp)
   for file in /run/secrets/ENVIRONMENT_*; do
