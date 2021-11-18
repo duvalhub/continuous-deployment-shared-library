@@ -66,7 +66,7 @@ DOCKERFILE=$(mktemp)
 
 if [ -d "$templates/containers/$container/extras" ]; then
   mv "$templates"/containers/"$container"/extras/* ./
-  if [ "$remove_application_yml" = "true" ]; do
+  if [ "$remove_application_yml" = "true" ]; then
     rm -f application.yml
   fi
 fi
