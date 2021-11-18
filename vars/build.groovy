@@ -24,7 +24,7 @@ def call(BuildRequest buildRequest) {
                         "--builder ${buildRequest.getBuilder()}",
                         "--builder-version ${buildRequest.getBuilderVersion()}",
                         "--container ${buildRequest.getContainer()}",
-                        "--container-version ${buildRequest.getContainerVersion()}"
+                        "--container-version ${buildRequest.getContainerVersion()}",
                         "--enable-extras ${buildRequest.isExtrasEnabled()}"
                 ] as String[]
 
