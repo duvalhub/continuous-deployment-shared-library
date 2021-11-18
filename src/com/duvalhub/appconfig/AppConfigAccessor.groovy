@@ -91,6 +91,10 @@ class AppConfigAccessor extends BaseObject {
         return this.appConfig.build.container_version
     }
 
+    String isExtrasEnabled() {
+        return this.appConfig.build.enable_extras
+    }
+
     // Deploy
     String getDeployPort() {
         return this.appConfig.deploy.port

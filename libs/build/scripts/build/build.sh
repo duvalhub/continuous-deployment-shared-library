@@ -34,6 +34,7 @@ while [[ "$#" -gt 0 ]]; do case $1 in
   -c|--container) container="$2"; shift;;
   --builder-version) builder_version="$2"; shift;;
   --container-version) container_version="$2"; shift;;
+  --enable-extras) enable_extras="$2"; shift;;
   *) echo "Unknown parameter passed: $1"; exit 1;;
 esac; shift; done
 
@@ -47,6 +48,7 @@ test_param "container"
 assert_param_valid
 default_param builder_version latest
 default_param container_version alpine
+default_param enable_extras true
 
 #################
 # Begin Script
@@ -62,7 +64,7 @@ DOCKERFILE=$(mktemp)
   cat "$templates/containers/$container/Dockerfile"
 }  > "$DOCKERFILE"
 
-if [ -d "$templates/containers/$container/extras" ]; then
+if [ "$enable_extras" = "true" ] && [ -d "$templates/containers/$container/extras" ]; then
   mv "$templates"/containers/"$container"/extras/* ./
 fi
 
