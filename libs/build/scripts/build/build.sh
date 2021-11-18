@@ -48,7 +48,7 @@ test_param "container"
 assert_param_valid
 default_param builder_version latest
 default_param container_version alpine
-default_param enable_extras true
+default_param remove_application_yml false
 
 #################
 # Begin Script
