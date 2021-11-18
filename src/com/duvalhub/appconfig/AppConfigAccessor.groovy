@@ -91,8 +91,8 @@ class AppConfigAccessor extends BaseObject {
         return this.appConfig.build.container_version
     }
 
-    String isExtrasEnabled() {
-        return this.appConfig.build.enable_extras
+    String removeApplicationYml() {
+        return this.appConfig.build.remove_application_yml
     }
 
     // Deploy

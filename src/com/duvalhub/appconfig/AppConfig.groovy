@@ -19,7 +19,7 @@ class Build extends BaseObject {
     String destination
     String container
     String container_version = "alpine"
-    String enable_extras = "true"
+    String remove_application_yml = "false"
     DockerHost host
 }
 class Deploy extends BaseObject {

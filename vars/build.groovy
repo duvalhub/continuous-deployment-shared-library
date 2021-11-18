@@ -25,7 +25,7 @@ def call(BuildRequest buildRequest) {
                         "--builder-version ${buildRequest.getBuilderVersion()}",
                         "--container ${buildRequest.getContainer()}",
                         "--container-version ${buildRequest.getContainerVersion()}",
-                        "--enable-extras ${buildRequest.isExtrasEnabled()}"
+                        "--remove-application-yml ${buildRequest.removeApplicationYml()}"
                 ] as String[]
 
                 String build_destination = buildRequest.getBuildDestination()
