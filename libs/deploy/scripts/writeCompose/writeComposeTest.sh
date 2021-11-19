@@ -13,6 +13,8 @@ export REPLICAS="1"
 export DATABASE_IMAGE="mysql"
 export DATABASE_VERSION="10.5"
 export DATABASE_SECRET="MYSQL_SECRET"
+export DATABASE_ENTRYPOINT="init.sh"
+export DATABASE_ENTRYPOINT_VOLUME="database-entrypoint"
 
 echo "####################"
 echo "############ Processing"

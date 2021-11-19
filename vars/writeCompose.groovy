@@ -48,6 +48,8 @@ def call(DeployRequest request) {
             envs.add("DATABASE_IMAGE=${database.getImage()}")
             envs.add("DATABASE_VERSION=${database.getVersion()}")
             envs.add("DATABASE_SECRET=${secret_value}")
+            envs.add("DATABASE_ENTRYPOINT=${database.entrypoint}")
+            envs.add("DATABASE_ENTRYPOINT_VOLUME=${database.entrypointVolume}")
         }
     }
 
