@@ -124,13 +124,6 @@ fi
 if [ -n "$DATABASE_IMAGE" ] && [ -n "$DATABASE_VERSION" ]; then
   # Create Database Service
   yq w -i "$TMP_YML" "services.database.image" "${DATABASE_IMAGE}:${DATABASE_VERSION}"
-  # Entrypoint script
-#  yq w -i "$TMP_YML" "services.database.entrypoint" "/${DATABASE_ENTRYPOINT_VOLUME}/${DATABASE_ENTRYPOINT}"
-  #  yq w -i "$TMP_YML" "services.database.cmd" "docker-entrypoint.sh mysqld"
-
-  # Volume for entrypoint script
-#  add_thing_to_service "volumes" "$DATABASE_ENTRYPOINT_VOLUME:/${DATABASE_ENTRYPOINT_VOLUME}" "services.database"
-#  add_thing_to_service "volumes" "$DATABASE_ENTRYPOINT_VOLUME:/${DATABASE_ENTRYPOINT_VOLUME};external" "services.database"
 
   # Database secrets (database name, username, password)
   add_thing_to_service "secrets" "$DATABASE_SECRET" "services.database"
