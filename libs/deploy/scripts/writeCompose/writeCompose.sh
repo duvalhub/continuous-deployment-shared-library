@@ -54,7 +54,7 @@ add_external_thing() {
   else
     yq w -i "$TMP_YML" "$thing.$thing_ref.name" "$STACK_NAME"_"$thing_ref"
     if [[ "$thing" == "networks" ]]; then
-      yq w -i "$TMP_YML" "$thing.$thing_ref.driver_opts.encrypted" "true"
+      yq w -i "$TMP_YML" "$thing.$thing_ref.driver_opts.encrypted" "\"true\""
     fi
   fi
 }
@@ -119,6 +119,20 @@ fi
 if [ -n "$SECRETS" ]; then
   add_secret_vars
 fi
+
+# Database
+if [ -n "$DATABASE_IMAGE" ] && [ -n "$DATABASE_VERSION" ]; then
+  # Create Database Service
+  yq w -i "$TMP_YML" "services.database.image" "${DATABASE_IMAGE}:${DATABASE_VERSION}"
+
+  # Database secrets (database name, username, password)
+  add_thing_to_service "secrets" "$DATABASE_SECRET" "services.database"
+  add_thing_to_service "secrets" "$DATABASE_SECRET;external" "$BASE_PATH"
+  # Attach to Network 'database'
+  add_thing_to_service "networks" "database" services.database
+  add_thing_to_service "networks" "database" "$BASE_PATH"
+fi
+
 #####################
 # Networks
 if [ -n "$NETWORKS" ]; then
@@ -148,7 +162,7 @@ cat "$TMP_YML"
 
 if [ -n "$1" ]; then
   cat "$TMP_YML" >"$1"
-  echo "### Wrote yml file succesfully."
+  echo "### Wrote yml file successfully."
 fi
 
 rm -f "$TMP_YML"

@@ -1,3 +1,4 @@
+import com.duvalhub.appconfig.Database
 import com.duvalhub.deploy.DeployRequest
 import com.duvalhub.initializeworkdir.SharedLibrary
 
@@ -30,6 +31,7 @@ def call(DeployRequest request) {
         envs.add("ENV_VARIABLES=${environment_variables}")
     }
 
+    // Secrets
     String secrets = ""
     for (String environment_file_id : request.getEnvironmentFileId()) {
         withCredentials([string(credentialsId: environment_file_id, variable: 'FILE')]) {
@@ -37,14 +39,26 @@ def call(DeployRequest request) {
             secrets += secret_value + '\n'
         }
     }
+
+    // Database
+    Database database = request.getDatabase()
+    if (database && database.isEnabled()) {
+        withCredentials([string(credentialsId: database.getSecretId(), variable: 'FILE')]) {
+            String secret_value = sh(returnStdout: true, script: 'echo $FILE').trim()
+            envs.add("DATABASE_IMAGE=${database.getImage()}")
+            envs.add("DATABASE_VERSION=${database.getVersion()}")
+            envs.add("DATABASE_SECRET=${secret_value}")
+        }
+    }
+
     if (secrets) {
         envs.add("SECRETS=${secrets}")
     }
 
     withEnv(envs) {
-        def processScript = "${SharedLibrary.getWorkdir(env)}/${request.scriptPath}"
+        def script = "${SharedLibrary.getWorkdir(env)}/${request.scriptPath}"
         def compose = request.compose
-        executeScript(processScript, false, compose)
+        executeScript(script, false, compose)
         return compose
 
     }

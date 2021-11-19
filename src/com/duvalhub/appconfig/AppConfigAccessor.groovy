@@ -2,8 +2,10 @@ package com.duvalhub.appconfig
 
 import com.duvalhub.BaseObject
 
+import javax.xml.crypto.Data
+
 class AppConfigAccessor extends BaseObject {
-    String scriptPath = "libs/deploy/scripts/processYml/processYml.sh"
+    String scriptPath = "libs/deploy/scripts/writeCompose/writeCompose.sh"
     String compose = "docker-compose.yml"
 
     AppConfig appConfig
@@ -100,6 +102,10 @@ class AppConfigAccessor extends BaseObject {
         return this.appConfig.deploy.port
     }
 
+    Database getDatabase() {
+        return this.appConfig.deploy.database
+    }
+
     String getDomainNames(String environment) {
 
         Platform platform = this.getPlatform(environment)
@@ -163,8 +169,8 @@ class AppConfigAccessor extends BaseObject {
         Platform merged
         if (base) {
             merged = (base.properties.findAll { k, v -> v }  // p1's non-null properties
-                    + host.properties.findAll { k, v -> v }) // plus p2's non-null properties
-                    .findAll { k, v -> k != 'class' } as Platform
+            +host.properties.findAll { k, v -> v } ) // plus p2's non-null properties
+            . findAll { k, v -> k != 'class' } as Platform
         } else {
             merged = host
         }
