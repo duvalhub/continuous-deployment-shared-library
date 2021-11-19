@@ -34,6 +34,7 @@ while [[ "$#" -gt 0 ]]; do case $1 in
   -c|--container) container="$2"; shift;;
   --builder-version) builder_version="$2"; shift;;
   --container-version) container_version="$2"; shift;;
+  --remove-application-yml) remove_application_yml="$2"; shift;;
   *) echo "Unknown parameter passed: $1"; exit 1;;
 esac; shift; done
 
@@ -47,6 +48,7 @@ test_param "container"
 assert_param_valid
 default_param builder_version latest
 default_param container_version alpine
+default_param remove_application_yml false
 
 #################
 # Begin Script
@@ -64,6 +66,9 @@ DOCKERFILE=$(mktemp)
 
 if [ -d "$templates/containers/$container/extras" ]; then
   mv "$templates"/containers/"$container"/extras/* ./
+  if [ "$remove_application_yml" = "true" ]; then
+    rm -f application.yml
+  fi
 fi
 
 mv "$templates/wrappers/start.sh" ./

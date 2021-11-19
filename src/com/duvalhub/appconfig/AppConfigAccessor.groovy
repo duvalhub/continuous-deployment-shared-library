@@ -93,6 +93,10 @@ class AppConfigAccessor extends BaseObject {
         return this.appConfig.build.container_version
     }
 
+    String removeApplicationYml() {
+        return this.appConfig.build.remove_application_yml
+    }
+
     // Deploy
     String getDeployPort() {
         return this.appConfig.deploy.port
