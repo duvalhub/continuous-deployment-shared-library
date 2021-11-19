@@ -36,8 +36,8 @@ class Database extends BaseObject {
     String secretId
     String image = "mysql"
     String version = "10.5"
-    String entrypoint = "init.sh"
-    String entrypointVolume = "database-entrypoint"
+    String entrypoint = "/opt/init.sh"
+    String entrypointVolume = "databaseentrypoint"
 }
 
 enum Environment {
