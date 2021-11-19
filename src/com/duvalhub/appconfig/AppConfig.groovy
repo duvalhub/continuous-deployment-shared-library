@@ -36,7 +36,7 @@ class Database extends BaseObject {
     String secretId
     String image = "mysql"
     String version = "10.5"
-    String entrypoint = "/opt/init.sh"
+    String entrypoint = "init.sh"
     String entrypointVolume = "databaseentrypoint"
 }
 
