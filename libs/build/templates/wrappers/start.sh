@@ -11,8 +11,8 @@ if [ -d /run/secrets/ ]; then
 fi
 
 # Equivalent to 'exec $@' but sometimes processes don't handle HANGUP signal well, like mariadb.
-$@ &
-PID="$!"
-
-trap "kill -SIGTERM $PID" SIGINT SIGTERM
-wait
+exec $@
+#$@ &
+#PID="$!"
+#trap "kill -SIGTERM $PID" SIGINT SIGTERM
+#wait
