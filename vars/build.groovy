@@ -23,6 +23,7 @@ def call(BuildRequest buildRequest) {
                         "--templates ${template_path}",
                         "--builder ${buildRequest.getBuilder()}",
                         "--builder-version ${buildRequest.getBuilderVersion()}",
+                        "--builder-command ${buildRequest.getBuilderCommand()}",
                         "--container ${buildRequest.getContainer()}",
                         "--container-version ${buildRequest.getContainerVersion()}",
                         "--remove-application-yml ${buildRequest.removeApplicationYml()}"
