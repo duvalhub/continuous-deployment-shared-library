@@ -1,6 +1,6 @@
 FROM ubuntu as nginx_gen
 COPY install_nginx_gen.sh ./
-RUN ./install_nginx_gen.sh
+RUN chmod +x install_nginx_gen && ./install_nginx_gen.sh
 
 FROM nginx:${container_version}
 ARG build_directory
