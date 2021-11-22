@@ -9,6 +9,7 @@ RUN rm -r /usr/share/nginx/html
 COPY --from=builder ${build_directory}  /usr/share/nginx/html
 COPY --from=nginx_gen nginx-gen /usr/bin/nginx-gen
 COPY start.sh /app/start.sh
+COPY init_container.sh /app/init_container.sh
 ENTRYPOINT ["/bin/sh", "/app/start.sh"]
-CMD ["nginx-gen", "sleep", "infinity"]
+CMD ["/app/init_container.sh"]
 #CMD ["nginx-gen", "sleep", "infinity", "/docker-entrypoint.sh", "nginx", "-g", "daemon off;"]
