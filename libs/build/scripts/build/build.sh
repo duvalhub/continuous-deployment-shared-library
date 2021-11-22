@@ -33,6 +33,7 @@ while [[ "$#" -gt 0 ]]; do case $1 in
   -d|--build-destination) build_destination="$2"; shift;;
   -c|--container) container="$2"; shift;;
   --builder-version) builder_version="$2"; shift;;
+  --build-command) build_command="$2"; shift;;
   --container-version) container_version="$2"; shift;;
   --remove-application-yml) remove_application_yml="$2"; shift;;
   *) echo "Unknown parameter passed: $1"; exit 1;;
@@ -81,9 +82,11 @@ echo "### Version"
 docker version
 echo "### Building"
 export build_destination
+export build_command
 docker build --pull \
 --build-arg build_directory=$(mktemp) \
 --build-arg build_destination \
+--build-arg build_command \
 -t "$IMAGE" -f "$DOCKERFILE" .
 echo "### Pushing"
 docker push "$IMAGE"

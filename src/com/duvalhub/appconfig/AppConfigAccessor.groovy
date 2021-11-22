@@ -81,6 +81,10 @@ class AppConfigAccessor extends BaseObject {
         return this.appConfig.build.builder_version
     }
 
+    String getBuilderCommand() {
+        return this.appConfig.build.builder_command
+    }
+
     String getBuildDestination() {
         return this.appConfig.build.destination
     }
@@ -169,8 +173,8 @@ class AppConfigAccessor extends BaseObject {
         Platform merged
         if (base) {
             merged = (base.properties.findAll { k, v -> v }  // p1's non-null properties
-            +host.properties.findAll { k, v -> v } ) // plus p2's non-null properties
-            . findAll { k, v -> k != 'class' } as Platform
+                    + host.properties.findAll { k, v -> v }) // plus p2's non-null properties
+                    .findAll { k, v -> k != 'class' } as Platform
         } else {
             merged = host
         }

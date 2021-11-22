@@ -18,6 +18,7 @@ class App extends BaseObject {
 class Build extends BaseObject {
     String builder
     String builder_version = "latest"
+    String builder_command
     String destination
     String container
     String container_version = "alpine"
