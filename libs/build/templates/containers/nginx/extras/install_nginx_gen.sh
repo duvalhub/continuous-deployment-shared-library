@@ -1,6 +1,5 @@
 #!/usr/bin/env sh
-
-#apt-get update
-#apt-get install -y wget
-wget https://github.com/duvalhub/nginx-file-replace/raw/feature/initial/bin/nginx-gen
+NGINX_GEN_VERSION=feature/initial
+wget "https://github.com/duvalhub/nginx-file-replace/raw/$NGINX_GEN_VERSION/nginx.tmpl"
+wget "https://github.com/duvalhub/nginx-file-replace/raw/$NGINX_GEN_VERSION/bin/nginx-gen"
 chmod +x nginx-gen
