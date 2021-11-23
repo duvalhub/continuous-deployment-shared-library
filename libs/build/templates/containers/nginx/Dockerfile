@@ -1,4 +1,4 @@
-FROM ubuntu as nginx_gen
+FROM cirrusci/wget as nginx_gen
 WORKDIR /app
 COPY install_nginx_gen.sh ./
 RUN chmod +x install_nginx_gen.sh && ./install_nginx_gen.sh
