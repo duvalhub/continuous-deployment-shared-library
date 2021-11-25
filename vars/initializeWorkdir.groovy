@@ -69,7 +69,10 @@ def getMergedFile(String branch, GitRepo gitRepo) {
             configs.parent = parent.parent
         }
     }
-    return configs
+    AppConfig appConfig = configs as AppConfig
+    appConfig.getApp().name = appConfig.getApp().name ? appConfig.getApp().name : gitRepo.repo
+    appConfig.getDocker().repository = appConfig.getDocker().repository ? appConfig.getDocker().repository : gitRepo.repo
+    return appConfig
 }
 
 def merge(Map lhs, Map rhs) {
