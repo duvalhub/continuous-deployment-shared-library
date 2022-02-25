@@ -5,7 +5,7 @@ def call(Closure body) {
         initializeSharedLibrary.findVersion()
     }
     String image = 'duvalhub/jenkins-slave:1.0.5.rc1'
-    dockins.dockerslaves.pipeline.DockerNodeStep(image) {
+    dockerNode(image) {
       body()
     }
 }
