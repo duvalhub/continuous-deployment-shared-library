@@ -19,7 +19,6 @@ def stage(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
 def findVersion(){
     node {
         def branch = sh(script: "env | grep 'library.shared-library.version' | cut -d '=' -f 2", returnStdout: true).trim()
-        branch = "fix/character-unsafe"
         echo "Setting Shared Library Version '$branch'"
         SharedLibrary.setVersion(env, branch)
         return branch
