@@ -3,8 +3,9 @@ import com.duvalhub.initializeworkdir.SharedLibrary
 def call(String host, String credentialId, String user, Closure body) {
     echo "### Setting SSH Config File for ${host} using ${credentialId}..."
     String credVar = "SKP_${credentialId}"
+    String usernameVar = "SKP_SSH_USER"
     withCredentials([
-            sshUserPrivateKey(keyFileVariable: credVar, credentialsId: credentialId)
+            sshUserPrivateKey(keyFileVariable: credVar, credentialsId: credentialId, usernameVariable: usernameVar)
     ]) {
         String sshFolder = "/home/jenkins/.ssh"
         String sshConfig = "${sshFolder}/config"
