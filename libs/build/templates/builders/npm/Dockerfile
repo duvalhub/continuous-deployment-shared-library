@@ -10,6 +10,5 @@ COPY . .
 RUN ${build_command}
 RUN mkdir -p ${build_directory} \
 && rm -r ${build_directory} \
-&& mv ${build_destination} ${build_directory} \
-
+&& mv ${build_destination} ${build_directory}
 RUN ls -l ${build_directory}
