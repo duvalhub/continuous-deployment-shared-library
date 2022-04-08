@@ -19,7 +19,7 @@ def stage(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
 def findVersion(){
     node {
         def branch = sh(script: "env | grep 'library.shared-library.version' | cut -d '=' -f 2", returnStdout: true).trim()
-        echo "Setting Shared Library Version '$branch'"
+        echo "Setting Shared Library Version '$branch' => ${env['library.shared-library.version']}"
         SharedLibrary.setVersion(env, branch)
         return branch
     }
