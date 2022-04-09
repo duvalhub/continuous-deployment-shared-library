@@ -8,7 +8,6 @@ COPY package.json package-lock.jso[n] ./
 RUN npm install
 COPY . .
 RUN ${build_command}
-RUN ls -all ${build_destination}
 RUN mkdir -p ${build_directory} \
 && rm -r ${build_directory} \
 && mv ${build_destination} ${build_directory}
