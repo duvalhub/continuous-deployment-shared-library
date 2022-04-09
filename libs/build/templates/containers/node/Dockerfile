@@ -6,6 +6,7 @@ COPY --from=builder ${build_directory}/package.json ${build_directory}/package-l
 RUN ls -all
 RUN npm install --only-prod && npm cache clean --force
 COPY --from=builder ${build_directory} ./${build_destination}
+COPY start.sh ./
 ARG port=80
 EXPOSE ${port}
 ENV PORT=${port}
