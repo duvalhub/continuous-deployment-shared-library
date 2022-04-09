@@ -3,7 +3,8 @@ WORKDIR /app
 ARG build_directory
 ARG build_destination
 COPY --from=builder ${build_directory}/package.json ${build_directory}/package-lock.jso[n]  ./
-RUN npm install --only-prod && npm cache clean --force
+RUN ls -all
+#RUN npm install --only-prod && npm cache clean --force
 COPY --from=builder /${build_directory}/${build_destination} ./.next
 ARG port=80
 EXPOSE ${port}
