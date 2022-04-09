@@ -4,8 +4,8 @@ ARG build_directory
 ARG build_destination
 COPY --from=builder ${build_directory}/package.json ${build_directory}/package-lock.jso[n]  ./
 RUN ls -all
-#RUN npm install --only-prod && npm cache clean --force
-COPY --from=builder /${build_directory}/${build_destination} ./.next
+RUN npm install --only-prod && npm cache clean --force
+COPY --from=builder ${build_directory} ./${build_destination}
 ARG port=80
 EXPOSE ${port}
 ENV PORT=${port}
