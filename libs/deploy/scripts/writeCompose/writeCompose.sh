@@ -53,9 +53,9 @@ add_external_thing() {
     yq w -i "$TMP_YML" "$thing.$thing_ref.external" "true"
   else
     yq w -i "$TMP_YML" "$thing.$thing_ref.name" "$STACK_NAME"_"$thing_ref"
-#    if [[ "$thing" == "networks" ]]; then
-#      yq w -i "$TMP_YML" "$thing.$thing_ref.driver_opts.encrypted" "\"true\""
-#    fi
+    if [[ "$thing" == "networks" ]]; then
+      yq w -i "$TMP_YML" "$thing.$thing_ref.driver_opts.encrypted" "\"true\""
+    fi
   fi
 }
 add_thing_to_service() {
