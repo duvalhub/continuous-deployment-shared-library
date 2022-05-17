@@ -9,7 +9,12 @@ spring.cloud.config:
 
 # Database if needed
 spring.datasource:
-  database: "${MYSQL_DATABASE}"
-  username: "${MYSQL_USER}"
-  password: "${MYSQL_PASSWORD}"
-
+  url: jdbc:mysql://database:3306/${MYSQL_DATABASE}
+  username: ${MYSQL_USER}
+  password: ${MYSQL_PASSWORD}
+  validationQuery: SELECT 1
+spring.jpa:
+  generate-ddl: true
+  properties.hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
+  show-sql: true
+  hibernate.naming-strategy: org.hibernate.cfg.ImprovedNamingStrategy
