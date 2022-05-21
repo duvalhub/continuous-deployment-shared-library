@@ -8,7 +8,7 @@ def call(DockerHost dockerHost, Closure body) {
     String user = dockerHost.getUser()
     withSshKey(host, "SERVICE_ACCOUNT_SSH", "jenkins") {
         sh """
-            docker context rm ${host}
+            docker context rm -f ${host}
             docker context create ${host} --description 'Context for ${host}' --docker 'host=ssh://${user}@${host}'
             docker context use ${host}
             docker ps
