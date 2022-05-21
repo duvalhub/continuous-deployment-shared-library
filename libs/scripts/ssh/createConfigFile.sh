@@ -10,11 +10,17 @@ if [[ -z "${!KEY_FILE_SSH_VAR_NAME}" ]]; then
   exit 1
 fi
 echo "Setting SSH Config File for $SSH_USER@$HOST using $KEY_FILE_SSH_VAR_NAME"
-{
-  echo "Host $HOST"
-  echo "  User $SSH_USER"
-  echo "  HostName $HOST"
-  echo "  IdentityFile ${!KEY_FILE_SSH_VAR_NAME}"
-  echo "  StrictHostKeyChecking=no"
-  echo "  UserKnownHostsFile=/dev/null"
-} >> "$SSH_CONFIG"
+declare -r first_line="Host $HOST"
+if grep -q "$first_line" "$SSH_CONFIG"; then
+  echo "SSH Config File already set for '$HOST'"
+else
+  {
+    echo "$first_line"
+    echo "  User $SSH_USER"
+    echo "  HostName $HOST"
+    echo "  IdentityFile ${!KEY_FILE_SSH_VAR_NAME}"
+    echo "  StrictHostKeyChecking=no"
+    echo "  UserKnownHostsFile=/dev/null"
+  } >> "$SSH_CONFIG"
+fi
+
