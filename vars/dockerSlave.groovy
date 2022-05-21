@@ -4,11 +4,11 @@ def call(Closure body) {
     if(!SharedLibrary.getVersion(env)) {
         initializeSharedLibrary.findVersion()
     }
-    node {
-      body()
-    }
-//    String image = 'duvalhub/jenkins-slave:1.0.5.rc1'
-//    dockerNode([image: image, args: '-v /var/jenkins:/home/jenkins']) {
+//    node {
+//      body()
 //    }
+    String image = 'duvalhub/jenkins-slave:1.0.5.rc1'
+    dockerNode([image: image, args: '-v /var/jenkins:/home/jenkins']) {
+    }
 }
 
