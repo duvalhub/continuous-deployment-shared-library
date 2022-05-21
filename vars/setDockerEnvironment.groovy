@@ -28,7 +28,7 @@ def login(String credentialId, Closure body) {
 
 def withCredentials(DockerHost dockerHost, String credentialId, Closure body) {
     setDockerEnvironment(dockerHost) {
-        login(dockerHost) {
+        setDockerEnvironment.login(dockerHost) {
             body()
         }
     }
