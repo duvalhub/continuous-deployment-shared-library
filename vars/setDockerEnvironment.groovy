@@ -1,20 +1,27 @@
 import com.duvalhub.appconfig.DockerHost
 
 def call(DockerHost dockerHost, Closure body) {
-//    body()
+    body()
 //    return
-    echo "Setting docker environment using SSH. dockerHost: '${dockerHost.toString()}'"
-    String host = dockerHost.getUrl()
-    String user = dockerHost.getUser()
-    withSshKey(host, "SERVICE_ACCOUNT_SSH", user) {
-        sh """
-            docker context rm -f ${host}
-            docker context create ${host} --description 'Context for ${host}' --docker 'host=ssh://${user}@${host}'
-            docker context use ${host}
-            docker ps
-        """
-        body()
-    }
+//    echo "Setting docker environment using SSH. dockerHost: '${dockerHost.toString()}'"
+//    String host = dockerHost.getUrl()
+//    String user = dockerHost.getUser()
+//    sh """
+//        docker context rm -f ${host}
+//        docker context create ${host} --description 'Context for ${host}' --docker 'host=ssh://${user}@${host}'
+//        docker context use ${host}
+//        docker ps
+//    """
+//
+//    withSshKey(host, "SERVICE_ACCOUNT_SSH", user) {
+//        sh """
+//            docker context rm -f ${host}
+//            docker context create ${host} --description 'Context for ${host}' --docker 'host=ssh://${user}@${host}'
+//            docker context use ${host}
+//            docker ps
+//        """
+//        body()
+//    }
 }
 
 def withCredentials(DockerHost dockerHost, String credentialId, Closure body) {
