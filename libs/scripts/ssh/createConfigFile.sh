@@ -13,14 +13,12 @@ echo "Setting SSH Config File for $SSH_USER@$HOST using $KEY_FILE_SSH_VAR_NAME"
 declare -r first_line="Host $HOST"
 if grep -q "$first_line" "$SSH_CONFIG"; then
    sed -i '/'"$first_line"'/,+5 d' "$SSH_CONFIG"
-else
-  {
-    echo "$first_line"
-    echo "  User $SSH_USER"
-    echo "  HostName $HOST"
-    echo "  IdentityFile ${!KEY_FILE_SSH_VAR_NAME}"
-    echo "  StrictHostKeyChecking=no"
-    echo "  UserKnownHostsFile=/dev/null"
-  } >> "$SSH_CONFIG"
 fi
-
+{
+  echo "$first_line"
+  echo "  User $SSH_USER"
+  echo "  HostName $HOST"
+  echo "  IdentityFile ${!KEY_FILE_SSH_VAR_NAME}"
+  echo "  StrictHostKeyChecking=no"
+  echo "  UserKnownHostsFile=/dev/null"
+} >> "$SSH_CONFIG"
