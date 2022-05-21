@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 declare -r SSH_HOME="${SSH_HOME:-"/home/$(whoami)/.ssh"}"
-declare -r SSH_CONFIG="$SSH_HOME/config"
+declare -r SSH_CONFIG="${SSH_CONFIG:-"$SSH_HOME/config"}"
 declare -r HOST="${HOST:?"Missing HOST variable"}"
 declare -r SSH_USER="${SSH_USER:?"Missing SSH_USER variable"}"
 declare -r KEY_FILE_SSH_VAR_NAME="${KEY_FILE_SSH_VAR_NAME:?"Missing KEY_FILE_SSH_VAR_NAME variable"}"
