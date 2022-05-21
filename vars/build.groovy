@@ -36,7 +36,7 @@ def call(BuildRequest buildRequest) {
                 if (build_command) {
                     params.add("--build-command ${build_command}")
                 }
-                setDockerEnvironment.withCredentials(buildDockerHost, buildRequest.getCredentialId()) {
+                setDockerEnvironment.login(buildRequest.getCredentialId()) {
                     executeScript(script, false, params.join(" "))
                 }
             }
