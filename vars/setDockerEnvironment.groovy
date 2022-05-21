@@ -5,10 +5,10 @@ def call(DockerHost dockerHost, Closure body) {
     String host = dockerHost.getUrl()
     String user = dockerHost.getUser()
     withSshKey(host, "SERVICE_ACCOUNT_SSH", "jenkins") {
-        sh """
 //            docker context inspect ${host} &>/dev/null || \
 //            docker context create ${host} --description 'Context for ${host}' --docker 'host=ssh://${user}@${host}'
 //            docker context use ${host}
+        sh """
             docker context use default
         """
         body()
