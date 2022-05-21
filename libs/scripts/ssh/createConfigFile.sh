@@ -12,7 +12,7 @@ fi
 echo "Setting SSH Config File for $SSH_USER@$HOST using $KEY_FILE_SSH_VAR_NAME"
 declare -r first_line="Host $HOST"
 if grep -q "$first_line" "$SSH_CONFIG"; then
-  echo "SSH Config File already set for '$HOST'"
+   sed -i '/'"$first_line"'/,+5 d' "$SSH_CONFIG"
 else
   {
     echo "$first_line"
