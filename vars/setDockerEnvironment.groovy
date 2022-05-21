@@ -1,15 +1,17 @@
 import com.duvalhub.appconfig.DockerHost
 
 def call(DockerHost dockerHost, Closure body) {
+    body()
+    return
     echo "Setting docker environment using SSH. dockerHost: '${dockerHost.toString()}'"
     String host = dockerHost.getUrl()
     String user = dockerHost.getUser()
     withSshKey(host, "SERVICE_ACCOUNT_SSH", "jenkins") {
-//            docker context inspect ${host} &>/dev/null || \
-//            docker context create ${host} --description 'Context for ${host}' --docker 'host=ssh://${user}@${host}'
-//            docker context use ${host}
         sh """
-            docker context use default
+            docker context inspect ${host} &>/dev/null || \
+            docker context create ${host} --description 'Context for ${host}' --docker 'host=ssh://${user}@${host}'
+            docker context use ${host}
+            docker context use defual
         """
         body()
     }
