@@ -11,6 +11,7 @@ def call(DockerHost dockerHost, Closure body) {
             docker context rm ${host}
             docker context create ${host} --description 'Context for ${host}' --docker 'host=ssh://${user}@${host}'
             docker context use ${host}
+            docker ps
         """
         body()
     }
