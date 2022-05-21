@@ -6,7 +6,7 @@ def call(DockerHost dockerHost, Closure body) {
     echo "Setting docker environment using SSH. dockerHost: '${dockerHost.toString()}'"
     String host = dockerHost.getUrl()
     String user = dockerHost.getUser()
-    withSshKey(host, "SERVICE_ACCOUNT_SSH", "jenkins") {
+    withSshKey(host, "SERVICE_ACCOUNT_SSH", user) {
         sh """
             docker context rm -f ${host}
             docker context create ${host} --description 'Context for ${host}' --docker 'host=ssh://${user}@${host}'
