@@ -13,7 +13,11 @@ def call(DockerHost dockerHost, Closure body) {
                 docker context create ${host} --description 'Context for ${host}' --docker 'host=ssh://${user}@${host}'
                 docker context use ${host}
             """
-            body()
+            try {
+                body()
+            } finally {
+                sh "docker use default"
+            }
         }
     }
 }
