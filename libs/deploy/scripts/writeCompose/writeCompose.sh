@@ -125,6 +125,8 @@ if [ -n "$DATABASE_IMAGE" ] && [ -n "$DATABASE_VERSION" ]; then
   # Create Database Service
   yq w -i "$TMP_YML" "services.database.image" "${DATABASE_IMAGE}:${DATABASE_VERSION}"
   yq w -i "$TMP_YML" "services.database.deploy.placement.constraints[+]" "node.labels.database==true"
+  # Database volume
+  add_thing_to_service "volumes" "database" "services.database"
 
   # Database secrets (database name, username, password)
   add_thing_to_service "secrets" "$DATABASE_SECRET" "services.database"
