@@ -8,15 +8,18 @@ def call(DockerHost dockerHost, Closure body) {
         body()
     } else {
         withSshKey(host, "SERVICE_ACCOUNT_SSH", user) {
-            sh """
-                docker context rm -f ${host} || true
-                docker context create ${host} --description 'Context for ${host}' --docker 'host=ssh://${user}@${host}'
-                docker context use ${host}
-            """
             try {
+                sh """
+                    docker context rm -f ${host} || true
+                    docker context create ${host} --description 'Context for ${host}' --docker 'host=ssh://${user}@${host}'
+                    docker context use ${host}
+                """
                 body()
             } finally {
-                sh "docker context use default"
+                sh """
+                    docker context use default
+                    docker context rm -f ${host} || true
+                """
             }
         }
     }
