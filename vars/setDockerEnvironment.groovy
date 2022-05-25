@@ -16,7 +16,7 @@ def call(DockerHost dockerHost, Closure body) {
             try {
                 body()
             } finally {
-                sh "docker use default"
+                sh "docker context use default"
             }
         }
     }
