@@ -21,7 +21,7 @@ echo "############ Processing"
 echo "####################"
 
 temp_file=$(mktemp)
-./writeCompose.sh "$temp_file"
+"$(dirname -- "$0")/writeCompose.sh" "$temp_file"
 
 echo "####################"
 echo "############ Result"
