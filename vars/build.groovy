@@ -13,31 +13,32 @@ def call(BuildRequest buildRequest) {
         String template_path = "${basePath}/templates"
         def script = "${basePath}/scripts/build/build.sh"
         def appBasePath = "${env.APP_WORKDIR}"
+        withConfigServer(buildRequest.getAppName()) {
+            withEnv([
+                    "IMAGE=${image_name}"
+            ]) {
+                dir(appBasePath) {
+                    DockerHost buildDockerHost = buildRequest.getDockerHost('build')
+                    List<String> params = [
+                            "--templates ${template_path}",
+                            "--builder ${buildRequest.getBuilder()}",
+                            "--builder-version ${buildRequest.getBuilderVersion()}",
+                            "--container ${buildRequest.getContainer()}",
+                            "--container-version ${buildRequest.getContainerVersion()}",
+                            "--remove-application-yml ${buildRequest.removeApplicationYml()}"
+                    ] as String[]
 
-        withEnv([
-                "IMAGE=${image_name}"
-        ]) {
-            dir(appBasePath) {
-                DockerHost buildDockerHost = buildRequest.getDockerHost('build')
-                List<String> params = [
-                        "--templates ${template_path}",
-                        "--builder ${buildRequest.getBuilder()}",
-                        "--builder-version ${buildRequest.getBuilderVersion()}",
-                        "--container ${buildRequest.getContainer()}",
-                        "--container-version ${buildRequest.getContainerVersion()}",
-                        "--remove-application-yml ${buildRequest.removeApplicationYml()}"
-                ] as String[]
-
-                String build_destination = buildRequest.getBuildDestination()
-                if (build_destination) {
-                    params.add("--build-destination ${build_destination}")
-                }
-                String build_command = buildRequest.getBuilderCommand()
-                if (build_command) {
-                    params.add("--build-command ${build_command}")
-                }
-                setDockerEnvironment.withCredentials(buildDockerHost, buildRequest.getCredentialId()) {
-                    executeScript(script, false, params.join(" "))
+                    String build_destination = buildRequest.getBuildDestination()
+                    if (build_destination) {
+                        params.add("--build-destination ${build_destination}")
+                    }
+                    String build_command = buildRequest.getBuilderCommand()
+                    if (build_command) {
+                        params.add("--build-command ${build_command}")
+                    }
+                    setDockerEnvironment.withCredentials(buildDockerHost, buildRequest.getCredentialId()) {
+                        executeScript(script, false, params.join(" "))
+                    }
                 }
             }
         }
