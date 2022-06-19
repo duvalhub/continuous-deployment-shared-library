@@ -58,6 +58,10 @@ default_param builder_version latest
 default_param container_version alpine
 default_param remove_application_yml false
 
+env | grep -E 'APPLICATION|CONFIG'
+
+exit 1
+
 #################
 # Begin Script
 ################
