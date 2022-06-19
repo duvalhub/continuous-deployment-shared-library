@@ -11,7 +11,6 @@ ARG CONFIG_LABEL
 ARG CONFIG_URL
 ARG CONFIG_USERNAME
 ARG CONFIG_PASSWORD
-RUN "env | grep -i config"
 COPY package.json package-lock.jso[n] ./
 RUN npm install
 COPY . .
