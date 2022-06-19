@@ -46,6 +46,12 @@ test_param "templates"
 test_param "builder"
 #test_param "build_destination"
 test_param "container"
+# Config Server
+test_param "APPLICATION_NAME"
+test_param "APPLICATION_PROFILES"
+test_param "CONFIG_LABEL"
+test_param "CONFIG_USERNAME"
+test_param "CONFIG_PASSWORD"
 assert_param_valid
 default_param builder_version latest
 default_param container_version alpine
@@ -83,10 +89,20 @@ docker version
 echo "### Building"
 export build_destination
 export build_command
+export APPLICATION_NAME
+export APPLICATION_PROFILES
+export CONFIG_LABEL
+export CONFIG_USERNAME
+export CONFIG_PASSWORD
 docker build --pull \
 --build-arg build_directory=$(mktemp) \
 --build-arg build_destination \
 --build-arg build_command \
+--build-arg APPLICATION_NAME \
+--build-arg APPLICATION_PROFILES \
+--build-arg CONFIG_LABEL \
+--build-arg CONFIG_USERNAME \
+--build-arg CONFIG_PASSWORD \
 -t "$IMAGE" -f "$DOCKERFILE" .
 echo "### Pushing"
 docker push "$IMAGE"
