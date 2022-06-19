@@ -50,6 +50,7 @@ test_param "container"
 test_param "APPLICATION_NAME"
 test_param "APPLICATION_PROFILES"
 test_param "CONFIG_LABEL"
+test_param "CONFIG_URL"
 test_param "CONFIG_USERNAME"
 test_param "CONFIG_PASSWORD"
 assert_param_valid
@@ -92,6 +93,7 @@ export build_command
 export APPLICATION_NAME
 export APPLICATION_PROFILES
 export CONFIG_LABEL
+export CONFIG_URL
 export CONFIG_USERNAME
 export CONFIG_PASSWORD
 docker build --pull \
@@ -101,6 +103,7 @@ docker build --pull \
 --build-arg APPLICATION_NAME \
 --build-arg APPLICATION_PROFILES \
 --build-arg CONFIG_LABEL \
+--build-arg CONFIG_URL \
 --build-arg CONFIG_USERNAME \
 --build-arg CONFIG_PASSWORD \
 -t "$IMAGE" -f "$DOCKERFILE" .
