@@ -7,7 +7,7 @@ esac; shift; done
 
 echo "### Create, if not exists, network '$network'"
 
-docker network inspect "$network" > /dev/null
+docker ${$DOCKER_CONTEXT_ID:+"--context $$DOCKER_CONTEXT_ID"} network inspect "$network" > /dev/null
 
 result="$?"
 if [ "$result" = 0 ]; then
@@ -16,4 +16,4 @@ if [ "$result" = 0 ]; then
 fi
 
 echo "Network does not exist. Creating encrypted overlay network '$network'"
-docker network create -d overlay --opt encrypted "$network"
+docker ${$DOCKER_CONTEXT_ID:+"--context $$DOCKER_CONTEXT_ID"} network create -d overlay --opt encrypted "$network"

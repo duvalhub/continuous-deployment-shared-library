@@ -9,7 +9,8 @@ def call(DeployRequest request) {
             String prepare_script = "${SharedLibrary.getWorkdir(env)}/libs/deploy/scripts/network/createIfNotExist.sh"
             String params = "--network ${request.getInternalNetwork()}"
             executeScript(prepare_script, false, params)
-            sh "docker stack deploy --with-registry-auth -c ${composeFilePath} ${request.getStackName()}"
+            String contextString = env.DOCKER_CONTEXT_ID ? "--context ${env.DOCKER_CONTEXT_ID}" : ""
+            sh "docker ${contextString} stack deploy --with-registry-auth -c ${composeFilePath} ${request.getStackName()}"
         }
     }
 }
