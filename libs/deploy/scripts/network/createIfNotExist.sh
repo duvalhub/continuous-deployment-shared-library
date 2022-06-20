@@ -15,4 +15,4 @@ if [ "$result" = 0 ]; then
 fi
 
 echo "Network does not exist. Creating encrypted overlay network '$network'"
-docker ${DOCKER_CONTEXT_ID:+"--context $DOCKER_CONTEXT_ID"} network create -d overlay --opt encrypted "$network"
+docker ${DOCKER_CONTEXT_ID:+"-c$DOCKER_CONTEXT_ID"} network create -d overlay --opt encrypted "$network"
