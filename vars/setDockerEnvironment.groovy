@@ -33,7 +33,7 @@ def login(String credentialId, Closure body) {
     withCredentials([
             usernamePassword(credentialsId: credentialId, usernameVariable: 'DOCKER_CREDENTIALS_USR', passwordVariable: 'DOCKER_CREDENTIALS_PSW')
     ]) {
-        sh 'echo "$DOCKER_CREDENTIALS_PSW" | docker ${DOCKER_CONTEXT_ID:+"--context $DOCKER_CONTEXT_ID"} login --username "$DOCKER_CREDENTIALS_USR" --password-stdin'
+        sh 'docker version && echo "$DOCKER_CREDENTIALS_PSW" | docker ${DOCKER_CONTEXT_ID:+"--context $DOCKER_CONTEXT_ID"} login --username "$DOCKER_CREDENTIALS_USR" --password-stdin'
         body()
     }
 }
