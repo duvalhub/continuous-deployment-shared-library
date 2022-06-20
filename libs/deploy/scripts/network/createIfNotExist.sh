@@ -6,6 +6,7 @@ while [[ "$#" -gt 0 ]]; do case $1 in
 esac; shift; done
 
 echo "### Create, if not exists, network '$network'"
+echo docker ${DOCKER_CONTEXT_ID:+"--context $DOCKER_CONTEXT_ID"} network inspect "$network" > /dev/null
 docker ${DOCKER_CONTEXT_ID:+"--context $DOCKER_CONTEXT_ID"} network inspect "$network" > /dev/null
 
 result="$?"
