@@ -21,7 +21,7 @@ def call(DockerHost dockerHost, Closure body) {
                 }
             } finally {
                 sh """
-                    docker context rm -f ${contextId} || true
+                    echo docker context rm -f ${contextId} || true
                 """
             }
         }
