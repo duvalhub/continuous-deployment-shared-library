@@ -8,17 +8,20 @@ def call(DockerHost dockerHost, Closure body) {
         body()
     } else {
         withSshKey(host, "SERVICE_ACCOUNT_SSH", user) {
+            def contextId = UUID.randomUUID().toString()
             try {
                 sh """
-                    docker context rm -f ${host} || true
-                    docker context create ${host} --description 'Context for ${host}' --docker 'host=ssh://${user}@${host}'
-                    docker context use ${host}
+                    docker context rm -f ${contextId} || true
+                    docker context create ${contextId} --description 'Context for ${host}' --docker 'host=ssh://${user}@${host}'
                 """
-                body()
+                withEnv([
+                        "DOCKER_CONTEXT_ID=${contextId}"
+                ]) {
+                    body()
+                }
             } finally {
                 sh """
-                    docker context use default
-                    docker context rm -f ${host} || true
+                    docker context rm -f ${contextId} || true
                 """
             }
         }
@@ -30,7 +33,7 @@ def login(String credentialId, Closure body) {
     withCredentials([
             usernamePassword(credentialsId: credentialId, usernameVariable: 'DOCKER_CREDENTIALS_USR', passwordVariable: 'DOCKER_CREDENTIALS_PSW')
     ]) {
-        sh 'echo "$DOCKER_CREDENTIALS_PSW" | docker login --username "$DOCKER_CREDENTIALS_USR" --password-stdin'
+        sh 'echo "$DOCKER_CREDENTIALS_PSW" | docker ${DOCKER_CONTEXT_ID:+"-c$DOCKER_CONTEXT_ID"} login --username "$DOCKER_CREDENTIALS_USR" --password-stdin'
         body()
     }
 }
