@@ -12,7 +12,6 @@ def call(GitCloneRequest request) {
         ]) {
             String script = "${SharedLibrary.getWorkdir(env)}/libs/scripts/git/gitclone.sh"
             executeScript(script)
-
             if (gitRepo.branch) {
                 dir(request.directory) {
                     sh "git checkout ${gitRepo.branch}"
