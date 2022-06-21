@@ -8,7 +8,7 @@ def call(String host, String credentialId, String user, Closure body) {
             sshUserPrivateKey(keyFileVariable: credVar, credentialsId: credentialId, usernameVariable: usernameVar)
     ]) {
         String sshFolder = "/home/jenkins/.ssh"
-        String sshConfig = "${sshFolder}/config"
+        String sshConfig = "${sshFolder}/config-${UUID.randomUUID().toString()}"
         withEnv([
                 "SSH_HOME=${sshFolder}",
                 "SSH_CONFIG=${sshConfig}",
@@ -18,7 +18,11 @@ def call(String host, String credentialId, String user, Closure body) {
         ]) {
             String script = "${SharedLibrary.getWorkdir(env)}/libs/scripts/ssh/createConfigFile.sh"
             executeScript(script)
-            body()
+            try {
+                body()
+            } finally {
+                sh "rm -rf ${sshConfig}"
+            }
         }
     }
 }
