@@ -1,6 +1,5 @@
 #!/bin/bash
 echo "### Running in gitClone.sh"
-export GIT_SSH_COMMAND="ssh -F $SSH_CONFIG"
 echo "### GIT_URL: '$GIT_URL', GIT_DIRECTORY: '$GIT_DIRECTORY', GIT_SSH_COMMAND: '$GIT_SSH_COMMAND'"
 rm -rf "$GIT_DIRECTORY"
 git --version

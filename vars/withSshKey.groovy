@@ -9,7 +9,7 @@ def call(String hostname, String credentialId, String user, Closure body) {
             sshUserPrivateKey(keyFileVariable: credVar, credentialsId: credentialId, usernameVariable: usernameVar)
     ]) {
         String sshFolder = "/home/jenkins/.ssh"
-        String sshConfig = "${sshFolder}/config-${}"
+        String sshConfig = "${sshFolder}/config-${host}"
         withEnv([
                 "SSH_HOME=${sshFolder}",
                 "SSH_CONFIG=${sshConfig}",
