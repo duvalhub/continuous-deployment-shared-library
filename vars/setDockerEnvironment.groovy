@@ -12,7 +12,7 @@ def call(DockerHost dockerHost, Closure body) {
             try {
                 sh """
                     docker context rm -f ${contextId} || true
-                    docker context create ${contextId} --description 'Context for ${host}' --docker 'host=ssh://${user}@${host}'
+                    docker context create ${contextId} --description 'Context for ${host}' --docker 'host=ssh://${HOST}'
                 """
                 withEnv([
                         "DOCKER_CONTEXT_ID=${contextId}"
