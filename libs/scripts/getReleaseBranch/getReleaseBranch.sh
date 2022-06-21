@@ -1,5 +1,9 @@
 #!/bin/bash
 set -e
+
+git remote -v
+cat ~/.ssh/config
+
 git fetch
 release_branch_count=$(git branch -a | grep -c '^  remotes/origin/release');
 
