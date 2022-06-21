@@ -8,8 +8,7 @@ def call(GitCloneRequest request) {
     withSshKey("github.com", "SERVICE_ACCOUNT_SSH", "git") {
         withEnv([
                 "GIT_DIRECTORY=${request.directory}",
-                "GIT_URL=${gitRepo.getUrl().replace("github.com", env.SSH_HOST)}",
-                "GIT_SSH_COMMAND=ssh -F ${env.SSH_CONFIG}"
+                "GIT_URL=${gitRepo.getUrl().replace("github.com", env.SSH_HOST)}"
         ]) {
             String script = "${SharedLibrary.getWorkdir(env)}/libs/scripts/git/gitclone.sh"
             executeScript(script)
