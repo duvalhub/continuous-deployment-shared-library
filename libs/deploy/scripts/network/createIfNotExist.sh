@@ -7,8 +7,8 @@ esac; shift; done
 
 echo "### Create, if not exists, network '$network'"
 docker ${DOCKER_CONTEXT_ID:+"-c$DOCKER_CONTEXT_ID"} network inspect "$network" > /dev/null
-
 result="$?"
+echo "Result: $result"
 if [ "$result" = 0 ]; then
     echo "Network '$network' already exists"
     exit 0
