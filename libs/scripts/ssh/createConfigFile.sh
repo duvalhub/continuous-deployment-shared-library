@@ -13,8 +13,7 @@ fi
 echo "Setting SSH Config File for $SSH_USER@$HOSTNAME using $KEY_FILE_SSH_VAR_NAME"
 declare -r first_line="Host $SSH_HOST"
 if grep -q "$first_line" "$SSH_CONFIG"; then
-  #   sed -i '/'"$first_line"'/,+5 d' "$SSH_CONFIG"
-  echo "We find twice the same entry in ssh config file. This shouldn't happen since we are generating a new UUID random configi file each time."
+  echo "We found twice the same entry in ssh config file. This shouldn't happen since we are generating a new UUID random configi file each time."
   exit 1
 fi
 {
