@@ -86,7 +86,7 @@ sed -e 's/^/   /' < "$DOCKERFILE"
 echo ""
 
 echo "### Version"
-docker ${DOCKER_CONTEXT_ID:+"--context $DOCKER_CONTEXT_ID"} version
+docker version
 echo "### Building"
 export build_destination
 export build_command
@@ -96,7 +96,7 @@ export CONFIG_LABEL
 export CONFIG_URL
 export CONFIG_USERNAME
 export CONFIG_PASSWORD
-docker ${DOCKER_CONTEXT_ID:+"--context $DOCKER_CONTEXT_ID"} build --pull \
+docker build --pull \
 --build-arg build_directory=$(mktemp) \
 --build-arg build_destination \
 --build-arg build_command \
@@ -108,4 +108,4 @@ docker ${DOCKER_CONTEXT_ID:+"--context $DOCKER_CONTEXT_ID"} build --pull \
 --build-arg CONFIG_PASSWORD \
 -t "$IMAGE" -f "$DOCKERFILE" .
 echo "### Pushing"
-docker ${DOCKER_CONTEXT_ID:+"--context $DOCKER_CONTEXT_ID"} push "$IMAGE"
+docker push "$IMAGE"
