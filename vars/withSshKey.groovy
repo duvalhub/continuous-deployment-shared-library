@@ -23,7 +23,6 @@ def call(String hostname, String credentialId, String user, Closure body) {
             try {
                 body()
             } finally {
-//                sh "rm -rf ${sshConfig}"
                 sh "sed -i '/Host ${sshHost}/,+5 d' '${sshConfig}'"
             }
         }
