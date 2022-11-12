@@ -107,7 +107,7 @@ def getConfigFile(String branch, GitRepo gitRepo, String destination) {
 }
 
 def getConfigUrl(String branch, String path) {
-    return String.format("https://raw.githubusercontent.com/duvalhub/continous-deployment-configs/%s/%s", branch, path)
+    return String.format("https://raw.githubusercontent.com/duvalhub/continuous-deployment-configs/%s/%s", branch, path)
 }
 
 def getConfigUrl(String branch, String[] pathToFile) {
