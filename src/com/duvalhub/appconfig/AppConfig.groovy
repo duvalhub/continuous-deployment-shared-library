@@ -4,9 +4,19 @@ import com.duvalhub.BaseObject
 
 class AppConfig extends BaseObject {
     App app
+    Strategy strategy
     Build build
     Deploy deploy
     Docker docker
+}
+
+class Strategy extends BaseObject {
+   StrategyType type
+}
+
+enum StrategyType {
+    MULTI_BRANCH,
+    ONE_BRANCH;
 }
 
 class App extends BaseObject {
