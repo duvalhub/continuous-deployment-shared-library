@@ -22,7 +22,12 @@ def call(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
             echo "App Git Info: org: '$org', repo: '$repo', branch: '$branch'"
             appGitRepo = new GitRepo(org, repo, branch)
         }
+    } else if(params.getCloneAppRepo()) {
+        echo "### Cloning App into Workdir..."
+        GitCloneRequest appRequest = new GitCloneRequest(appGitRepo, params.appWorkdir)
+        gitClone(appRequest)
     }
+    env.APP_WORKDIR = "$WORKSPACE/${params.appWorkdir}"
 
     echo "### Getting Application Configs"
     AppConfig appConfig = getMergedFile(pipelineBranch, appGitRepo)
@@ -31,13 +36,6 @@ def call(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
     // Download Shared Library
     initializeSharedLibrary(params)
 
-    // Download App Code if required
-    if (params.getCloneAppRepo()) {
-        echo "### Cloning App into Workdir..."
-        GitCloneRequest appRequest = new GitCloneRequest(appGitRepo, params.appWorkdir)
-        gitClone(appRequest)
-        env.APP_WORKDIR = "$WORKSPACE/${params.appWorkdir}"
-    }
 
     return appConfig
 }
