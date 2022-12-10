@@ -7,6 +7,9 @@ import com.duvalhub.initializeworkdir.SharedLibrary
 
 def call(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
     echo "### Initializing Work Directory. InitializeWorkdirIn: '${params.toString()}'"
+    // Download Shared Library
+    initializeSharedLibrary(params)
+
     def pipelineBranch = SharedLibrary.getVersion(env) ?: "master"
     GitRepo appGitRepo = params.getAppGitRepo()
 
@@ -32,10 +35,6 @@ def call(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
     echo "### Getting Application Configs"
     AppConfig appConfig = getMergedFile(pipelineBranch, appGitRepo)
     echo appConfig.toString()
-
-    // Download Shared Library
-    initializeSharedLibrary(params)
-
 
     return appConfig
 }
