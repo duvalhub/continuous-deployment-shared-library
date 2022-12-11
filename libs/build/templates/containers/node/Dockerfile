@@ -12,3 +12,5 @@ ARG NODE_ENV=production
 ENV NODE_ENV $NODE_ENV
 ENTRYPOINT ["/bin/sh", "/app/start.sh"]
 CMD ["npm", "start"]
+COPY healthcheck.js ./
+HEALTHCHECK CMD node healthcheck.js

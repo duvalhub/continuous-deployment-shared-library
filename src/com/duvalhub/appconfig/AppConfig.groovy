@@ -70,6 +70,16 @@ class Platform extends BaseObject {
     Network[] networks
     DockerHost host
     int replicas = 1
+    Healthcheck healthcheck
+}
+
+class Healthcheck extends BaseObject {
+    boolean enabled
+    String command
+    int interval
+    int timeout
+    int startPeriod
+    int retries
 }
 
 class Volume extends BaseObject {
