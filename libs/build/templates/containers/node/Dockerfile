@@ -12,7 +12,3 @@ ARG NODE_ENV=production
 ENV NODE_ENV $NODE_ENV
 ENTRYPOINT ["/bin/sh", "/app/start.sh"]
 CMD ["npm", "start"]
-ARG HEALTHCHECK_ENDPOINT
-ENV HEALTHCHECK_ENDPOINT $HEALTHCHECK_ENDPOINT
-COPY healthcheck.js ./
-# HEALTHCHECK CMD node healthcheck.js
