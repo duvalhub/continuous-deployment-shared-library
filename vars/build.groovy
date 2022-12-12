@@ -43,11 +43,11 @@ def call(BuildRequest buildRequest) {
                                 params.add("--healthcheck-command 'node healthcheck.js'")
                                 break
                         }
-                        params.add("--healthcheck-endpoint ${healthCheck.endpoint}")
-                        params.add("--healthcheck-interval ${healthCheck.interval}")
-                        params.add("--healthcheck-timeout ${healthCheck.timeout}")
-                        params.add("--healthcheck-start-period ${healthCheck.startPeriod}")
-                        params.add("--healthcheck-retries ${healthCheck.retries}")
+                        healthCheck.endpoint && params.add("--healthcheck-endpoint ${healthCheck.endpoint}")
+                        healthCheck.interval && params.add("--healthcheck-interval ${healthCheck.interval}")
+                        healthCheck.timeout && params.add("--healthcheck-timeout ${healthCheck.timeout}")
+                        healthCheck.startPeriod && params.add("--healthcheck-start-period ${healthCheck.startPeriod}")
+                        healthCheck.retries && params.add("--healthcheck-retries ${healthCheck.retries}")
                     }
                     setDockerEnvironment.withCredentials(buildDockerHost, buildRequest.getCredentialId()) {
                         executeScript(script, false, params.join(" "))
