@@ -2,7 +2,7 @@ var http = require('http');
 
 http.request({
     host: 'localhost',
-    port: process.env.PORT || 80,
+    port: Number(process.env.PORT) || 80,
     path: process.env.HEALTHCHECK_ENDPOINT || '/api/healthcheck'
 }, function (response) {
     response.on('data', () => { })
