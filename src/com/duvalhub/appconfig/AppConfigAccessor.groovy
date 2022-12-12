@@ -2,8 +2,6 @@ package com.duvalhub.appconfig
 
 import com.duvalhub.BaseObject
 
-import javax.xml.crypto.Data
-
 class AppConfigAccessor extends BaseObject {
     String scriptPath = "libs/deploy/scripts/writeCompose/writeCompose.sh"
     String compose = "docker-compose.yml"
@@ -111,7 +109,6 @@ class AppConfigAccessor extends BaseObject {
     }
 
     String getDomainNames(String environment) {
-
         Platform platform = this.getPlatform(environment)
         String base = platform.getBaseDomainName()
         def urls = []
@@ -127,6 +124,10 @@ class AppConfigAccessor extends BaseObject {
         }
 
         return urls.join(" ")
+    }
+
+    HealthCheck getHealthcheck() {
+       return this.appConfig.deploy.healthcheck
     }
 
     String getVolumes(String environment) {
@@ -155,7 +156,7 @@ class AppConfigAccessor extends BaseObject {
 
     String[] getEnvironmentFileId(String environment) {
         Platform platform = this.getPlatform(environment)
-        return platform.environmentFiles
+        return platform.environmentFiles.values()
     }
 
     Platform getPlatform(String environment) {
@@ -192,14 +193,4 @@ class AppConfigAccessor extends BaseObject {
         }
         return host
     }
-
-    String getDockerUrl(String environment) {
-        return this.getDockerHost(environment).getDockerUrl()
-    }
-
-    String getBundleId(String environment) {
-        return this.getDockerHost(environment).bundleId
-    }
-
-
 }

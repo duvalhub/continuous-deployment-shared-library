@@ -1,4 +1,5 @@
 import com.duvalhub.appconfig.Database
+import com.duvalhub.appconfig.HealthCheck
 import com.duvalhub.deploy.DeployRequest
 import com.duvalhub.initializeworkdir.SharedLibrary
 
@@ -55,12 +56,24 @@ def call(DeployRequest request) {
         envs.add("SECRETS=${secrets}")
     }
 
+    HealthCheck healthCheck =  request.getHealthcheck()
+    if(healthCheck?.enabled) {
+        switch (request.build.container) {
+            case "node":
+                envs.add("HEALTHCHECK_COMMAND=node healthcheck.js ${healthCheck.endpoint ?: ""}")
+                break
+        }
+        healthCheck.interval && envs.add("HEALTHCHECK_INTERVAL=${healthCheck.interval}")
+        healthCheck.timeout && envs.add("HEALTHCHECK_TIMEOUT=${healthCheck.timeout}")
+        healthCheck.startPeriod && envs.add("HEALTHCHECK_START_PERIOD=${healthCheck.startPeriod}")
+        healthCheck.retries && envs.add("HEALTHCHECK_RETRIES=${healthCheck.retries}")
+    }
+
     withEnv(envs) {
         def script = "${SharedLibrary.getWorkdir(env)}/${request.scriptPath}"
         def compose = request.compose
         executeScript(script, false, compose)
         return compose
-
     }
 }
 

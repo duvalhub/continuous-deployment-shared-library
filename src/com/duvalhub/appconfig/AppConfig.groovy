@@ -40,6 +40,7 @@ class Deploy extends BaseObject {
     String port = "80"
     Database database
     Platforms platforms
+    HealthCheck healthcheck
 }
 
 class Database extends BaseObject {
@@ -65,11 +66,20 @@ class Platform extends BaseObject {
     Boolean defaultHostname = true
     String baseDomainName
     String[] environments
-    String[] environmentFiles
+    Map environmentFiles
     Volume[] volumes
     Network[] networks
     DockerHost host
     int replicas = 1
+}
+
+class HealthCheck extends BaseObject {
+    boolean enabled
+    String endpoint
+    String interval
+    String timeout
+    String startPeriod
+    String retries
 }
 
 class Volume extends BaseObject {
@@ -107,12 +117,5 @@ class Docker extends BaseObject {
 
 class DockerHost extends BaseObject {
     String user = "jenkins"
-    String protocol = "tcp"
     String url
-    String port = "2376"
-    String bundleId
-
-    String getDockerUrl() {
-        return String.format("%s://%s:%s", this.protocol, this.url, this.port)
-    }
 }

@@ -1,4 +1,3 @@
-import com.duvalhub.appconfig.AppConfig
 import com.duvalhub.appconfig.DockerHost
 import com.duvalhub.build.BuildRequest
 import com.duvalhub.initializeworkdir.SharedLibrary
