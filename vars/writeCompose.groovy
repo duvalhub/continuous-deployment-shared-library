@@ -60,7 +60,7 @@ def call(DeployRequest request) {
     if(healthCheck?.enabled) {
         switch (request.build.container) {
             case "node":
-                envs.add("HEALTHCHECK_COMMAND=node healthcheck.js ${HEALTHCHECK_ENDPOINT}")
+                envs.add("HEALTHCHECK_COMMAND=node healthcheck.js ${healthCheck.endpoint ?: ""}")
                 break
         }
         healthCheck.interval && envs.add("HEALTHCHECK_INTERVAL=${healthCheck.interval}")
