@@ -16,6 +16,12 @@ export DATABASE_SECRET="MYSQL_SECRET"
 export DATABASE_ENTRYPOINT="init.sh"
 export DATABASE_ENTRYPOINT_VOLUME="database-entrypoint"
 
+export HEALTHCHECK_COMMAND="node healthcheck.js"
+export HEALTHCHECK_INTERVAL="5s"
+export HEALTHCHECK_TIMEOUT="6s"
+export HEALTHCHECK_retries="4"
+export HEALTHCHECK_START_PERIOD="10"
+
 echo "####################"
 echo "############ Processing"
 echo "####################"

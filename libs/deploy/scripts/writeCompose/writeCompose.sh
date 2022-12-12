@@ -157,6 +157,16 @@ if [ -n "$VOLUMES" ]; then
 fi
 
 #####################
+# HealthCheck
+if [ -n "$HEALTHCHECK_COMMAND" ]; then
+  yq w -i "$TMP_YML" "$BASE_PATH.healthcheck.test" "$HEALTHCHECK_COMMAND || exit 1"
+  [ -n "$HEALTHCHECK_INTERVAL" ] && yq w -i "$TMP_YML" "$BASE_PATH.healthcheck.interval" "$HEALTHCHECK_INTERVAL"
+  [ -n "$HEALTHCHECK_TIMEOUT" ] && yq w -i "$TMP_YML" "$BASE_PATH.healthcheck.timeout" "$HEALTHCHECK_TIMEOUT"
+  [ -n "$HEALTHCHECK_RETRIES" ] && yq w -i "$TMP_YML" "$BASE_PATH.healthcheck.retries" "$HEALTHCHECK_RETRIES"
+  [ -n "$HEALTHCHECK_START_PERIOD" ] && yq w -i "$TMP_YML" "$BASE_PATH.healthcheck.start_period" "$HEALTHCHECK_START_PERIOD"
+fi
+
+#####################
 sed -i -e "s/'\"/\"/g" -e "s/\"'/\"/g" "$TMP_YML"
 
 #####################

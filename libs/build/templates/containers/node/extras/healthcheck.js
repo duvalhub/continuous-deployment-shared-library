@@ -3,7 +3,7 @@ var http = require('http');
 http.request({
     host: 'localhost',
     port: Number(process.env.PORT) || 80,
-    path: process.env.HEALTHCHECK_ENDPOINT || '/api/healthcheck'
+    path: process.argv[2] || '/api/healthcheck'
 }, function (response) {
     var str = ''
     response.on('data', (chunk) => { str += chunk})

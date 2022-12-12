@@ -2,8 +2,6 @@ package com.duvalhub.appconfig
 
 import com.duvalhub.BaseObject
 
-import javax.xml.crypto.Data
-
 class AppConfigAccessor extends BaseObject {
     String scriptPath = "libs/deploy/scripts/writeCompose/writeCompose.sh"
     String compose = "docker-compose.yml"
@@ -128,7 +126,7 @@ class AppConfigAccessor extends BaseObject {
         return urls.join(" ")
     }
 
-    Healthcheck getHealthcheck() {
+    HealthCheck getHealthcheck() {
        return this.appConfig.deploy.healthcheck
     }
 

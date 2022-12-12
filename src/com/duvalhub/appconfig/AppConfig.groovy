@@ -40,7 +40,7 @@ class Deploy extends BaseObject {
     String port = "80"
     Database database
     Platforms platforms
-    Healthcheck healthcheck
+    HealthCheck healthcheck
 }
 
 class Database extends BaseObject {
@@ -73,7 +73,7 @@ class Platform extends BaseObject {
     int replicas = 1
 }
 
-class Healthcheck extends BaseObject {
+class HealthCheck extends BaseObject {
     boolean enabled
     String command
     String endpoint

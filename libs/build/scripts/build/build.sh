@@ -77,11 +77,11 @@ DOCKERFILE=$(mktemp)
   cat "$templates/builders/$builder/Dockerfile"
   echo ""
   cat "$templates/containers/$container/Dockerfile"
-  if [ -n "$healthcheck_command" ]; then
-    echo "ENV HEALTHCHECK_ENDPOINT $healthcheck_endpoint"
-    echo "COPY ${healthcheck_file} ./"
-    echo "HEALTHCHECK ${healthcheck_interval:+"--interval=$healthcheck_interval"} ${healthcheck_timeout:+"--timeout=$healthcheck_timeout"} ${healthcheck_start_period:+"--start-period=$healthcheck_start_period"} ${healthcheck_retries:+"--retries=$healthcheck_retries"} CMD ${healthcheck_command}"
-  fi
+#  if [ -n "$healthcheck_command" ]; then
+#    echo "ENV HEALTHCHECK_ENDPOINT $healthcheck_endpoint"
+#    echo "COPY ${healthcheck_file} ./"
+#    echo "HEALTHCHECK ${healthcheck_interval:+"--interval=$healthcheck_interval"} ${healthcheck_timeout:+"--timeout=$healthcheck_timeout"} ${healthcheck_start_period:+"--start-period=$healthcheck_start_period"} ${healthcheck_retries:+"--retries=$healthcheck_retries"} CMD ${healthcheck_command}"
+#  fi
 }  > "$DOCKERFILE"
 
 if [ -d "$templates/containers/$container/extras" ]; then
