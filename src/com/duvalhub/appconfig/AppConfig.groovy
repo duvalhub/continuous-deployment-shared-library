@@ -117,12 +117,12 @@ class Docker extends BaseObject {
 
 class DockerHost extends BaseObject {
     String user = "jenkins"
-    String protocol = "tcp"
+//    String protocol = "tcp"
     String url
-    String port = "2376"
-    String bundleId
+//    String port = "2376"
+//    String bundleId
 
-    String getDockerUrl() {
-        return String.format("%s://%s:%s", this.protocol, this.url, this.port)
-    }
+//    String getDockerUrl() {
+//        return String.format("%s://%s:%s", this.protocol, this.url, this.port)
+//    }
 }
