@@ -14,5 +14,6 @@ fi
 #exec $@
 "$@" &
 PID="$!"
+echo "Trap SIGINT SIGTERM for pid '%PID'"
 trap "kill -SIGTERM $PID" SIGINT SIGTERM
 wait
