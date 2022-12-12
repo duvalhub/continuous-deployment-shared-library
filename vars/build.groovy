@@ -39,7 +39,7 @@ def call(BuildRequest buildRequest) {
                     Healthcheck healthCheck = buildRequest.getHealthcheck()
                     if(healthCheck?.enabled) {
                         switch (buildRequest.build.container) {
-                            case "NODE":
+                            case "node":
                                 params.add("--healthcheck-command node healthcheck.js")
                                 break
                         }
