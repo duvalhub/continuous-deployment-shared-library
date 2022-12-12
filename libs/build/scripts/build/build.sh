@@ -71,6 +71,12 @@ DOCKERFILE=$(mktemp)
   cat "$templates/builders/$builder/Dockerfile"
   echo ""
   cat "$templates/containers/$container/Dockerfile"
+  if [ -n "$healthcheck_endpoint" ]; then
+    echo "ARG HEALTHCHECK_ENDPOINT"
+    echo 'ENV HEALTHCHECK_ENDPOINT $HEALTHCHECK_ENDPOINT'
+    echo "COPY healthcheck.js ./"
+    echo "# HEALTHCHECK CMD node healthcheck.js"
+  fi
 }  > "$DOCKERFILE"
 
 if [ -d "$templates/containers/$container/extras" ]; then
