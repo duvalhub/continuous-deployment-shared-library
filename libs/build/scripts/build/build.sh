@@ -37,6 +37,7 @@ while [[ "$#" -gt 0 ]]; do case $1 in
   --container-version) container_version="$2"; shift;;
   --remove-application-yml) remove_application_yml="$2"; shift;;
   --healthcheck-command) healthcheck_command="$2"; shift;;
+  --healthcheck-file) healthcheck_file="$2"; shift;;
   --healthcheck-endpoint) healthcheck_endpoint="$2"; shift;;
   --healthcheck-interval) healthcheck_interval="$2"; shift;;
   --healthcheck-timeout) healthcheck_timeout="$2"; shift;;
@@ -79,7 +80,7 @@ DOCKERFILE=$(mktemp)
   if [ -n "$healthcheck_command" ]; then
     echo "ARG HEALTHCHECK_ENDPOINT"
     echo 'ENV HEALTHCHECK_ENDPOINT $HEALTHCHECK_ENDPOINT'
-    echo "COPY healthcheck.js ./"
+    echo "COPY ${healthcheck_file} ./"
     echo "HEALTHCHECK ${healthcheck_interval:+"--interval=$healthcheck_interval"} ${healthcheck_timeout:+"--timeout=$healthcheck_timeout"} ${healthcheck_start_period:+"--start-period=$healthcheck_start_period"} ${healthcheck_retries:+"--retries=$healthcheck_retries"} CMD ${healthcheck_command}"
   fi
 }  > "$DOCKERFILE"
