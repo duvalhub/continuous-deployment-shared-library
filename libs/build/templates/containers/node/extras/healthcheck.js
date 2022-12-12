@@ -2,8 +2,6 @@ var http = require('http');
 
 http.request({
     host: 'localhost',
-//    port:  80,
-//    path: '/api/healthcheck'
     port: Number(process.env.PORT) || 80,
     path: process.env.HEALTHCHECK_ENDPOINT || '/api/healthcheck'
 }, function (response) {
