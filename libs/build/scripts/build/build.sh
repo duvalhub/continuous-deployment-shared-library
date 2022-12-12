@@ -78,8 +78,7 @@ DOCKERFILE=$(mktemp)
   echo ""
   cat "$templates/containers/$container/Dockerfile"
   if [ -n "$healthcheck_command" ]; then
-    echo "ARG HEALTHCHECK_ENDPOINT"
-    echo 'ENV HEALTHCHECK_ENDPOINT $HEALTHCHECK_ENDPOINT'
+    echo "ENV HEALTHCHECK_ENDPOINT $healthcheck_endpoint"
     echo "COPY ${healthcheck_file} ./"
     echo "HEALTHCHECK ${healthcheck_interval:+"--interval=$healthcheck_interval"} ${healthcheck_timeout:+"--timeout=$healthcheck_timeout"} ${healthcheck_start_period:+"--start-period=$healthcheck_start_period"} ${healthcheck_retries:+"--retries=$healthcheck_retries"} CMD ${healthcheck_command}"
   fi
@@ -109,7 +108,6 @@ export CONFIG_LABEL
 export CONFIG_URL
 export CONFIG_USERNAME
 export CONFIG_PASSWORD
-export HEALTHCHECK_ENDPOINT="$healthcheck_endpoint"
 docker build --pull \
 --build-arg build_directory=$(mktemp) \
 --build-arg build_destination \
@@ -120,7 +118,6 @@ docker build --pull \
 --build-arg CONFIG_URL \
 --build-arg CONFIG_USERNAME \
 --build-arg CONFIG_PASSWORD \
---build-arg HEALTHCHECK_ENDPOINT \
 -t "$IMAGE" -f "$DOCKERFILE" .
 echo "### Pushing"
 docker push "$IMAGE"
