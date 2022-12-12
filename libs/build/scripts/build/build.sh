@@ -75,7 +75,7 @@ DOCKERFILE=$(mktemp)
     echo "ARG HEALTHCHECK_ENDPOINT"
     echo 'ENV HEALTHCHECK_ENDPOINT $HEALTHCHECK_ENDPOINT'
     echo "COPY healthcheck.js ./"
-    echo "# HEALTHCHECK CMD node healthcheck.js"
+    echo "HEALTHCHECK CMD node healthcheck.js"
   fi
 }  > "$DOCKERFILE"
 
