@@ -36,13 +36,6 @@ while [[ "$#" -gt 0 ]]; do case $1 in
   --build-command) build_command="$2"; shift;;
   --container-version) container_version="$2"; shift;;
   --remove-application-yml) remove_application_yml="$2"; shift;;
-  --healthcheck-command) healthcheck_command="$2"; shift;;
-  --healthcheck-file) healthcheck_file="$2"; shift;;
-  --healthcheck-endpoint) healthcheck_endpoint="$2"; shift;;
-  --healthcheck-interval) healthcheck_interval="$2"; shift;;
-  --healthcheck-timeout) healthcheck_timeout="$2"; shift;;
-  --healthcheck-start-period) healthcheck_start_period="$2"; shift;;
-  --healthcheck-retries) healthcheck_retries="$2"; shift;;
   *) echo "Unknown parameter passed: $1"; exit 1;;
 esac; shift; done
 
@@ -77,11 +70,6 @@ DOCKERFILE=$(mktemp)
   cat "$templates/builders/$builder/Dockerfile"
   echo ""
   cat "$templates/containers/$container/Dockerfile"
-#  if [ -n "$healthcheck_command" ]; then
-#    echo "ENV HEALTHCHECK_ENDPOINT $healthcheck_endpoint"
-#    echo "COPY ${healthcheck_file} ./"
-#    echo "HEALTHCHECK ${healthcheck_interval:+"--interval=$healthcheck_interval"} ${healthcheck_timeout:+"--timeout=$healthcheck_timeout"} ${healthcheck_start_period:+"--start-period=$healthcheck_start_period"} ${healthcheck_retries:+"--retries=$healthcheck_retries"} CMD ${healthcheck_command}"
-#  fi
 }  > "$DOCKERFILE"
 
 if [ -d "$templates/containers/$container/extras" ]; then
