@@ -155,7 +155,7 @@ class AppConfigAccessor extends BaseObject {
 
     String[] getEnvironmentFileId(String environment) {
         Platform platform = this.getPlatform(environment)
-        return platform.environmentFiles
+        return platform.environmentFiles.values()
     }
 
     Platform getPlatform(String environment) {

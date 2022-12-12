@@ -65,7 +65,8 @@ class Platform extends BaseObject {
     Boolean defaultHostname = true
     String baseDomainName
     String[] environments
-    String[] environmentFiles
+//    String[] environmentFiles
+    Map<String, String> environmentFiles
     Volume[] volumes
     Network[] networks
     DockerHost host
