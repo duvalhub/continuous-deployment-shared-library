@@ -37,6 +37,10 @@ while [[ "$#" -gt 0 ]]; do case $1 in
   --container-version) container_version="$2"; shift;;
   --remove-application-yml) remove_application_yml="$2"; shift;;
   --healthcheck-endpoint) healthcheck_endpoint="$2"; shift;;
+  --healthcheck-interval) healthcheck_interval="$2"; shift;;
+  --healthcheck-timeout) healthcheck_timeout="$2"; shift;;
+  --healthcheck-start-period) healthcheck_start_period="$2"; shift;;
+  --healthcheck-retries) healthcheck_retries="$2"; shift;;
   *) echo "Unknown parameter passed: $1"; exit 1;;
 esac; shift; done
 
@@ -75,7 +79,7 @@ DOCKERFILE=$(mktemp)
     echo "ARG HEALTHCHECK_ENDPOINT"
     echo 'ENV HEALTHCHECK_ENDPOINT $HEALTHCHECK_ENDPOINT'
     echo "COPY healthcheck.js ./"
-    echo "HEALTHCHECK CMD node healthcheck.js"
+    echo "HEALTHCHECK ${healthcheck_interval:+"--interval=$healthcheck_interval"} ${healthcheck_timeout:+"--timeout=$healthcheck_timeout"} ${healthcheck_start_period:+"--start-period=$healthcheck_start_period"} ${healthcheck_retries:+"--retries=$healthcheck_retries"} CMD node healthcheck.js"
   fi
 }  > "$DOCKERFILE"
 
