@@ -15,4 +15,4 @@ CMD ["npm", "start"]
 ARG HEALTHCHECK_ENDPOINT
 ENV HEALTHCHECK_ENDPOINT $HEALTHCHECK_ENDPOINT
 COPY healthcheck.js ./
-HEALTHCHECK CMD node healthcheck.js
+# HEALTHCHECK CMD node healthcheck.js
