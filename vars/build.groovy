@@ -38,6 +38,11 @@ def call(BuildRequest buildRequest) {
                     }
                     Healthcheck healthCheck = buildRequest.getHealthcheck()
                     if(healthCheck?.enabled) {
+                        switch (buildRequest.build.container) {
+                            case "NODE":
+                                params.add("--healthcheck-command node healthcheck.js")
+                                break
+                        }
                         params.add("--healthcheck-endpoint ${healthCheck.endpoint}")
                         params.add("--healthcheck-interval ${healthCheck.interval}")
                         params.add("--healthcheck-timeout ${healthCheck.timeout}")
