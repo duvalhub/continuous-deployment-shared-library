@@ -37,8 +37,8 @@ def call(BuildRequest buildRequest) {
                         params.add("--build-command ${build_command}")
                     }
                     Healthcheck healthCheck = buildRequest.getHealthcheck()
-                    if(healthCheck.enabled) {
-                        params.add("--")
+                    if(healthCheck?.enabled) {
+                        params.add("--healthcheck-endpoint ${healthCheck.endpoint}")
                     }
                     setDockerEnvironment.withCredentials(buildDockerHost, buildRequest.getCredentialId()) {
                         executeScript(script, false, params.join(" "))
