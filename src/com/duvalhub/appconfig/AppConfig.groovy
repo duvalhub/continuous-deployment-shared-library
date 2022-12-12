@@ -75,7 +75,6 @@ class Platform extends BaseObject {
 
 class HealthCheck extends BaseObject {
     boolean enabled
-    String command
     String endpoint
     String interval
     String timeout
