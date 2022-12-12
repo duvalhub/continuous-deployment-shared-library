@@ -195,14 +195,4 @@ class AppConfigAccessor extends BaseObject {
         }
         return host
     }
-
-//    String getDockerUrl(String environment) {
-//        return this.getDockerHost(environment).getDockerUrl()
-//    }
-//
-//    String getBundleId(String environment) {
-//        return this.getDockerHost(environment).bundleId
-//    }
-
-
 }
