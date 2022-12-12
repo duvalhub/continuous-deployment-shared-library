@@ -65,7 +65,6 @@ class Platform extends BaseObject {
     Boolean defaultHostname = true
     String baseDomainName
     String[] environments
-//    String[] environmentFiles
     Map environmentFiles
     Volume[] volumes
     Network[] networks
