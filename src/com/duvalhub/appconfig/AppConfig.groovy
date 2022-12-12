@@ -77,10 +77,10 @@ class Healthcheck extends BaseObject {
     boolean enabled
     String command
     String endpoint
-    int interval
-    int timeout
-    int startPeriod
-    int retries
+    String interval
+    String timeout
+    String startPeriod
+    String retries
 }
 
 class Volume extends BaseObject {

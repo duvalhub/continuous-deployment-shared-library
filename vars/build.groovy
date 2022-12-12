@@ -39,6 +39,10 @@ def call(BuildRequest buildRequest) {
                     Healthcheck healthCheck = buildRequest.getHealthcheck()
                     if(healthCheck?.enabled) {
                         params.add("--healthcheck-endpoint ${healthCheck.endpoint}")
+                        params.add("--healthcheck-interval ${healthCheck.interval}")
+                        params.add("--healthcheck-timeout ${healthCheck.timeout}")
+                        params.add("--healthcheck-start-period ${healthCheck.startPeriod}")
+                        params.add("--healthcheck-retries ${healthCheck.retries}")
                     }
                     setDockerEnvironment.withCredentials(buildDockerHost, buildRequest.getCredentialId()) {
                         executeScript(script, false, params.join(" "))
