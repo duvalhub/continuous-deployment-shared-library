@@ -5,7 +5,7 @@ http.request({
     port: Number(process.env.PORT) || 80,
     path: process.env.HEALTHCHECK_ENDPOINT || '/api/healthcheck'
 }, function (response) {
-    String str = ''
+    var str = ''
     response.on('data', (chunk) => { str += chunk})
     response.on('end', function () {
         const statusCode = response.statusCode
