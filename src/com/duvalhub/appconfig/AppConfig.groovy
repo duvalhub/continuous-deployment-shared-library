@@ -40,6 +40,7 @@ class Deploy extends BaseObject {
     String port = "80"
     Database database
     Platforms platforms
+    Healthcheck healthcheck
 }
 
 class Database extends BaseObject {
@@ -70,12 +71,12 @@ class Platform extends BaseObject {
     Network[] networks
     DockerHost host
     int replicas = 1
-    Healthcheck healthcheck
 }
 
 class Healthcheck extends BaseObject {
     boolean enabled
     String command
+    String endpoint
     int interval
     int timeout
     int startPeriod

@@ -111,7 +111,6 @@ class AppConfigAccessor extends BaseObject {
     }
 
     String getDomainNames(String environment) {
-
         Platform platform = this.getPlatform(environment)
         String base = platform.getBaseDomainName()
         def urls = []
@@ -127,6 +126,10 @@ class AppConfigAccessor extends BaseObject {
         }
 
         return urls.join(" ")
+    }
+
+    Healthcheck getHealthcheck() {
+       return this.appConfig.deploy.healthcheck
     }
 
     String getVolumes(String environment) {

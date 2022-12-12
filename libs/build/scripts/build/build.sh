@@ -36,6 +36,7 @@ while [[ "$#" -gt 0 ]]; do case $1 in
   --build-command) build_command="$2"; shift;;
   --container-version) container_version="$2"; shift;;
   --remove-application-yml) remove_application_yml="$2"; shift;;
+  --healthcheck-endpoint) healthcheck_endpoint="$2"; shift;;
   *) echo "Unknown parameter passed: $1"; exit 1;;
 esac; shift; done
 
@@ -96,6 +97,7 @@ export CONFIG_LABEL
 export CONFIG_URL
 export CONFIG_USERNAME
 export CONFIG_PASSWORD
+export HEALTHCHECK_ENDPOINT="$healthcheck_endpoint"
 docker build --pull \
 --build-arg build_directory=$(mktemp) \
 --build-arg build_destination \
@@ -106,6 +108,7 @@ docker build --pull \
 --build-arg CONFIG_URL \
 --build-arg CONFIG_USERNAME \
 --build-arg CONFIG_PASSWORD \
+--build-arg HEALTHCHECK_ENDPOINT \
 -t "$IMAGE" -f "$DOCKERFILE" .
 echo "### Pushing"
 docker push "$IMAGE"

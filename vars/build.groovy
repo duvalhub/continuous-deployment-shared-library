@@ -1,5 +1,5 @@
-import com.duvalhub.appconfig.AppConfig
 import com.duvalhub.appconfig.DockerHost
+import com.duvalhub.appconfig.Healthcheck
 import com.duvalhub.build.BuildRequest
 import com.duvalhub.initializeworkdir.SharedLibrary
 
@@ -35,6 +35,10 @@ def call(BuildRequest buildRequest) {
                     String build_command = buildRequest.getBuilderCommand()
                     if (build_command) {
                         params.add("--build-command ${build_command}")
+                    }
+                    Healthcheck healthCheck = buildRequest.getHealthcheck()
+                    if(healthCheck.enabled) {
+                        params.add("--")
                     }
                     setDockerEnvironment.withCredentials(buildDockerHost, buildRequest.getCredentialId()) {
                         executeScript(script, false, params.join(" "))
