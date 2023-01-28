@@ -10,7 +10,7 @@ def call(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
     // Download Shared Library
     initializeSharedLibrary(params)
 
-    def pipelineBranch = params.configGitBranch ?: SharedLibrary.getVersion(env) ?: "master"
+    def pipelineBranch = params?.configGitBranch ?: SharedLibrary.getVersion(env) ?: "master"
     GitRepo appGitRepo = params.getAppGitRepo()
 
     if (!appGitRepo) {
