@@ -12,6 +12,8 @@ class InitializeWorkdirIn extends BaseObject {
     GitRepo pipelineGitRepo
     Boolean clonePipelineRepo = true
 
+    String configGitBranch
+
     InitializeWorkdirIn() {
         this.pipelineGitRepo = new GitRepo("duvalhub", "continuous-deployment-shared-library")
         this.pipelineWorkdir = "jenkins-workdir"
