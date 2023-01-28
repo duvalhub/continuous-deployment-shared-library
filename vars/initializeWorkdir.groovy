@@ -11,6 +11,17 @@ def call(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
     initializeSharedLibrary(params)
 
     def pipelineBranch = params?.configGitBranch ?: SharedLibrary.getVersion(env) ?: "master"
+    if(params?.configGitBranch) {
+        echo "hello"
+    } else if (SharedLibrary.getVersion(env)) {
+        echo "tourlou"
+    } else {
+        echo "hioh"
+    }
+    echo "${params?.configGitBranch}"
+    echo "${SharedLibrary.getVersion(env)}"
+    echo "${pipelineBranch}"
+
     GitRepo appGitRepo = params.getAppGitRepo()
 
     if (!appGitRepo) {
