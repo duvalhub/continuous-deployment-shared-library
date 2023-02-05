@@ -3,6 +3,7 @@ package com.duvalhub.deploy
 
 import com.duvalhub.appconfig.AppConfig
 import com.duvalhub.appconfig.AppConfigAccessor
+import com.duvalhub.appconfig.Database
 import com.duvalhub.appconfig.DockerHost
 import com.duvalhub.appconfig.Platform
 
@@ -41,6 +42,10 @@ class DeployRequest extends AppConfigAccessor {
 
     String getNetworks() {
         return this.getNetworks(this.environment)
+    }
+
+    Database getDatabase() {
+        return this.getDatabase(this.environment)
     }
 
     String[] getEnvironmentVariables() {

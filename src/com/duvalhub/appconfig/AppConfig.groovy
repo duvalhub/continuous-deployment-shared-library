@@ -38,7 +38,6 @@ class Build extends BaseObject {
 
 class Deploy extends BaseObject {
     String port = "80"
-    Database database
     Platforms platforms
     HealthCheck healthcheck
 }
@@ -62,6 +61,7 @@ class Platforms extends BaseObject {
 }
 
 class Platform extends BaseObject {
+    Database database
     String[] hostnames
     Boolean defaultHostname = true
     String baseDomainName

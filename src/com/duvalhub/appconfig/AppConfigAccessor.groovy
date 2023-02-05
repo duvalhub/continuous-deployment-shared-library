@@ -104,8 +104,9 @@ class AppConfigAccessor extends BaseObject {
         return this.appConfig.deploy.port
     }
 
-    Database getDatabase() {
-        return this.appConfig.deploy.database
+    Database getDatabase(String environment) {
+        Platform platform = this.getPlatform(environment)
+        return platform.database
     }
 
     String getDomainNames(String environment) {
