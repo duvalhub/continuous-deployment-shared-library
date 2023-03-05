@@ -44,9 +44,14 @@ class Deploy extends BaseObject {
 
 class Database extends BaseObject {
     boolean enabled = true
+    DatabaseType type = DatabaseType.PRIVATE
     String secretId
     String image = "mysql"
     String version = "10.5"
+}
+
+enum DatabaseType {
+    PRIVATE, SHARED;
 }
 
 enum Environment {
