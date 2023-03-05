@@ -48,7 +48,7 @@ def call(DeployRequest request) {
     if (database && database.isEnabled()) {
         switch (database.type) {
             case DatabaseType.SHARED:
-                envs["networks"] = envs["networks"] += " database_${request.environment};external"
+                envs["networks"] = envs["networks"] + " database_${request.environment};external"
                 break
             case DatabaseType.PRIVATE:
                 withCredentials([string(credentialsId: database.getSecretId(), variable: 'FILE')]) {
