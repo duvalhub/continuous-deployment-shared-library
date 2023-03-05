@@ -1,21 +1,23 @@
 import com.duvalhub.appconfig.Database
+import com.duvalhub.appconfig.DatabaseType
 import com.duvalhub.appconfig.HealthCheck
 import com.duvalhub.deploy.DeployRequest
 import com.duvalhub.initializeworkdir.SharedLibrary
+import hudson.node_monitors.ResponseTimeMonitor
 
 def call(DeployRequest request) {
     echo "Writing Compose file: DeployRequest: '${request.toString()}'"
-    List<String> envs = [
-            "STACK_NAME=${request.stackName}",
-            "APP_NAME=${request.appName}",
-            "IMAGE=${request.getDockerImageFull()}",
-            "HOSTS=${request.domainNames}",
-            "VOLUMES=${request.volumes}",
-            "NETWORKS=${request.networks}",
-            "REPLICAS=${request.replicas}"
+    def envs = [
+            stackName: "STACK_NAME=${request.stackName}",
+            appName  : "APP_NAME=${request.appName}",
+            image    : "IMAGE=${request.getDockerImageFull()}",
+            hosts    : "HOSTS=${request.domainNames}",
+            volumes  : "VOLUMES=${request.volumes}",
+            networks : "NETWORKS=${request.networks}",
+            replicas : "REPLICAS=${request.replicas}"
     ]
     if (request.deployPort) {
-        envs.add("PORT=${request.deployPort}")
+        envs["port"] = "PORT=${request.deployPort}"
     }
 
     String environment_variables = ""
@@ -29,7 +31,7 @@ def call(DeployRequest request) {
     }
 
     if (environment_variables) {
-        envs.add("ENV_VARIABLES=${environment_variables}")
+        envs["envVariables"] = "ENV_VARIABLES=${environment_variables}"
     }
 
     // Secrets
@@ -44,32 +46,39 @@ def call(DeployRequest request) {
     // Database
     Database database = request.getDatabase()
     if (database && database.isEnabled()) {
-        withCredentials([string(credentialsId: database.getSecretId(), variable: 'FILE')]) {
-            String secret_value = sh(returnStdout: true, script: 'echo $FILE').trim()
-            envs.add("DATABASE_IMAGE=${database.getImage()}")
-            envs.add("DATABASE_VERSION=${database.getVersion()}")
-            envs.add("DATABASE_SECRET=${secret_value}")
+        switch (database.type) {
+            case DatabaseType.SHARED:
+                envs["networks"] = envs["networks"] + " database_${request.environment};external"
+                break
+            case DatabaseType.PRIVATE:
+                withCredentials([string(credentialsId: database.getSecretId(), variable: 'FILE')]) {
+                    String secret_value = sh(returnStdout: true, script: 'echo $FILE').trim()
+                    envs["databaseImage"] = "DATABASE_IMAGE=${database.getImage()}"
+                    envs["databaseVersion"] = "DATABASE_VERSION=${database.getVersion()}"
+                    envs["databaseSecret"] = "DATABASE_SECRET=${secret_value}"
+                }
+                break;
         }
     }
 
     if (secrets) {
-        envs.add("SECRETS=${secrets}")
+        envs["secrets"] = "SECRETS=${secrets}"
     }
 
-    HealthCheck healthCheck =  request.getHealthcheck()
-    if(healthCheck?.enabled) {
+    HealthCheck healthCheck = request.getHealthcheck()
+    if (healthCheck?.enabled) {
         switch (request.build.container) {
             case "node":
-                envs.add("HEALTHCHECK_COMMAND=node healthcheck.js ${healthCheck.endpoint ?: ""}")
+                envs["healthCheckCommand"] = "HEALTHCHECK_COMMAND=node healthcheck.js ${healthCheck.endpoint ?: ""}"
                 break
         }
-        healthCheck.interval && envs.add("HEALTHCHECK_INTERVAL=${healthCheck.interval}")
-        healthCheck.timeout && envs.add("HEALTHCHECK_TIMEOUT=${healthCheck.timeout}")
-        healthCheck.startPeriod && envs.add("HEALTHCHECK_START_PERIOD=${healthCheck.startPeriod}")
-        healthCheck.retries && envs.add("HEALTHCHECK_RETRIES=${healthCheck.retries}")
+        healthCheck.interval ? envs["healthcheckInterval"] = "HEALTHCHECK_INTERVAL=${healthCheck.interval}" : ""
+        healthCheck.timeout ? envs["healthcheckTimeout"] = "HEALTHCHECK_TIMEOUT=${healthCheck.timeout}" : ""
+        healthCheck.startPeriod ? envs["healthCheckStartPerios"] = "HEALTHCHECK_START_PERIOD=${healthCheck.startPeriod}" : ""
+        healthCheck.retries ? envs["healthcheckRetries"] = "HEALTHCHECK_RETRIES=${healthCheck.retries}" : ""
     }
 
-    withEnv(envs) {
+    withEnv(envs.collect { e -> e.value }) {
         def script = "${SharedLibrary.getWorkdir(env)}/${request.scriptPath}"
         def compose = request.compose
         executeScript(script, false, compose)
