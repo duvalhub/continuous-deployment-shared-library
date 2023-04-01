@@ -13,4 +13,4 @@ COPY start.sh init_container.sh application.ym[l] ./
 RUN chmod +x init_container.sh
 #HEALTHCHECK --interval=10s --timeout=3s CMD java healthcheck/Healthcheck localhost 8080 || exit 1
 ENTRYPOINT ["/bin/bash","/app/start.sh"]
-CMD ["/bin/bash", "/app/init_container.sh"]
+CMD ["/usr/bin/env", "sh", "/app/init_container.sh"]
