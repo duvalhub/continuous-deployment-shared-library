@@ -27,10 +27,12 @@ class App extends BaseObject {
 
 class Build extends BaseObject {
     String builder
+    String builder_template
     String builder_version = "latest"
     String builder_command
     String destination
     String container
+    String container_template
     String container_version = "alpine"
     String remove_application_yml = "false"
     DockerHost host

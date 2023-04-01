@@ -79,6 +79,10 @@ class AppConfigAccessor extends BaseObject {
         return this.appConfig.build.builder_version
     }
 
+    String getBuilderTemplate() {
+        return this.appConfig.build.builder_template
+    }
+
     String getBuilderCommand() {
         return this.appConfig.build.builder_command
     }
@@ -93,6 +97,10 @@ class AppConfigAccessor extends BaseObject {
 
     String getContainerVersion() {
         return this.appConfig.build.container_version
+    }
+
+    String getContainerTemplate() {
+        return this.appConfig.build.container_template
     }
 
     String removeApplicationYml() {

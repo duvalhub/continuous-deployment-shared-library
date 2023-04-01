@@ -31,9 +31,18 @@ def call(BuildRequest buildRequest) {
                     if (build_destination) {
                         params.add("--build-destination ${build_destination}")
                     }
+
+                    String builder_template = buildRequest.getBuilderTemplate()
+                    if (builder_template) {
+                        params.add("--builder-template ${builder_template}")
+                    }
                     String build_command = buildRequest.getBuilderCommand()
                     if (build_command) {
                         params.add("--build-command ${build_command}")
+                    }
+                    String container_template = buildRequest.getContainerTemplate()
+                    if (container_template) {
+                        params.add("--container-template ${container_template}")
                     }
                     setDockerEnvironment.withCredentials(buildDockerHost, buildRequest.getCredentialId()) {
                         executeScript(script, false, params.join(" "))
