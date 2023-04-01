@@ -65,7 +65,7 @@ default_param remove_application_yml false
 #################
 # Begin Script
 ################
-echo "### Builder: '$builder:$builder_version', Container: '$container:$container_version', BuildDestination: '$build_destination'"
+echo "### Builder: '$builder:$builder_version', Builder Template: '$builder_template', Container: '$container:$container_version', Container Template: '$container_template', BuildDestination: '$build_destination'"
 DOCKERFILE=$(mktemp)
 
 {
