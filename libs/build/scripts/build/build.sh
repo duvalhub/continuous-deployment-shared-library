@@ -75,7 +75,7 @@ DOCKERFILE=$(mktemp)
   echo "ARG container_version=$container_version"
   cat "$templates/builders/${builder_template}/Dockerfile"
   echo ""
-  cat "$templates/containers/${container}/Dockerfile"
+  cat "$templates/containers/${container_template}/Dockerfile"
 }  > "$DOCKERFILE"
 
 if [ -d "$templates/containers/${container_template}/extras" ]; then
