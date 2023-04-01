@@ -21,8 +21,10 @@ def call(BuildRequest buildRequest) {
                     List<String> params = [
                             "--templates ${template_path}",
                             "--builder ${buildRequest.getBuilder()}",
+                            "--builder-template ${buildRequest.getBuilderTemplate()}",
                             "--builder-version ${buildRequest.getBuilderVersion()}",
                             "--container ${buildRequest.getContainer()}",
+                            "--container-template ${buildRequest.getContainerTemplate()}",
                             "--container-version ${buildRequest.getContainerVersion()}",
                             "--remove-application-yml ${buildRequest.removeApplicationYml()}"
                     ] as String[]

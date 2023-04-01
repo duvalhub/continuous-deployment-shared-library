@@ -2,7 +2,7 @@
 #COPY Healthcheck.java ./
 #RUN javac Healthcheck.java
 
-FROM openjdk:${container_version}
+FROM ${container}:${container_version}
 WORKDIR /app
 EXPOSE 8080
 ARG build_directory

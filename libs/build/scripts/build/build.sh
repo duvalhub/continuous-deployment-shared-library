@@ -30,10 +30,12 @@ default_param() {
 while [[ "$#" -gt 0 ]]; do case $1 in
   -t|--templates) templates="$2"; shift;;
   -b|--builder) builder="$2"; shift;;
-  -d|--build-destination) build_destination="$2"; shift;;
-  -c|--container) container="$2"; shift;;
+  --builder-template) builder_template="$2"; shift;;
   --builder-version) builder_version="$2"; shift;;
   --build-command) build_command="$2"; shift;;
+  -d|--build-destination) build_destination="$2"; shift;;
+  -c|--container) container="$2"; shift;;
+  --container-template) container_template="$2"; shift;;
   --container-version) container_version="$2"; shift;;
   --remove-application-yml) remove_application_yml="$2"; shift;;
   *) echo "Unknown parameter passed: $1"; exit 1;;
@@ -44,7 +46,7 @@ test_param "DOCKER_CREDENTIALS_PSW"
 test_param "IMAGE"
 test_param "templates"
 test_param "builder"
-#test_param "build_destination"
+test_param "build_destination"
 test_param "container"
 # Config Server
 test_param "APPLICATION_NAME"
@@ -54,7 +56,9 @@ test_param "CONFIG_URL"
 test_param "CONFIG_USERNAME"
 test_param "CONFIG_PASSWORD"
 assert_param_valid
+default_param builder_template "$builder"
 default_param builder_version latest
+default_param container_template "$container"
 default_param container_version alpine
 default_param remove_application_yml false
 
@@ -65,15 +69,17 @@ echo "### Builder: '$builder:$builder_version', Container: '$container:$containe
 DOCKERFILE=$(mktemp)
 
 {
+  echo "ARG builder=$builder"
   echo "ARG builder_version=$builder_version"
+  echo "ARG container=$container"
   echo "ARG container_version=$container_version"
-  cat "$templates/builders/$builder/Dockerfile"
+  cat "$templates/builders/${builder_template}/Dockerfile"
   echo ""
-  cat "$templates/containers/$container/Dockerfile"
+  cat "$templates/containers/${container}/Dockerfile"
 }  > "$DOCKERFILE"
 
-if [ -d "$templates/containers/$container/extras" ]; then
-  mv "$templates"/containers/"$container"/extras/* ./
+if [ -d "$templates/containers/${container_template}/extras" ]; then
+  mv "$templates"/containers/"${container_template}"/extras/* ./
   if [ "$remove_application_yml" = "true" ]; then
     rm -f application.yml
   fi
