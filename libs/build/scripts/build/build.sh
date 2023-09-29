@@ -55,7 +55,6 @@ test_param "CONFIG_URL"
 test_param "CONFIG_USERNAME"
 test_param "CONFIG_PASSWORD"
 assert_param_valid
-default_param build_destination
 default_param builder_template "$builder"
 default_param builder_version latest
 default_param container_template "$container"
