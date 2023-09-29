@@ -15,7 +15,7 @@ class InitializeWorkdirIn extends BaseObject {
 
     String configGitBranch
 
-    Object appConfig
+    Map appConfig
 
     InitializeWorkdirIn() {
         this.pipelineGitRepo = new GitRepo("duvalhub", "continuous-deployment-shared-library")
