@@ -26,7 +26,7 @@ def call(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
             echo "App Git Info: org: '$org', repo: '$repo', branch: '$branch'"
             appGitRepo = new GitRepo(org, repo, branch)
         }
-    } else if(params.getCloneAppRepo()) {
+    } else if (params.getCloneAppRepo()) {
         echo "### Cloning App into Workdir..."
         GitCloneRequest appRequest = new GitCloneRequest(appGitRepo, params.appWorkdir)
         gitClone(appRequest)
@@ -34,7 +34,7 @@ def call(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
     env.APP_WORKDIR = "$WORKSPACE/${params.appWorkdir}"
 
     echo "### Getting Application Configs"
-    AppConfig appConfig = getMergedFile(pipelineBranch, appGitRepo)
+    AppConfig appConfig = getMergedFile(params.appConfig, pipelineBranch, appGitRepo)
     echo appConfig.toString()
 
     return appConfig
@@ -46,11 +46,13 @@ def stage(InitializeWorkdirIn params = new InitializeWorkdirIn()) {
     }
 }
 
-def getMergedFile(String branch, GitRepo gitRepo) {
+def getMergedFile(Object configs, String branch, GitRepo gitRepo) {
     def previous = []
-    String configFile = "config.yml"
-    branch = getConfigFile(branch, gitRepo, configFile)
-    def configs = readYaml(file: configFile)
+    if (!configs) {
+        String configFile = "config.yml"
+        branch = getConfigFile(branch, gitRepo, configFile)
+        configs = readYaml(file: configFile)
+    }
     while (configs.parent) {
         if (previous.contains(configs.parent)) {
             echo "Infinite loop detected in parent configurations. Exiting..."
