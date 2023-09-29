@@ -46,7 +46,6 @@ test_param "DOCKER_CREDENTIALS_PSW"
 test_param "IMAGE"
 test_param "templates"
 test_param "builder"
-test_param "build_destination"
 test_param "container"
 # Config Server
 test_param "APPLICATION_NAME"

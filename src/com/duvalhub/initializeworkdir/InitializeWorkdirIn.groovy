@@ -1,6 +1,7 @@
 package com.duvalhub.initializeworkdir
 
 import com.duvalhub.BaseObject
+import com.duvalhub.appconfig.AppConfig
 import com.duvalhub.git.GitRepo
 
 class InitializeWorkdirIn extends BaseObject {
@@ -13,6 +14,8 @@ class InitializeWorkdirIn extends BaseObject {
     Boolean clonePipelineRepo = true
 
     String configGitBranch
+
+    Map appConfig
 
     InitializeWorkdirIn() {
         this.pipelineGitRepo = new GitRepo("duvalhub", "continuous-deployment-shared-library")
