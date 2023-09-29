@@ -46,7 +46,6 @@ test_param "DOCKER_CREDENTIALS_PSW"
 test_param "IMAGE"
 test_param "templates"
 test_param "builder"
-test_param "build_destination"
 test_param "container"
 # Config Server
 test_param "APPLICATION_NAME"
@@ -56,6 +55,7 @@ test_param "CONFIG_URL"
 test_param "CONFIG_USERNAME"
 test_param "CONFIG_PASSWORD"
 assert_param_valid
+default_param build_destination ""
 default_param builder_template "$builder"
 default_param builder_version latest
 default_param container_template "$container"
