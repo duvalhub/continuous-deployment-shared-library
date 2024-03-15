@@ -167,6 +167,10 @@ if [ -n "$HEALTHCHECK_COMMAND" ]; then
 fi
 
 #####################
+# Update Config
+yq w -i "$TMP_YML" "$BASE_PATH.update_config.order" "start-first"
+
+#####################
 sed -i -e "s/'\"/\"/g" -e "s/\"'/\"/g" "$TMP_YML"
 
 #####################
