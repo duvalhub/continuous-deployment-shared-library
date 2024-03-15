@@ -100,6 +100,10 @@ yq w -i "$TMP_YML" "$BASE_PATH.image" "$IMAGE"
 yq w -i "$TMP_YML" "$BASE_PATH.deploy.replicas" "$REPLICAS"
 
 #####################
+# Update Config
+yq w -i "$TMP_YML" "$BASE_PATH.deploy.update_config.order" "start-first"
+
+#####################
 # DNS
 if [ -n "$PORT" ]; then
   yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"reverseproxy.port\"" "$PORT"
@@ -166,9 +170,6 @@ if [ -n "$HEALTHCHECK_COMMAND" ]; then
   [ -n "$HEALTHCHECK_START_PERIOD" ] && yq w -i "$TMP_YML" "$BASE_PATH.healthcheck.start_period" "$HEALTHCHECK_START_PERIOD"
 fi
 
-#####################
-# Update Config
-yq w -i "$TMP_YML" "$BASE_PATH.update_config.order" "start-first"
 
 #####################
 sed -i -e "s/'\"/\"/g" -e "s/\"'/\"/g" "$TMP_YML"
