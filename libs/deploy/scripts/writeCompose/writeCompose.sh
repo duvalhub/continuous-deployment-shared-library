@@ -101,7 +101,8 @@ yq w -i "$TMP_YML" "$BASE_PATH.deploy.replicas" "$REPLICAS"
 
 #####################
 # Update Config
-yq w -i "$TMP_YML" "$BASE_PATH.deploy.update_config.order" "start-first"
+# This causes issues where the old container won't be killed. More research to be done
+#yq w -i "$TMP_YML" "$BASE_PATH.deploy.update_config.order" "start-first"
 
 #####################
 # DNS
