@@ -88,7 +88,7 @@ def merge(Map lhs, Map rhs) {
     }
 }
 def getConfigFile(String pipelineBranch, GitRepo appRepo, String destination) {
-    def response = getConfigFileFromAppRepo(gitRepo, destination)
+    def response = getConfigFileFromAppRepo(appRepo, destination)
     if (response.status == 404) {
         return getConfigFileFromPipelineConfigs(pipelineBranch, appRepo, destination)
     }
