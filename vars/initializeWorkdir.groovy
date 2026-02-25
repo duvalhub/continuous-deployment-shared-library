@@ -60,7 +60,7 @@ def getMergedFile(Object configs, String branch, GitRepo gitRepo) {
         }
         previous.add(configs.parent)
         def parentFile = 'parent.yml'
-        var rseponse = downloadFile("duvalhub", "continuous-deployment-configs", branch, configs.parent, parentFile)
+        def response = downloadFile("duvalhub", "continuous-deployment-configs", branch, configs.parent, parentFile)
 //        String parentUrl = getGitHubRawUrl("duvalhub", "continuous-deployment-configs", branch, configs.parent)
 //        var response = downloadConfigFile(parentUrl, parentFile)
 //        if(response.status_code)
