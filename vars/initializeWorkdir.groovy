@@ -136,14 +136,24 @@ def getConfigUrl(String branch, String org, String repo) {
 
 def downloadConfigFile(String configUrl, String destination) {
     echo "Downloading the config file from url: '${configUrl}' to ${destination}"
-    return httpRequest(
-            authentication: 'SERVICE_ACCOUNT_GITHUB_TOKEN',
-            url: configUrl,
+    withCredentials([
+        usernamePassword(credentialsId: "SERVICE_ACCOUNT_GITHUB_TOKEN", usernameVariable: 'USERNAME', passwordVariable: 'TOKEN'),
+    ]) {
+//       return
+        return httpRequest(
+//            authentication: 'SERVICE_ACCOUNT_GITHUB_TOKEN',
+            url: configUrl + "?token=" + env.TOKEN,
             outputFile: destination,
             validResponseCodes: "200,404"
-    )
+    }
+//    return httpRequest(
+//            authentication: 'SERVICE_ACCOUNT_GITHUB_TOKEN',
+//            url: configUrl,
+//            outputFile: destination,
+//            validResponseCodes: "200,404"
+//    )
 }
 
-def getGitHubRawUrl(String org, String repo, String branch, String path) {
+static def getGitHubRawUrl(String org, String repo, String branch, String path) {
     return String.format("https://raw.githubusercontent.com/%s/%s/refs/heads/%s/%s", org, repo, branch, path)
 }
