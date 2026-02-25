@@ -50,7 +50,7 @@ def getMergedFile(Object configs, String branch, GitRepo gitRepo) {
     def previous = []
     if (!configs) {
         String configFile = "config.yml"
-        branch = getConfigFileFromPipelineConfigs(branch, gitRepo, configFile)
+        branch = getConfigFile(branch, gitRepo, configFile)
         configs = readYaml(file: configFile)
     }
     while (configs.parent) {
