@@ -145,6 +145,7 @@ def downloadConfigFile(String configUrl, String destination) {
             url: configUrl + "?token=" + env.TOKEN,
             outputFile: destination,
             validResponseCodes: "200,404"
+        )
     }
 //    return httpRequest(
 //            authentication: 'SERVICE_ACCOUNT_GITHUB_TOKEN',
