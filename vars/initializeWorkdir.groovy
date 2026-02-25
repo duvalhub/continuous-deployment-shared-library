@@ -50,7 +50,7 @@ def getMergedFile(Object configs, String branch, GitRepo gitRepo) {
     def previous = []
     if (!configs) {
         String configFile = "config.yml"
-        branch = getConfigFile(branch, gitRepo, configFile)
+        getConfigFile(branch, gitRepo, configFile)
         configs = readYaml(file: configFile)
     }
     while (configs.parent) {
@@ -60,8 +60,10 @@ def getMergedFile(Object configs, String branch, GitRepo gitRepo) {
         }
         previous.add(configs.parent)
         def parentFile = 'parent.yml'
-        def configUrl = getConfigUrl(branch, configs.parent)
-        def response = downloadConfigFile(configUrl, parentFile)
+//        String branch, GitRepo gitRepo, String destination
+        def response = getConfigFileFromPipelineConfigs(branch, gitRepo, parentFile)
+//        def configUrl = getConfigUrl(branch, configs.parent)
+//        def response = downloadConfigFile(configUrl, parentFile)
         configs.parent = null
         if (response.status == 200) {
             def parent = readYaml(file: parentFile)
@@ -93,7 +95,7 @@ def getConfigFile(String pipelineBranch, GitRepo appRepo, String destination) {
         return getConfigFileFromPipelineConfigs(pipelineBranch, appRepo, destination)
     }
     echo "File downloaded and is supposedly at ${destination}"
-    return pipelineBranch
+    return response
 }
 
 def getConfigFileFromAppRepo(GitRepo gitRepo, String destination) {
@@ -117,7 +119,7 @@ def getConfigFileFromPipelineConfigs(String branch, GitRepo gitRepo, String dest
         }
     }
 //    echo "File downloaded and is supposedly at ${destination}"
-    return branch
+    return response
 }
 
 def getConfigUrl(String branch, String path) {
