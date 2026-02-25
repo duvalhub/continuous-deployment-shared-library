@@ -142,7 +142,11 @@ def downloadConfigFile(String configUrl, String destination) {
 //       return
         return httpRequest(
 //            authentication: 'SERVICE_ACCOUNT_GITHUB_TOKEN',
-            url: configUrl + "?token=" + env.TOKEN,
+            url: configUrl,
+            customHeaders: [
+             [name: 'Authorization', value: "Bearer ${env.TOKEN}", maskValue: true],
+             [name: "Accept", value: "application/vnd.github.raw+json"]
+            ],
             outputFile: destination,
             validResponseCodes: "200,404"
         )
@@ -156,5 +160,6 @@ def downloadConfigFile(String configUrl, String destination) {
 }
 
 static def getGitHubRawUrl(String org, String repo, String branch, String path) {
-    return String.format("https://raw.githubusercontent.com/%s/%s/refs/heads/%s/%s", org, repo, branch, path)
+    return String.format("https://api.github.com/repos/%s/%s/contents/%s?ref=%s",org, repo, path, branch)
+//    return String.format("https://raw.githubusercontent.com/%s/%s/refs/heads/%s/%s", org, repo, branch, path)
 }
