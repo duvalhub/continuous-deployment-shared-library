@@ -60,8 +60,15 @@ def getMergedFile(Object configs, String branch, GitRepo gitRepo) {
         }
         previous.add(configs.parent)
         def parentFile = 'parent.yml'
+        var rseponse = downloadFile("duvalhub", "continuous-deployment-configs", branch, configs.parent, parentFile)
+//        String parentUrl = getGitHubRawUrl("duvalhub", "continuous-deployment-configs", branch, configs.parent)
+//        var response = downloadConfigFile(parentUrl, parentFile)
+//        if(response.status_code)
+//            return String.format("https://api.github.com/repos/%s/%s/contents/%s?ref=%s",org, repo, path, branch)
+//    return String.format("https://raw.githubusercontent.com/%s/%s/refs/heads/%s/%s", org, repo, branch, path)
+//        }
 //        String branch, GitRepo gitRepo, String destination
-        def response = getConfigFileFromPipelineConfigs(branch, gitRepo, parentFile)
+//        def response = getConfigFileFromPipelineConfigs(branch, gitRepo, parentFile)
 //        def configUrl = getConfigUrl(branch, configs.parent)
 //        def response = downloadConfigFile(configUrl, parentFile)
         configs.parent = null
@@ -102,6 +109,24 @@ def getConfigFileFromAppRepo(GitRepo gitRepo, String destination) {
     String configUrl = getGitHubRawUrl(gitRepo.getOrg(), gitRepo.getRepo(), env.BRANCH_NAME, ".cicd/config.yml")
 //    String configUrl =  String.format("https://raw.githubusercontent.com/%s/%s/refs/heads/%s/.cicd/config.yml", gitRepo.getOrg(), gitRepo.getRepo(), env.BRANCH_NAME)
     return downloadConfigFile(configUrl, destination);
+}
+
+def downloadFile(String org, String repo, String branch, String path, String destination) {
+    String url = getGitHubRawUrl(org, repo, branch, path)
+    def response = downloadConfigFile(url, destination);
+    if (response.status == 404) {
+        if (branch != 'master') {
+            echo "Config file not found on branch '${branch}'. Trying branch 'master'"
+            return downloadFile(org, repo, "master", path, destination)
+        }
+
+        if (response.status == 404) {
+            echo "Config file not found. Fatal error."
+            sh "exit 1"
+        }
+    }
+//    echo "File downloaded and is supposedly at ${destination}"
+    return response
 }
 
 def getConfigFileFromPipelineConfigs(String branch, GitRepo gitRepo, String destination) {
