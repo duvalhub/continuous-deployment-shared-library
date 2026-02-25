@@ -97,7 +97,8 @@ def getConfigFile(String pipelineBranch, GitRepo appRepo, String destination) {
 }
 
 def getConfigFileFromAppRepo(GitRepo gitRepo, String destination) {
-    String configUrl =  String.format("https://raw.githubusercontent.com/%s/%s/refs/heads/%s/.cicd/config.yml", gitRepo.getOrg(), gitRepo.getRepo(), env.BRANCH_NAME)
+    String configUrl = getGitHubRawUrl(gitRepo.getOrg(), gitRepo.getRepo(), env.BRANCH_NAME, ".cicd/config.yml")
+//    String configUrl =  String.format("https://raw.githubusercontent.com/%s/%s/refs/heads/%s/.cicd/config.yml", gitRepo.getOrg(), gitRepo.getRepo(), env.BRANCH_NAME)
     return downloadConfigFile(configUrl, destination);
 }
 
@@ -120,7 +121,8 @@ def getConfigFileFromPipelineConfigs(String branch, GitRepo gitRepo, String dest
 }
 
 def getConfigUrl(String branch, String path) {
-    return String.format("https://raw.githubusercontent.com/duvalhub/continuous-deployment-configs/%s/%s", branch, path)
+    return getGitHubRawUrl("duvalhub", "continuous-deployment-configs", branch, path)
+//    return String.format("https://raw.githubusercontent.com/duvalhub/continuous-deployment-configs/%s/%s", branch, path)
 }
 
 def getConfigUrl(String branch, String[] pathToFile) {
@@ -140,4 +142,8 @@ def downloadConfigFile(String configUrl, String destination) {
             outputFile: destination,
             validResponseCodes: "200,404"
     )
+}
+
+def getGitHubRawUrl(String org, String repo, String branch, String path) {
+    return String.format("https://raw.githubusercontent.com/%s/%s/refs/heads/%s/%s", org, repo, branch, path)
 }
