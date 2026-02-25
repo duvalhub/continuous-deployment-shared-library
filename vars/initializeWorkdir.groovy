@@ -50,7 +50,7 @@ def getMergedFile(Object configs, String branch, GitRepo gitRepo) {
     def previous = []
     if (!configs) {
         String configFile = "config.yml"
-        branch = getConfigFile(branch, gitRepo, configFile)
+        branch = getConfigFileFromPipelineConfigs(branch, gitRepo, configFile)
         configs = readYaml(file: configFile)
     }
     while (configs.parent) {
@@ -87,14 +87,27 @@ def merge(Map lhs, Map rhs) {
         return map
     }
 }
+def getConfigFile(String pipelineBranch, GitRepo appRepo, String destination) {
+    def response = getConfigFileFromAppRepo(gitRepo, destination)
+    if (response.status == 404) {
+        return getConfigFileFromPipelineConfigs(pipelineBranch, appRepo, destination)
+    }
+    echo "File downloaded and is supposedly at ${destination}"
+    return pipelineBranch
+}
 
-def getConfigFile(String branch, GitRepo gitRepo, String destination) {
+def getConfigFileFromAppRepo(GitRepo gitRepo, String destination) {
+    String configUrl =  String.format("https://raw.githubusercontent.com/%s/%s/.cicd/config.yml", gitRepo.getOrg(), gitRepo.getRepo())
+    return downloadConfigFile(configUrl, destination);
+}
+
+def getConfigFileFromPipelineConfigs(String branch, GitRepo gitRepo, String destination) {
     String configUrl = getConfigUrl(branch, gitRepo.getOrg(), gitRepo.getRepo())
     def response = downloadConfigFile(configUrl, destination);
     if (response.status == 404) {
         if (branch != 'master') {
             echo "Config file not found on branch '${branch}'. Trying branch 'master'"
-            return getConfigFile('master', gitRepo, destination)
+            return getConfigFileFromPipelineConfigs('master', gitRepo, destination)
         }
 
         if (response.status == 404) {
@@ -102,7 +115,7 @@ def getConfigFile(String branch, GitRepo gitRepo, String destination) {
             sh "exit 1"
         }
     }
-    echo "File downloaded and is supposedly at ${destination}"
+//    echo "File downloaded and is supposedly at ${destination}"
     return branch
 }
 
