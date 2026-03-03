@@ -106,7 +106,7 @@ def getConfigFile(String pipelineBranch, GitRepo appRepo, String destination) {
 }
 
 def getConfigFileFromAppRepo(GitRepo gitRepo, String destination) {
-    String configUrl = getGitHubRawUrl(gitRepo.getOrg(), gitRepo.getRepo(), env.BRANCH_NAME, ".cicd/config.yml")
+    String configUrl = getGitHubRawUrl(gitRepo.getOrg(), gitRepo.getRepo(), gitRepo.getBranch(), ".cicd/config.yml")
 //    String configUrl =  String.format("https://raw.githubusercontent.com/%s/%s/refs/heads/%s/.cicd/config.yml", gitRepo.getOrg(), gitRepo.getRepo(), env.BRANCH_NAME)
     return downloadConfigFile(configUrl, destination);
 }
