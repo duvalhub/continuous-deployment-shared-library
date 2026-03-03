@@ -118,7 +118,7 @@ yq w -i "$TMP_YML" "$BASE_PATH.deploy.replicas" "$REPLICAS"
 
 if [ -n "$HOSTS" ]; then
   TRAEFIK_SERVICE_NAME="${STACK_NAME}_${APP_NAME}"
-  yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"traefik.enable\"" "true"
+  yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"traefik.enable\"" '"true"'
   yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"traefik.http.routers.$TRAEFIK_SERVICE_NAME.entrypoints\"" "\"websecure\""
   yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"traefik.http.routers.$TRAEFIK_SERVICE_NAME.rule\"" "\"$(printf 'Host(`%s`)\n' "${HOSTS// /\`,\`}")\""
   yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"traefik.http.routers.$TRAEFIK_SERVICE_NAME.service\"" "\"$TRAEFIK_SERVICE_NAME\""
