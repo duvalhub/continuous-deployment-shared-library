@@ -12,12 +12,14 @@ class DeployRequest extends AppConfigAccessor {
     String image
     String version
     String environment
+    String label
 
-    DeployRequest(AppConfig appConfig, String version, String environment) {
+    DeployRequest(AppConfig appConfig, String version, String environment, String label) {
         super(appConfig)
         this.appName = appConfig.app.name
         this.version = version
         this.environment = environment
+        this.label = label
     }
 
     String getDockerImageFull() {
