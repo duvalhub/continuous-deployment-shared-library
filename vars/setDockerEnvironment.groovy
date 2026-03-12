@@ -28,20 +28,22 @@ def call(DockerHost dockerHost, Closure body) {
     }
 }
 
-def login(String credentialId, Closure body) {
-    echo "Login into Docker Registry. credentialId: '${credentialId}'"
+def login(String registry, String credentialId, Closure body) {
+    echo "Login into Docker Registry. registry: '${}', credentialId: '${credentialId}'"
     withCredentials([
             usernamePassword(credentialsId: credentialId, usernameVariable: 'DOCKER_CREDENTIALS_USR', passwordVariable: 'DOCKER_CREDENTIALS_PSW')
     ]) {
-        sh 'echo "$DOCKER_CREDENTIALS_PSW" | docker login --username "$DOCKER_CREDENTIALS_USR" --password-stdin'
-        body()
+        withEnv(["DOCKER_REGISTRY=${registry}"]) {
+            sh 'echo "$DOCKER_CREDENTIALS_PSW" | docker login --username "$DOCKER_CREDENTIALS_USR" --password-stdin $DOCKER_REGISTRY'
+            body()
+        }
     }
 }
 
 
-def withCredentials(DockerHost dockerHost, String credentialId, Closure body) {
+def withCredentials(DockerHost dockerHost, String registry, String credentialId, Closure body) {
     setDockerEnvironment(dockerHost) {
-        login(credentialId) {
+        login(registry, credentialId) {
             body()
         }
     }
