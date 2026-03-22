@@ -15,7 +15,7 @@ def call(DeployRequest request) {
             volumes  : "VOLUMES=${request.volumes}",
             networks : "NETWORKS=${request.networks}",
             replicas : "REPLICAS=${request.replicas}",
-            gitRepository : "GIT_REPOSITORY=${request.replicas}"
+            gitRepository : "GIT_REPOSITORY=${request.appGitRepo.getRepository()}"
     ]
 
     if (request.deployPort) {

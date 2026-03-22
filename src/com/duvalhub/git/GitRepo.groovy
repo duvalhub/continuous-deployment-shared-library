@@ -18,6 +18,10 @@ class GitRepo extends BaseObject {
         this.branch = branch
     }
 
+    String getRepository() {
+        return String.format("%s/%s", this.org, this.repo)
+    }
+
     String getUrl() {
         return String.format("git@github.com:%s/%s.git", this.org, this.repo)
     }
