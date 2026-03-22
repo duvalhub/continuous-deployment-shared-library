@@ -14,8 +14,10 @@ def call(DeployRequest request) {
             hosts    : "HOSTS=${request.domainNames}",
             volumes  : "VOLUMES=${request.volumes}",
             networks : "NETWORKS=${request.networks}",
-            replicas : "REPLICAS=${request.replicas}"
+            replicas : "REPLICAS=${request.replicas}",
+            gitRepository : "GIT_REPOSITORY=${request.replicas}"
     ]
+
     if (request.deployPort) {
         envs["port"] = "PORT=${request.deployPort}"
     }

@@ -39,6 +39,7 @@ test_param "STACK_NAME"
 test_param "APP_NAME"
 test_param "IMAGE"
 test_param "REPLICAS"
+test_param "GIT_REPOSITORY"
 validate_param
 
 ###################
@@ -105,17 +106,12 @@ yq w -i "$TMP_YML" "$BASE_PATH.deploy.replicas" "$REPLICAS"
 #yq w -i "$TMP_YML" "$BASE_PATH.deploy.update_config.order" "start-first"
 
 #####################
+# Labels
+yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"deployed_by\"" '"duvalhub"'
+yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"duvalhub.git-repository\"" "\"$GIT_REPOSITORY\""
+
+#####################
 # DNS
-#                "traefik.enable": "true",
-#                "traefik.http.routers.jenkins.entrypoints": "websecure",
-#                "traefik.http.routers.jenkins.rule": "Host(`jenkins.swarmlocal3.duvalhub.com`)",
-#                "traefik.http.routers.jenkins.service": "jenkins",
-#                "traefik.http.routers.jenkins.tls": "true",
-#                "traefik.http.routers.jenkins.tls.certresolver": "le-staging",
-#                "traefik.http.services.jenkins.loadbalancer.server.port": "8080"
-
-
-
 if [ -n "$HOSTS" ]; then
   TRAEFIK_SERVICE_NAME="${STACK_NAME}_${APP_NAME}"
   yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"traefik.enable\"" '"true"'

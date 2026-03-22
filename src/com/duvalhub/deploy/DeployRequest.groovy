@@ -6,16 +6,19 @@ import com.duvalhub.appconfig.AppConfigAccessor
 import com.duvalhub.appconfig.Database
 import com.duvalhub.appconfig.DockerHost
 import com.duvalhub.appconfig.Platform
+import com.duvalhub.git.GitRepo
 
 class DeployRequest extends AppConfigAccessor {
+    GitRepo appGitRepo
     String appName
     String image
     String version
     String environment
     String label
 
-    DeployRequest(AppConfig appConfig, String version, String environment, String label) {
+    DeployRequest(AppConfig appConfig, GitRepo appGitRepo, String version, String environment, String label) {
         super(appConfig)
+        this.appGitRepo = appGitRepo
         this.appName = appConfig.app.name
         this.version = version
         this.environment = environment
