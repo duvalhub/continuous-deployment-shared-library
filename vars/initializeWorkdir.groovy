@@ -61,16 +61,6 @@ def getMergedFile(Object configs, String branch, GitRepo gitRepo) {
         previous.add(configs.parent)
         def parentFile = 'parent.yml'
         def response = downloadFile("duvalhub", "continuous-deployment-configs", branch, configs.parent, parentFile)
-//        String parentUrl = getGitHubRawUrl("duvalhub", "continuous-deployment-configs", branch, configs.parent)
-//        var response = downloadConfigFile(parentUrl, parentFile)
-//        if(response.status_code)
-//            return String.format("https://api.github.com/repos/%s/%s/contents/%s?ref=%s",org, repo, path, branch)
-//    return String.format("https://raw.githubusercontent.com/%s/%s/refs/heads/%s/%s", org, repo, branch, path)
-//        }
-//        String branch, GitRepo gitRepo, String destination
-//        def response = getConfigFileFromPipelineConfigs(branch, gitRepo, parentFile)
-//        def configUrl = getConfigUrl(branch, configs.parent)
-//        def response = downloadConfigFile(configUrl, parentFile)
         configs.parent = null
         if (response.status == 200) {
             def parent = readYaml(file: parentFile)
@@ -107,7 +97,6 @@ def getConfigFile(String pipelineBranch, GitRepo appRepo, String destination) {
 
 def getConfigFileFromAppRepo(GitRepo gitRepo, String destination) {
     String configUrl = getGitHubRawUrl(gitRepo.getOrg(), gitRepo.getRepo(), gitRepo.getBranch(), ".cicd/config.yml")
-//    String configUrl =  String.format("https://raw.githubusercontent.com/%s/%s/refs/heads/%s/.cicd/config.yml", gitRepo.getOrg(), gitRepo.getRepo(), env.BRANCH_NAME)
     return downloadConfigFile(configUrl, destination);
 }
 
@@ -125,7 +114,6 @@ def downloadFile(String org, String repo, String branch, String path, String des
             sh "exit 1"
         }
     }
-//    echo "File downloaded and is supposedly at ${destination}"
     return response
 }
 
@@ -143,13 +131,11 @@ def getConfigFileFromPipelineConfigs(String branch, GitRepo gitRepo, String dest
             sh "exit 1"
         }
     }
-//    echo "File downloaded and is supposedly at ${destination}"
     return response
 }
 
 def getConfigUrl(String branch, String path) {
     return getGitHubRawUrl("duvalhub", "continuous-deployment-configs", branch, path)
-//    return String.format("https://raw.githubusercontent.com/duvalhub/continuous-deployment-configs/%s/%s", branch, path)
 }
 
 def getConfigUrl(String branch, String[] pathToFile) {
@@ -166,9 +152,7 @@ def downloadConfigFile(String configUrl, String destination) {
     withCredentials([
         usernamePassword(credentialsId: "SERVICE_ACCOUNT_GITHUB_TOKEN", usernameVariable: 'USERNAME', passwordVariable: 'TOKEN'),
     ]) {
-//       return
         return httpRequest(
-//            authentication: 'SERVICE_ACCOUNT_GITHUB_TOKEN',
             url: configUrl,
             customHeaders: [
              [name: 'Authorization', value: "Bearer ${env.TOKEN}", maskValue: true],
@@ -178,15 +162,8 @@ def downloadConfigFile(String configUrl, String destination) {
             validResponseCodes: "200,404"
         )
     }
-//    return httpRequest(
-//            authentication: 'SERVICE_ACCOUNT_GITHUB_TOKEN',
-//            url: configUrl,
-//            outputFile: destination,
-//            validResponseCodes: "200,404"
-//    )
 }
 
 static def getGitHubRawUrl(String org, String repo, String branch, String path) {
     return String.format("https://api.github.com/repos/%s/%s/contents/%s?ref=%s",org, repo, path, branch)
-//    return String.format("https://raw.githubusercontent.com/%s/%s/refs/heads/%s/%s", org, repo, branch, path)
 }
