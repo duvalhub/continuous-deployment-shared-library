@@ -44,7 +44,7 @@ def call(BuildRequest buildRequest) {
                     if (container_template) {
                         params.add("--container-template ${container_template}")
                     }
-                    setDockerEnvironment.withCredentials(buildDockerHost, buildRequest.getCredentialId()) {
+                    setDockerEnvironment.withCredentials(buildDockerHost, buildRequest.getRegistry(), buildRequest.getCredentialId()) {
                         executeScript(script, false, params.join(" "))
                     }
                 }

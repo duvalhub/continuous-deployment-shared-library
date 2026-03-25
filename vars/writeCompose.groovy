@@ -14,8 +14,10 @@ def call(DeployRequest request) {
             hosts    : "HOSTS=${request.domainNames}",
             volumes  : "VOLUMES=${request.volumes}",
             networks : "NETWORKS=${request.networks}",
-            replicas : "REPLICAS=${request.replicas}"
+            replicas : "REPLICAS=${request.replicas}",
+            gitRepository : "GIT_REPOSITORY=${request.appGitRepo.getRepository()}"
     ]
+
     if (request.deployPort) {
         envs["port"] = "PORT=${request.deployPort}"
     }
@@ -24,7 +26,7 @@ def call(DeployRequest request) {
     // Application Name, Application Profiles, Config Label
     environment_variables += "APPLICATION_NAME=${request.getAppName()}" + '\n'
     environment_variables += "APPLICATION_PROFILES=${request.getEnvironment()}" + '\n'
-    environment_variables += "CONFIG_LABEL=master" + '\n'
+    environment_variables += "CONFIG_LABEL=${request.getLabel()}" + '\n'
 
     for (String env : request.getEnvironmentVariables()) {
         environment_variables += env + '\n'

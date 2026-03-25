@@ -4,7 +4,7 @@ import com.duvalhub.initializeworkdir.SharedLibrary
 def call(DeployRequest request) {
     stage('Deploy') {
         echo "### Deploying an artifact. DeployRequest: '${request.toString()}'"
-        setDockerEnvironment.withCredentials(request.getDockerHost(request.environment), request.getCredentialId()) {
+        setDockerEnvironment.withCredentials(request.getDockerHost(request.environment), request.getRegistry(), request.getCredentialId()) {
             String composeFilePath = writeCompose(request)
             String prepare_script = "${SharedLibrary.getWorkdir(env)}/libs/deploy/scripts/network/createIfNotExist.sh"
             String params = "--network ${request.getInternalNetwork()}"

@@ -50,7 +50,7 @@ def getMergedFile(Object configs, String branch, GitRepo gitRepo) {
     def previous = []
     if (!configs) {
         String configFile = "config.yml"
-        branch = getConfigFile(branch, gitRepo, configFile)
+        getConfigFile(branch, gitRepo, configFile)
         configs = readYaml(file: configFile)
     }
     while (configs.parent) {
@@ -60,8 +60,7 @@ def getMergedFile(Object configs, String branch, GitRepo gitRepo) {
         }
         previous.add(configs.parent)
         def parentFile = 'parent.yml'
-        def configUrl = getConfigUrl(branch, configs.parent)
-        def response = downloadConfigFile(configUrl, parentFile)
+        def response = downloadFile("duvalhub", "continuous-deployment-configs", branch, configs.parent, parentFile)
         configs.parent = null
         if (response.status == 200) {
             def parent = readYaml(file: parentFile)
@@ -87,14 +86,27 @@ def merge(Map lhs, Map rhs) {
         return map
     }
 }
+def getConfigFile(String pipelineBranch, GitRepo appRepo, String destination) {
+    def response = getConfigFileFromAppRepo(appRepo, destination)
+    if (response.status == 404) {
+        return getConfigFileFromPipelineConfigs(pipelineBranch, appRepo, destination)
+    }
+    echo "File downloaded and is supposedly at ${destination}"
+    return response
+}
 
-def getConfigFile(String branch, GitRepo gitRepo, String destination) {
-    String configUrl = getConfigUrl(branch, gitRepo.getOrg(), gitRepo.getRepo())
-    def response = downloadConfigFile(configUrl, destination);
+def getConfigFileFromAppRepo(GitRepo gitRepo, String destination) {
+    String configUrl = getGitHubRawUrl(gitRepo.getOrg(), gitRepo.getRepo(), gitRepo.getBranch(), ".cicd/config.yml")
+    return downloadConfigFile(configUrl, destination);
+}
+
+def downloadFile(String org, String repo, String branch, String path, String destination) {
+    String url = getGitHubRawUrl(org, repo, branch, path)
+    def response = downloadConfigFile(url, destination);
     if (response.status == 404) {
         if (branch != 'master') {
             echo "Config file not found on branch '${branch}'. Trying branch 'master'"
-            return getConfigFile('master', gitRepo, destination)
+            return downloadFile(org, repo, "master", path, destination)
         }
 
         if (response.status == 404) {
@@ -102,12 +114,28 @@ def getConfigFile(String branch, GitRepo gitRepo, String destination) {
             sh "exit 1"
         }
     }
-    echo "File downloaded and is supposedly at ${destination}"
-    return branch
+    return response
+}
+
+def getConfigFileFromPipelineConfigs(String branch, GitRepo gitRepo, String destination) {
+    String configUrl = getConfigUrl(branch, gitRepo.getOrg(), gitRepo.getRepo())
+    def response = downloadConfigFile(configUrl, destination);
+    if (response.status == 404) {
+        if (branch != 'master') {
+            echo "Config file not found on branch '${branch}'. Trying branch 'master'"
+            return getConfigFileFromPipelineConfigs('master', gitRepo, destination)
+        }
+
+        if (response.status == 404) {
+            echo "Config file not found. Fatal error."
+            sh "exit 1"
+        }
+    }
+    return response
 }
 
 def getConfigUrl(String branch, String path) {
-    return String.format("https://raw.githubusercontent.com/duvalhub/continuous-deployment-configs/%s/%s", branch, path)
+    return getGitHubRawUrl("duvalhub", "continuous-deployment-configs", branch, path)
 }
 
 def getConfigUrl(String branch, String[] pathToFile) {
@@ -121,10 +149,21 @@ def getConfigUrl(String branch, String org, String repo) {
 
 def downloadConfigFile(String configUrl, String destination) {
     echo "Downloading the config file from url: '${configUrl}' to ${destination}"
-    return httpRequest(
-            authentication: 'SERVICE_ACCOUNT_GITHUB_TOKEN',
+    withCredentials([
+        usernamePassword(credentialsId: "SERVICE_ACCOUNT_GITHUB_TOKEN", usernameVariable: 'USERNAME', passwordVariable: 'TOKEN'),
+    ]) {
+        return httpRequest(
             url: configUrl,
+            customHeaders: [
+             [name: 'Authorization', value: "Bearer ${env.TOKEN}", maskValue: true],
+             [name: "Accept", value: "application/vnd.github.raw+json"]
+            ],
             outputFile: destination,
             validResponseCodes: "200,404"
-    )
+        )
+    }
+}
+
+static def getGitHubRawUrl(String org, String repo, String branch, String path) {
+    return String.format("https://api.github.com/repos/%s/%s/contents/%s?ref=%s",org, repo, path, branch)
 }

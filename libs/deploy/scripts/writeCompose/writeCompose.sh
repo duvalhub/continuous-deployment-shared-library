@@ -39,6 +39,7 @@ test_param "STACK_NAME"
 test_param "APP_NAME"
 test_param "IMAGE"
 test_param "REPLICAS"
+test_param "GIT_REPOSITORY"
 validate_param
 
 ###################
@@ -105,14 +106,23 @@ yq w -i "$TMP_YML" "$BASE_PATH.deploy.replicas" "$REPLICAS"
 #yq w -i "$TMP_YML" "$BASE_PATH.deploy.update_config.order" "start-first"
 
 #####################
-# DNS
-if [ -n "$PORT" ]; then
-  yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"reverseproxy.port\"" "$PORT"
-fi
+# Labels
+yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"deployed_by\"" '"duvalhub"'
+yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"duvalhub.git-repository\"" "\"$GIT_REPOSITORY\""
 
+#####################
+# DNS
 if [ -n "$HOSTS" ]; then
-  yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"reverseproxy.host\"" "\"$HOSTS\""
-  yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"reverseproxy.ssl\"" "\"true\""
+  TRAEFIK_SERVICE_NAME="${STACK_NAME}_${APP_NAME}"
+  yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"traefik.enable\"" '"true"'
+  yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"traefik.http.routers.$TRAEFIK_SERVICE_NAME.entrypoints\"" "\"websecure\""
+  yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"traefik.http.routers.$TRAEFIK_SERVICE_NAME.rule\"" "\"$(printf 'Host(`%s`)\n' "${HOSTS// /\`,\`}")\""
+  yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"traefik.http.routers.$TRAEFIK_SERVICE_NAME.service\"" "\"$TRAEFIK_SERVICE_NAME\""
+  yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"traefik.http.routers.$TRAEFIK_SERVICE_NAME.tls\"" "\"true\""
+
+  if [ -n "$PORT" ]; then
+    yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"traefik.http.services.$TRAEFIK_SERVICE_NAME.loadbalancer.server.port\"" "\"$PORT\""
+  fi
 fi
 
 # Environments
