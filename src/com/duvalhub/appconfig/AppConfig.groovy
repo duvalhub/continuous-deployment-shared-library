@@ -1,6 +1,7 @@
 package com.duvalhub.appconfig
 
 import com.duvalhub.BaseObject
+import com.duvalhub.git.GitRepo
 
 class AppConfig extends BaseObject {
     App app
@@ -23,6 +24,7 @@ class App extends BaseObject {
     String name
     String group
     String version_control
+    GitRepo gitRepo
 }
 
 class Build extends BaseObject {

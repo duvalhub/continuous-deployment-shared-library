@@ -71,6 +71,7 @@ def getMergedFile(Object configs, String branch, GitRepo gitRepo) {
     AppConfig appConfig = configs as AppConfig
     appConfig.getApp().name = appConfig.getApp().name ? appConfig.getApp().name : gitRepo.repo
     appConfig.getDocker().repository = appConfig.getDocker().repository ? appConfig.getDocker().repository : gitRepo.repo
+    appConfig.app.gitRepo = gitRepo
     return appConfig
 }
 
