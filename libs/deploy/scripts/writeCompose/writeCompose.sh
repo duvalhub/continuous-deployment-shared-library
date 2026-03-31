@@ -119,6 +119,7 @@ if [ -n "$HOSTS" ]; then
   yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"traefik.http.routers.$TRAEFIK_SERVICE_NAME.rule\"" "\"$(printf 'Host(`%s`)\n' "${HOSTS// /\`,\`}")\""
   yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"traefik.http.routers.$TRAEFIK_SERVICE_NAME.service\"" "\"$TRAEFIK_SERVICE_NAME\""
   yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"traefik.http.routers.$TRAEFIK_SERVICE_NAME.tls\"" "\"true\""
+  yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"traefik.http.routers.$TRAEFIK_SERVICE_NAME.tls.certresolver\"" "\"le\""
 
   if [ -n "$PORT" ]; then
     yq w -i "$TMP_YML" "$BASE_PATH.deploy.labels.\"traefik.http.services.$TRAEFIK_SERVICE_NAME.loadbalancer.server.port\"" "\"$PORT\""
