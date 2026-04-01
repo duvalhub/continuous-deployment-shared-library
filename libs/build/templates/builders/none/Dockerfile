@@ -1,4 +1,4 @@
-FROM alpine as builder
+FROM alpine AS builder
 WORKDIR /builder
 ARG build_directory
 ARG build_destination=public
